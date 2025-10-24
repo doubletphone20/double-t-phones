@@ -1,1602 +1,2410 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Double T Phones - Premium Smartphones & Accessoires</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-:root {
---primary: #0056b3;
---secondary: #343a40;
---accent: #17a2b8;
---light: #f8f9fa;
---dark: #212529;
---success: #28a745;
---danger: #dc3545;
---warning: #ffc107;
-}
-
-body {
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-color: var(--dark);
-background-color: #f8f9fa;
-}
-
-.navbar-brand {
-font-weight: 700;
-font-size: 1.5rem;
-}
-
-.navbar {
-box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.hero-carousel .carousel-item img {
-height: 500px;
-object-fit: cover;
-}
-
-.hero-carousel .carousel-caption {
-background: rgba(0,0,0,0.5);
-padding: 20px;
-border-radius: 10px;
-}
-
-.feature-card {
-border: none;
-border-radius: 10px;
-transition: transform 0.3s;
-height: 100%;
-box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-
-.feature-card:hover {
-transform: translateY(-5px);
-box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.product-card {
-border: 1px solid #eaeaea;
-border-radius: 10px;
-transition: all 0.3s;
-overflow: hidden;
-background: white;
-}
-
-.product-card:hover {
-box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-transform: translateY(-5px);
-}
-
-.product-image {
-height: 200px;
-object-fit: cover;
-width: 100%;
-}
-
-.price {
-font-weight: bold;
-color: var(--primary);
-font-size: 1.2rem;
-}
-
-.old-price {
-text-decoration: line-through;
-color: #6c757d;
-font-size: 1rem;
-}
-
-.btn-primary {
-background-color: var(--primary);
-border-color: var(--primary);
-font-weight: 600;
-}
-
-.btn-primary:hover {
-background-color: #004494;
-border-color: #004494;
-}
-
-.btn-outline-primary {
-color: var(--primary);
-border-color: var(--primary);
-font-weight: 600;
-}
-
-.btn-outline-primary:hover {
-background-color: var(--primary);
-color: white;
-}
-
-.section-title {
-position: relative;
-margin-bottom: 2rem;
-text-align: center;
-font-weight: 700;
-}
-
-.section-title:after {
-content: '';
-display: block;
-width: 60px;
-height: 3px;
-background: var(--primary);
-margin: 10px auto;
-}
-
-footer {
-background-color: var(--secondary);
-color: white;
-}
-
-.whatsapp-float {
-position: fixed;
-width: 60px;
-height: 60px;
-bottom: 40px;
-right: 40px;
-background-color: #25d366;
-color: #FFF;
-border-radius: 50px;
-text-align: center;
-font-size: 30px;
-box-shadow: 2px 2px 3px #999;
-z-index: 100;
-display: flex;
-align-items: center;
-justify-content: center;
-transition: all 0.3s;
-}
-
-.whatsapp-float:hover {
-background-color: #128C7E;
-color: white;
-transform: scale(1.1);
-}
-
-.badge-discount {
-position: absolute;
-top: 10px;
-right: 10px;
-background: var(--success);
-color: white;
-padding: 5px 10px;
-border-radius: 20px;
-font-size: 0.8rem;
-font-weight: 600;
-}
-
-.badge-new {
-position: absolute;
-top: 10px;
-left: 10px;
-background: var(--primary);
-color: white;
-padding: 5px 10px;
-border-radius: 20px;
-font-size: 0.8rem;
-font-weight: 600;
-}
-
-.badge-used {
-position: absolute;
-top: 10px;
-left: 10px;
-background: var(--accent);
-color: white;
-padding: 5px 10px;
-border-radius: 20px;
-font-size: 0.8rem;
-font-weight: 600;
-}
-
-.badge-premium {
-position: absolute;
-top: 10px;
-left: 10px;
-background: linear-gradient(45deg, #FFD700, #FFA500);
-color: black;
-padding: 5px 10px;
-border-radius: 20px;
-font-size: 0.8rem;
-font-weight: 600;
-}
-
-.login-form, .register-form, .admin-form {
-background: white;
-border-radius: 10px;
-box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-padding: 30px;
-}
-
-.admin-panel {
-display: none;
-min-height: 100vh;
-background-color: #e9ecef; /* Andere achtergrond voor admin */
-}
-
-.category-badge {
-background: var(--light);
-color: var(--dark);
-padding: 5px 10px;
-border-radius: 15px;
-font-size: 0.8rem;
-margin-right: 5px;
-display: inline-block;
-margin-bottom: 5px;
-}
-
-.cart-sidebar {
-position: fixed;
-top: 0;
-right: -400px;
-width: 400px;
-height: 100vh;
-background: white;
-box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-z-index: 1050;
-transition: right 0.3s;
-padding: 20px;
-overflow-y: auto;
-}
-
-.cart-sidebar.open {
-right: 0;
-}
-
-.cart-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0,0,0,0.5);
-z-index: 1040;
-display: none;
-}
-
-.cart-overlay.show {
-display: block;
-}
-
-.cart-item {
-display: flex;
-align-items: center;
-padding: 10px 0;
-border-bottom: 1px solid #eee;
-}
-
-.cart-item-image {
-width: 60px;
-height: 60px;
-object-fit: cover;
-border-radius: 5px;
-margin-right: 15px;
-}
-
-.quantity-control {
-display: flex;
-align-items: center;
-}
-
-.quantity-btn {
-width: 30px;
-height: 30px;
-border: 1px solid #ddd;
-background: white;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-}
-
-.quantity-input {
-width: 40px;
-height: 30px;
-border: 1px solid #ddd;
-border-left: none;
-border-right: none;
-text-align: center;
-}
-
-.admin-nav {
-background: var(--secondary);
-color: white;
-padding: 15px 0;
-box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.admin-nav a {
-color: white;
-text-decoration: none;
-margin-right: 20px;
-padding: 5px 10px;
-border-radius: 5px;
-transition: background-color 0.3s;
-}
-
-.admin-nav a:hover, .admin-nav a.active {
-background-color: rgba(255,255,255,0.1);
-}
-
-.table-actions {
-display: flex;
-gap: 5px;
-}
-
-.product-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-gap: 20px;
-}
-
-.wishlist-btn {
-position: absolute;
-top: 10px;
-right: 10px;
-background: rgba(255,255,255,0.9);
-border: none;
-border-radius: 50%;
-width: 40px;
-height: 40px;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-transition: all 0.3s;
-}
-
-.wishlist-btn.active {
-color: #dc3545;
-}
-
-.wishlist-btn:hover {
-background: white;
-transform: scale(1.1);
-}
-
-.product-detail-image {
-width: 100%;
-max-height: 400px;
-object-fit: cover;
-border-radius: 10px;
-}
-
-.review-card {
-border: 1px solid #eaeaea;
-border-radius: 10px;
-padding: 15px;
-margin-bottom: 15px;
-}
-
-.star-rating {
-color: #FFD700;
-}
-
-.comparison-table {
-width: 100%;
-border-collapse: collapse;
-}
-
-.comparison-table th,
-.comparison-table td {
-border: 1px solid #ddd;
-padding: 12px;
-text-align: left;
-}
-
-.comparison-table th {
-background-color: #f8f9fa;
-font-weight: 600;
-}
-
-.loyalty-badge {
-background: linear-gradient(45deg, #FFD700, #FFA500);
-color: black;
-padding: 5px 10px;
-border-radius: 15px;
-font-size: 0.8rem;
-font-weight: 600;
-}
-
-.newsletter-section {
-background: linear-gradient(135deg, var(--primary), #004494);
-color: white;
-padding: 60px 0;
-}
-
-.order-tracking {
-background: #f8f9fa;
-border-radius: 10px;
-padding: 20px;
-margin-bottom: 20px;
-}
-
-.tracking-step {
-display: flex;
-align-items: center;
-margin-bottom: 15px;
-}
-
-.tracking-step.completed {
-color: var(--success);
-}
-
-.tracking-step.active {
-color: var(--primary);
-font-weight: 600;
-}
-
-.tracking-icon {
-width: 30px;
-height: 30px;
-border-radius: 50%;
-background: #e9ecef;
-display: flex;
-align-items: center;
-justify-content: center;
-margin-right: 15px;
-}
-
-.tracking-step.completed .tracking-icon {
-background: var(--success);
-color: white;
-}
-
-.tracking-step.active .tracking-icon {
-background: var(--primary);
-color: white;
-}
-
-.stock-low {
-color: var(--danger);
-font-weight: 600;
-}
-
-.stock-ok {
-color: var(--success);
-}
-
-.advanced-filters {
-background: white;
-border-radius: 10px;
-padding: 20px;
-box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-margin-bottom: 30px;
-}
-
-.price-range {
-width: 100%;
-}
-
-.range-values {
-display: flex;
-justify-content: space-between;
-margin-top: 10px;
-}
-
-.admin-section {
-display: none;
-}
-
-.status-badge {
-padding: 4px 8px;
-border-radius: 12px;
-font-size: 0.8rem;
-font-weight: 600;
-}
-
-.status-pending { background: #fff3cd; color: #856404; }
-.status-confirmed { background: #d1ecf1; color: #0c5460; }
-.status-processing { background: #cce7ff; color: #004085; }
-.status-ready { background: #d4edda; color: #155724; }
-.status-completed { background: #28a745; color: white; }
-.status-cancelled { background: #f8d7da; color: #721c24; }
-
-.order-details {
-background: white;
-border-radius: 10px;
-padding: 20px;
-box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.product-image-small {
-width: 50px;
-height: 50px;
-object-fit: cover;
-border-radius: 5px;
-}
-
-.quick-stats {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-gap: 15px;
-margin-bottom: 20px;
-}
-
-.stat-card {
-background: white;
-padding: 20px;
-border-radius: 10px;
-box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-text-align: center;
-}
-
-.stat-number {
-font-size: 2rem;
-font-weight: bold;
-margin-bottom: 5px;
-}
-
-.stat-label {
-color: #6c757d;
-font-size: 0.9rem;
-}
-
-.bulk-actions {
-background: white;
-padding: 15px;
-border-radius: 10px;
-margin-bottom: 20px;
-box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.export-btn {
-background: var(--success);
-color: white;
-border: none;
-padding: 8px 15px;
-border-radius: 5px;
-cursor: pointer;
-}
-
-.export-btn:hover {
-background: #218838;
-}
-
-.filter-section {
-background: white;
-padding: 15px;
-border-radius: 10px;
-margin-bottom: 20px;
-box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-@media (max-width: 768px) {
-.cart-sidebar {
-width: 100%;
-right: -100%;
-}
-
-.hero-carousel .carousel-item img {
-height: 300px;
-}
-
-.whatsapp-float {
-bottom: 20px;
-right: 20px;
-}
-
-.comparison-table {
-font-size: 0.8rem;
-}
-
-.quick-stats {
-grid-template-columns: repeat(2, 1fr);
-}
-}
-
-.fade-in {
-animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-from { opacity: 0; transform: translateY(20px); }
-to { opacity: 1; transform: translateY(0); }
-}
-
-.loading-spinner {
-display: inline-block;
-width: 20px;
-height: 20px;
-border: 3px solid #f3f3f3;
-border-top: 3px solid var(--primary);
-border-radius: 50%;
-animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-0% { transform: rotate(0deg); }
-100% { transform: rotate(360deg); }
-}
-
-.testimonials-section {
-background: #f8f9fa;
-padding: 60px 0;
-}
-
-.testimonial-card {
-background: white;
-border-radius: 10px;
-padding: 20px;
-box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-text-align: center;
-}
-
-.testimonial-card i {
-color: #FFD700;
-font-size: 1.5rem;
-}
-
-.testimonial-card p {
-font-style: italic;
-}
-
-.categories-section {
-padding: 60px 0;
-}
-
-.category-card {
-border: none;
-border-radius: 10px;
-transition: transform 0.3s;
-box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-text-align: center;
-}
-
-.category-card img {
-height: 150px;
-object-fit: cover;
-border-top-left-radius: 10px;
-border-top-right-radius: 10px;
-}
-
-.category-card:hover {
-transform: translateY(-5px);
-box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double T Phones - Premium Smartphones & Accessoires</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root { 
+            --primary: #0056b3; 
+            --secondary: #343a40; 
+            --accent: #17a2b8; 
+            --light: #f8f9fa; 
+            --dark: #212529; 
+            --success: #28a745; 
+            --danger: #dc3545; 
+            --warning: #ffc107; 
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            color: var(--dark);
+            background-color: #f8f9fa;
+        }
+        
+        .navbar { 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .hero-carousel .carousel-item img { 
+            height: 500px; 
+            object-fit: cover; 
+        }
+        
+        .hero-carousel .carousel-caption { 
+            background: rgba(0,0,0,0.5); 
+            padding: 20px; 
+            border-radius: 10px; 
+        }
+        
+        .feature-card, .product-card { 
+            border: none; 
+            border-radius: 10px; 
+            transition: transform 0.3s; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+            height: 100%;
+        }
+        
+        .feature-card:hover, .product-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+        }
+        
+        .product-image { 
+            height: 200px; 
+            object-fit: cover; 
+            width: 100%; 
+        }
+        
+        .price { 
+            font-weight: bold; 
+            color: var(--primary); 
+            font-size: 1.2rem; 
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: #6c757d;
+            font-size: 1rem;
+        }
+        
+        .btn-primary { 
+            background: var(--primary); 
+            border-color: var(--primary); 
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover { 
+            background: #004494; 
+            border-color: #004494; 
+        }
+        
+        .section-title { 
+            position: relative; 
+            margin-bottom: 2rem; 
+            text-align: center; 
+            font-weight: 700; 
+        }
+        
+        .section-title:after { 
+            content: ''; 
+            display: block; 
+            width: 60px; 
+            height: 3px; 
+            background: var(--primary); 
+            margin: 10px auto; 
+        }
+        
+        footer { 
+            background: var(--secondary); 
+            color: white; 
+        }
+        
+        .whatsapp-float { 
+            position: fixed; 
+            bottom: 40px; 
+            right: 40px; 
+            background: #25d366; 
+            color: #FFF; 
+            border-radius: 50px; 
+            width: 60px; 
+            height: 60px; 
+            text-align: center; 
+            font-size: 30px; 
+            box-shadow: 2px 2px 3px #999; 
+            z-index: 100; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-float:hover { 
+            background: #128C7E; 
+            transform: scale(1.1); 
+        }
+        
+        .badge-discount { 
+            position: absolute; 
+            top: 10px; 
+            right: 10px; 
+            background: var(--success); 
+            color: white; 
+            padding: 5px 10px; 
+            border-radius: 20px; 
+            font-size: 0.8rem; 
+            font-weight: 600;
+        }
+        
+        .badge-new { 
+            position: absolute; 
+            top: 10px; 
+            left: 10px; 
+            background: var(--primary); 
+            color: white; 
+            padding: 5px 10px; 
+            border-radius: 20px; 
+            font-size: 0.8rem; 
+            font-weight: 600;
+        }
+        
+        .login-form, .register-form { 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+            padding: 30px; 
+        }
+        
+        .admin-panel { 
+            display: none; 
+            min-height: 100vh; 
+            background: #e9ecef; 
+        }
+        
+        .cart-sidebar { 
+            position: fixed; 
+            top: 0; 
+            right: -400px; 
+            width: 400px; 
+            height: 100vh; 
+            background: white; 
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1); 
+            z-index: 1050; 
+            transition: right 0.3s; 
+            padding: 20px; 
+            overflow-y: auto; 
+        }
+        
+        .cart-sidebar.open { 
+            right: 0; 
+        }
+        
+        .cart-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.5); 
+            z-index: 1040; 
+            display: none; 
+        }
+        
+        .cart-overlay.show { 
+            display: block; 
+        }
+        
+        .cart-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 10px 0; 
+            border-bottom: 1px solid #eee; 
+        }
+        
+        .cart-item-image { 
+            width: 60px; 
+            height: 60px; 
+            object-fit: cover; 
+            border-radius: 5px; 
+            margin-right: 15px; 
+        }
+        
+        .quantity-control { 
+            display: flex; 
+            align-items: center; 
+        }
+        
+        .quantity-btn { 
+            width: 30px; 
+            height: 30px; 
+            border: 1px solid #ddd; 
+            background: white; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .quantity-input { 
+            width: 40px; 
+            height: 30px; 
+            border: 1px solid #ddd; 
+            border-left: none;
+            border-right: none;
+            text-align: center; 
+        }
+        
+        .admin-nav { 
+            background: var(--secondary); 
+            color: white; 
+            padding: 15px 0; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        }
+        
+        .admin-nav a { 
+            color: white; 
+            text-decoration: none; 
+            margin-right: 20px; 
+            padding: 5px 10px; 
+            border-radius: 5px; 
+            transition: background-color 0.3s;
+        }
+        
+        .admin-nav a:hover, .admin-nav a.active { 
+            background: rgba(255,255,255,0.1); 
+        }
+        
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 20px; 
+        }
+        
+        .wishlist-btn { 
+            position: absolute; 
+            top: 10px; 
+            right: 10px; 
+            background: rgba(255,255,255,0.9); 
+            border: none; 
+            border-radius: 50%; 
+            width: 40px; 
+            height: 40px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer; 
+            transition: all 0.3s;
+        }
+        
+        .wishlist-btn.active { 
+            color: #dc3545; 
+        }
+        
+        .wishlist-btn:hover { 
+            background: white; 
+            transform: scale(1.1);
+        }
+        
+        .newsletter-section { 
+            background: linear-gradient(135deg, var(--primary), #004494); 
+            color: white; 
+            padding: 60px 0; 
+        }
+        
+        .testimonials-section { 
+            background: #f8f9fa; 
+            padding: 60px 0; 
+        }
+        
+        .admin-section { 
+            display: none; 
+        }
+        
+        @media (max-width: 768px) {
+            .cart-sidebar { 
+                width: 100%; 
+                right: -100%; 
+            }
+            
+            .hero-carousel .carousel-item img { 
+                height: 300px; 
+            }
+            
+            .whatsapp-float { 
+                bottom: 20px; 
+                right: 20px; 
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .testimonial-card i {
+            color: #FFD700;
+            font-size: 1.5rem;
+        }
+        
+        .testimonial-card p {
+            font-style: italic;
+        }
+        
+        .categories-section {
+            padding: 60px 0;
+        }
+        
+        .category-card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .category-card img {
+            height: 150px;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
-<!-- Header met navigatie -->
-<header>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-<div class="container">
-<a class="navbar-brand" href="#">
-<i class="fas fa-mobile-alt me-2"></i>DOUBLE T PHONES
-</a>
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-<span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarNav">
-<ul class="navbar-nav me-auto">
-<li class="nav-item">
-<a class="nav-link active" href="#" onclick="showSection('home')">Home</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#" onclick="showSection('phones')">Telefoons</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#" onclick="showSection('accessories')">Accessoires</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#" onclick="showSection('wishlist')">
-<i class="fas fa-heart"></i> Wensenlijst
-<span class="badge bg-danger ms-1" id="wishlistCount">0</span>
-</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#" onclick="showSection('comparison')">
-<i class="fas fa-balance-scale"></i> Vergelijken
-</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#" onclick="showSection('about')">Over Ons</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#" onclick="showSection('contact')">Contact</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#" onclick="showSection('order-tracking')">Bestelling Volgen</a>
-</li>
-</ul>
-<div class="d-flex">
-<div class="input-group me-2">
-<input type="text" class="form-control" placeholder="Zoek producten..." id="searchInput">
-<button class="btn btn-outline-primary" type="button" onclick="searchProducts()">
-<i class="fas fa-search"></i>
-</button>
-</div>
-<a href="#" class="btn btn-outline-primary me-2" onclick="showLoginForm()">
-<i class="fas fa-user"></i>
-</a>
-<a href="#" class="btn btn-outline-primary position-relative" onclick="openCart()">
-<i class="fas fa-shopping-cart"></i>
-<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">0</span>
-</a>
-</div>
-</div>
-</div>
-</nav>
-</header>
+    <!-- Header met navigatie -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-mobile-alt me-2"></i>DOUBLE T PHONES
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showSection('home')">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('phones')">Telefoons</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('accessories')">Accessoires</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('wishlist')">
+                                <i class="fas fa-heart"></i> Wensenlijst
+                                <span class="badge bg-danger ms-1" id="wishlistCount">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('about')">Over Ons</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('contact')">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex">
+                        <div class="input-group me-2">
+                            <input type="text" class="form-control" placeholder="Zoek producten..." id="searchInput">
+                            <button class="btn btn-outline-primary" type="button" onclick="searchProducts()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <a href="#" class="btn btn-outline-primary me-2" onclick="showLoginForm()">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-primary position-relative" onclick="openCart()">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">0</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-<!-- Main Content -->
-<main id="main-content">
-<!-- Home Sectie -->
-<section id="home" class="content-section">
-<!-- Hero Carousel -->
-<div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
-<div class="carousel-inner">
-<div class="carousel-item active">
-<img src="https://www.shutterstock.com/image-photo/strasbourg-france-oct-1-2023-260nw-2383351351.jpg" class="d-block w-100" alt="Premium Smartphones">
-<div class="carousel-caption d-none d-md-block">
-<h1 class="display-4 fw-bold">Ontdek Onze Premium Smartphones</h1>
-<p class="lead">Beste kwaliteit tegen scherpe prijzen</p>
-<a href="#" class="btn btn-primary btn-lg" onclick="showSection('phones')">Shop Nu</a>
-</div>
-</div>
-<div class="carousel-item">
-<img src="https://www.shutterstock.com/image-photo/smartphones-on-shelf-technology-store-260nw-2457741293.jpg" class="d-block w-100" alt="Accessoires">
-<div class="carousel-caption d-none d-md-block">
-<h1 class="display-4 fw-bold">Top Accessoires voor Jouw Device</h1>
-<p class="lead">Van hoesjes tot opladers</p>
-<a href="#" class="btn btn-primary btn-lg" onclick="showSection('accessories')">Bekijk Meer</a>
-</div>
-</div>
-<div class="carousel-item">
-<img src="https://www.shutterstock.com/image-photo/create-banner-gadget-store-flat-260nw-2553356023.jpg" class="d-block w-100" alt="Deals">
-<div class="carousel-caption d-none d-md-block">
-<h1 class="display-4 fw-bold">Exclusieve Deals</h1>
-<p class="lead">Bespaar tot 30% op geselecteerde items</p>
-<a href="#" class="btn btn-primary btn-lg" onclick="showSection('phones')">Profiteer Nu</a>
-</div>
-</div>
-</div>
-<button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-<span class="visually-hidden">Vorige</span>
-</button>
-<button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-<span class="carousel-control-next-icon" aria-hidden="true"></span>
-<span class="visually-hidden">Volgende</span>
-</button>
-</div>
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Home Sectie -->
+        <section id="home" class="content-section">
+            <!-- Hero Carousel -->
+            <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="Premium Smartphones">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h1 class="display-4 fw-bold">Ontdek Onze Premium Smartphones</h1>
+                            <p class="lead">Beste kwaliteit tegen scherpe prijzen</p>
+                            <a href="#" class="btn btn-primary btn-lg" onclick="showSection('phones')">Shop Nu</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="Accessoires">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h1 class="display-4 fw-bold">Top Accessoires voor Jouw Device</h1>
+                            <p class="lead">Van hoesjes tot opladers</p>
+                            <a href="#" class="btn btn-primary btn-lg" onclick="showSection('accessories')">Bekijk Meer</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" class="d-block w-100" alt="Deals">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h1 class="display-4 fw-bold">Exclusieve Deals</h1>
+                            <p class="lead">Bespaar tot 30% op geselecteerde items</p>
+                            <a href="#" class="btn btn-primary btn-lg" onclick="showSection('phones')">Profiteer Nu</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Vorige</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Volgende</span>
+                </button>
+            </div>
 
-<!-- Features Sectie -->
-<section class="py-5 bg-light">
-<div class="container">
-<div class="row g-4">
-<div class="col-md-4">
-<div class="feature-card card text-center p-4">
-<div class="card-body">
-<div class="text-primary mb-3">
-<i class="fas fa-shield-alt fa-3x"></i>
-</div>
-<h5 class="card-title">1 Maand Garantie</h5>
-<p class="card-text">Op al onze producten bieden we 1 maand garantie.</p>
-</div>
-</div>
-</div>
-<div class="col-md-4">
-<div class="feature-card card text-center p-4">
-<div class="card-body">
-<div class="text-primary mb-3">
-<i class="fas fa-medal fa-3x"></i>
-</div>
-<h5 class="card-title">Premium Kwaliteit</h5>
-<p class="card-text">Alleen de beste merken en kwaliteit producten.</p>
-</div>
-</div>
-</div>
-<div class="col-md-4">
-<div class="feature-card card text-center p-4">
-<div class="card-body">
-<div class="text-primary mb-3">
-<i class="fab fa-whatsapp fa-3x"></i>
-</div>
-<h5 class="card-title">WhatsApp Support</h5>
-<p class="card-text">Bereikbaar via WhatsApp voor al uw vragen.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
+            <!-- Features Sectie -->
+            <section class="py-5 bg-light">
+                <div class="container">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="feature-card card text-center p-4">
+                                <div class="card-body">
+                                    <div class="text-primary mb-3">
+                                        <i class="fas fa-shield-alt fa-3x"></i>
+                                    </div>
+                                    <h5 class="card-title">1 Maand Garantie</h5>
+                                    <p class="card-text">Op al onze producten bieden we 1 maand garantie.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card card text-center p-4">
+                                <div class="card-body">
+                                    <div class="text-primary mb-3">
+                                        <i class="fas fa-medal fa-3x"></i>
+                                    </div>
+                                    <h5 class="card-title">Premium Kwaliteit</h5>
+                                    <p class="card-text">Alleen de beste merken en kwaliteit producten.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card card text-center p-4">
+                                <div class="card-body">
+                                    <div class="text-primary mb-3">
+                                        <i class="fab fa-whatsapp fa-3x"></i>
+                                    </div>
+                                    <h5 class="card-title">WhatsApp Support</h5>
+                                    <p class="card-text">Bereikbaar via WhatsApp voor al uw vragen.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<!-- Categories Overview -->
-<section class="categories-section">
-<div class="container">
-<h2 class="section-title">Ontdek Onze Categorieën</h2>
-<div class="row g-4">
-<div class="col-md-6">
-<div class="category-card card">
-<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9" class="card-img-top" alt="Telefoons">
-<div class="card-body">
-<h5 class="card-title">Telefoons</h5>
-<p class="card-text">Nieuwste modellen van topmerken.</p>
-<a href="#" class="btn btn-primary" onclick="showSection('phones')">Bekijk</a>
-</div>
-</div>
-</div>
-<div class="col-md-6">
-<div class="category-card card">
-<img src="https://images.unsplash.com/photo-1583394838336-acd977736f90" class="card-img-top" alt="Accessoires">
-<div class="card-body">
-<h5 class="card-title">Accessoires</h5>
-<p class="card-text">Hoesjes, opladers en meer.</p>
-<a href="#" class="btn btn-primary" onclick="showSection('accessories')">Bekijk</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
+            <!-- Categories Overview -->
+            <section class="categories-section">
+                <div class="container">
+                    <h2 class="section-title">Ontdek Onze Categorieën</h2>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="category-card card">
+                                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Telefoons">
+                                <div class="card-body">
+                                    <h5 class="card-title">Telefoons</h5>
+                                    <p class="card-text">Nieuwste modellen van topmerken.</p>
+                                    <a href="#" class="btn btn-primary" onclick="showSection('phones')">Bekijk</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="category-card card">
+                                <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Accessoires">
+                                <div class="card-body">
+                                    <h5 class="card-title">Accessoires</h5>
+                                    <p class="card-text">Hoesjes, opladers en meer.</p>
+                                    <a href="#" class="btn btn-primary" onclick="showSection('accessories')">Bekijk</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<!-- Featured Products -->
-<section class="py-5">
-<div class="container">
-<h2 class="section-title">Uitgelichte Producten</h2>
-<div id="featured-products" class="product-grid"></div>
-</div>
-</section>
+            <!-- Featured Products -->
+            <section class="py-5">
+                <div class="container">
+                    <h2 class="section-title">Uitgelichte Producten</h2>
+                    <div id="featured-products" class="product-grid"></div>
+                </div>
+            </section>
 
-<!-- Best Sellers -->
-<section class="py-5 bg-light">
-<div class="container">
-<h2 class="section-title">Best Sellers</h2>
-<div id="best-sellers" class="product-grid"></div>
-</div>
-</section>
+            <!-- Best Sellers -->
+            <section class="py-5 bg-light">
+                <div class="container">
+                    <h2 class="section-title">Best Sellers</h2>
+                    <div id="best-sellers" class="product-grid"></div>
+                </div>
+            </section>
 
-<!-- Special Offers -->
-<section class="py-5">
-<div class="container">
-<h2 class="section-title">Speciale Aanbiedingen</h2>
-<div id="special-offers" class="product-grid"></div>
-</div>
-</section>
+            <!-- Special Offers -->
+            <section class="py-5">
+                <div class="container">
+                    <h2 class="section-title">Speciale Aanbiedingen</h2>
+                    <div id="special-offers" class="product-grid"></div>
+                </div>
+            </section>
 
-<!-- Testimonials -->
-<section class="testimonials-section">
-<div class="container">
-<h2 class="section-title">Wat Onze Klanten Zeggen</h2>
-<div class="row g-4">
-<div class="col-md-4">
-<div class="testimonial-card">
-<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-<p>"Geweldige service en kwaliteitsproducten!"</p>
-<strong>- John Doe</strong>
-</div>
-</div>
-<div class="col-md-4">
-<div class="testimonial-card">
-<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-<p>"Snelle levering en goede prijzen."</p>
-<strong>- Jane Smith</strong>
-</div>
-</div>
-<div class="col-md-4">
-<div class="testimonial-card">
-<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-<p>"Aanrader voor iedereen!"</p>
-<strong>- Mike Johnson</strong>
-</div>
-</div>
-</div>
-</div>
-</section>
+            <!-- Testimonials -->
+            <section class="testimonials-section">
+                <div class="container">
+                    <h2 class="section-title">Wat Onze Klanten Zeggen</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="testimonial-card">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <p>"Geweldige service en kwaliteitsproducten!"</p>
+                                <strong>- John Doe</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="testimonial-card">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                <p>"Snelle levering en goede prijzen."</p>
+                                <strong>- Jane Smith</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="testimonial-card">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <p>"Aanrader voor iedereen!"</p>
+                                <strong>- Mike Johnson</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<!-- Recent Viewed -->
-<section class="py-5" id="recent-viewed-section" style="display: none;">
-<div class="container">
-<h2 class="section-title">Recent Bekeken</h2>
-<div id="recent-viewed" class="product-grid"></div>
-</div>
-</section>
+            <!-- Newsletter -->
+            <section class="newsletter-section">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h3 class="fw-bold">Blijf op de hoogte!</h3>
+                            <p class="mb-0">Schrijf je in voor onze nieuwsbrief en ontvang exclusieve aanbiedingen.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <form id="newsletter-form" class="d-flex">
+                                <input type="email" class="form-control me-2" placeholder="Je e-mailadres" required>
+                                <button type="submit" class="btn btn-light">Inschrijven</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
 
-<!-- Newsletter -->
-<section class="newsletter-section">
-<div class="container">
-<div class="row align-items-center">
-<div class="col-md-6">
-<h3 class="fw-bold">Blijf op de hoogte!</h3>
-<p class="mb-0">Schrijf je in voor onze nieuwsbrief en ontvang exclusieve aanbiedingen.</p>
-</div>
-<div class="col-md-6">
-<form id="newsletter-form" class="d-flex">
-<input type="email" class="form-control me-2" placeholder="Je e-mailadres" required>
-<button type="submit" class="btn btn-light">Inschrijven</button>
-</form>
-</div>
-</div>
-</div>
-</section>
-</section>
+        <!-- Telefoons Sectie -->
+        <section id="phones" class="content-section" style="display: none;">
+            <div class="container">
+                <h2 class="section-title">Telefoons</h2>
+                <div id="phone-products" class="product-grid"></div>
+            </div>
+        </section>
 
-<!-- Telefoons Sectie -->
-<section id="phones" class="content-section" style="display: none;">
-<div class="container">
-<h2 class="section-title">Telefoons</h2>
-<div class="advanced-filters">
-<div class="row g-3">
-<div class="col-md-3">
-<label for="brand-filter">Merk</label>
-<select id="brand-filter" class="form-select">
-<option value="">Alle</option>
-<option value="Apple">Apple</option>
-<option value="Samsung">Samsung</option>
-<option value="Google">Google</option>
-<option value="OnePlus">OnePlus</option>
-</select>
-</div>
-<div class="col-md-3">
-<label for="condition-filter">Conditie</label>
-<select id="condition-filter" class="form-select">
-<option value="">Alle</option>
-<option value="Nieuw">Nieuw</option>
-<option value="Gebruikt">Gebruikt</option>
-</select>
-</div>
-<div class="col-md-3">
-<label for="storage-filter">Opslag</label>
-<select id="storage-filter" class="form-select">
-<option value="">Alle</option>
-<option value="128GB">128GB</option>
-<option value="256GB">256GB</option>
-<option value="512GB">512GB</option>
-</select>
-</div>
-<div class="col-md-3">
-<label for="ram-filter">RAM</label>
-<select id="ram-filter" class="form-select">
-<option value="">Alle</option>
-<option value="4GB">4GB</option>
-<option value="6GB">6GB</option>
-<option value="8GB">8GB</option>
-<option value="12GB">12GB</option>
-</select>
-</div>
-<div class="col-md-3">
-<label for="camera-filter">Camera</label>
-<select id="camera-filter" class="form-select">
-<option value="">Alle</option>
-<option value="12MP">12MP</option>
-<option value="48MP">48MP</option>
-<option value="108MP">108MP</option>
-</select>
-</div>
-<div class="col-md-3">
-<label for="price-range">Prijsbereik</label>
-<input type="range" class="form-range price-range" id="price-range" min="0" max="2000" value="2000">
-<div class="range-values">
-<span>€0</span>
-<span>€2000</span>
-</div>
-</div>
-<div class="col-md-3">
-<label for="sort-filter">Sorteren</label>
-<select id="sort-filter" class="form-select">
-<option value="name-asc">Naam (A-Z)</option>
-<option value="name-desc">Naam (Z-A)</option>
-<option value="price-asc">Prijs (Laag-Hoog)</option>
-<option value="price-desc">Prijs (Hoog-Laag)</option>
-</select>
-</div>
-<div class="col-md-3 align-self-end">
-<button class="btn btn-primary w-100" onclick="filterProducts('phone')">Filteren</button>
-</div>
-</div>
-</div>
-<div id="phone-products" class="product-grid"></div>
-</div>
-</section>
+        <!-- Accessoires Sectie -->
+        <section id="accessories" class="content-section" style="display: none;">
+            <div class="container">
+                <h2 class="section-title">Accessoires</h2>
+                <div id="accessory-products" class="product-grid"></div>
+            </div>
+        </section>
 
-<!-- Accessoires Sectie -->
-<section id="accessories" class="content-section" style="display: none;">
-<div class="container">
-<h2 class="section-title">Accessoires</h2>
-<div class="advanced-filters">
-<div class="row g-3">
-<div class="col-md-3">
-<label for="accessory-category">Categorie</label>
-<select id="accessory-category" class="form-select">
-<option value="">Alle</option>
-<option value="Hoesjes">Hoesjes</option>
-<option value="Oplaadkabels">Oplaadkabels</option>
-<option value="Power Banks">Power Banks</option>
-</select>
-</div>
-<div class="col-md-3">
-<label for="sort-accessory">Sorteren</label>
-<select id="sort-accessory" class="form-select">
-<option value="name-asc">Naam (A-Z)</option>
-<option value="name-desc">Naam (Z-A)</option>
-<option value="price-asc">Prijs (Laag-Hoog)</option>
-<option value="price-desc">Prijs (Hoog-Laag)</option>
-</select>
-</div>
-<div class="col-md-3 align-self-end">
-<button class="btn btn-primary w-100" onclick="filterProducts('accessory')">Filteren</button>
-</div>
-</div>
-</div>
-<div id="accessory-products" class="product-grid"></div>
-</div>
-</section>
+        <!-- Wensenlijst Sectie -->
+        <section id="wishlist" class="content-section" style="display: none;">
+            <div class="container">
+                <h2 class="section-title">Mijn Wensenlijst</h2>
+                <div id="wishlist-products" class="product-grid"></div>
+            </div>
+        </section>
 
-<!-- Wensenlijst Sectie -->
-<section id="wishlist" class="content-section" style="display: none;">
-<div class="container">
-<h2 class="section-title">Mijn Wensenlijst</h2>
-<div id="wishlist-products" class="product-grid"></div>
-</div>
-</section>
+        <!-- Over Ons Sectie -->
+        <section id="about" class="content-section" style="display: none;">
+            <div class="container">
+                <h2 class="section-title">Over Double T Phones</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Double T Phones is dé bestemming voor premium smartphones en accessoires in Suriname. Wij bieden topmerken zoals Apple, Samsung, en meer tegen concurrerende prijzen.</p>
+                        <p>Met ons loyaliteitsprogramma verdien je punten bij elke aankoop, die je kunt inwisselen voor kortingen. Onze missie is om technologie toegankelijk te maken voor iedereen.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="https://images.unsplash.com/photo-1516321310763-383f7b18a7d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" class="img-fluid rounded" alt="Over Ons">
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- Vergelijking Sectie -->
-<section id="comparison" class="content-section" style="display: none;">
-<div class="container">
-<h2 class="section-title">Vergelijk Producten</h2>
-<div id="comparison-table" class="table-responsive">
-<table class="comparison-table">
-<thead>
-<tr>
-<th>Eigenschap</th>
-<th id="compare-product-1">Product 1</th>
-<th id="compare-product-2">Product 2</th>
-<th id="compare-product-3">Product 3</th>
-</tr>
-</thead>
-<tbody id="comparison-body"></tbody>
-</table>
-</div>
-<button class="btn btn-danger mt-3" onclick="clearComparison()">Wissen</button>
-</div>
-</section>
+        <!-- Contact Sectie -->
+        <section id="contact" class="content-section" style="display: none;">
+            <div class="container">
+                <h2 class="section-title">Contacteer Ons</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Neem Contact Op</h4>
+                        <form id="contact-form">
+                            <div class="mb-3">
+                                <label for="contact-name" class="form-label">Naam</label>
+                                <input type="text" class="form-control" id="contact-name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact-email" class="form-label">E-mail</label>
+                                <input type="email" class="form-control" id="contact-email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact-message" class="form-label">Bericht</label>
+                                <textarea class="form-control" id="contact-message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Verstuur</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Contactgegevens</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> Paramaribo, Suriname</p>
+                        <p><i class="fas fa-phone"></i> +597 123 4567</p>
+                        <p><i class="fas fa-envelope"></i> info@doubletphones.com</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- Over Ons Sectie -->
-<section id="about" class="content-section" style="display: none;">
-<div class="container">
-<h2 class="section-title">Over Double T Phones</h2>
-<div class="row">
-<div class="col-md-6">
-<p>Double T Phones is dé bestemming voor premium smartphones en accessoires in Suriname. Wij bieden topmerken zoals Apple, Samsung, en meer tegen concurrerende prijzen.</p>
-<p>Met ons loyaliteitsprogramma verdien je punten bij elke aankoop, die je kunt inwisselen voor kortingen. Onze missie is om technologie toegankelijk te maken voor iedereen.</p>
-</div>
-<div class="col-md-6">
-<img src="https://images.unsplash.com/photo-1516321310763-383f7b18a7d7" class="img-fluid rounded" alt="Over Ons">
-</div>
-</div>
-</div>
-</section>
+        <!-- Login Formulier -->
+        <section id="login" class="content-section" style="display: none;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="login-form">
+                            <h2 class="section-title">Inloggen</h2>
+                            <form id="login-form">
+                                <div class="mb-3">
+                                    <label for="login-username" class="form-label">Gebruikersnaam</label>
+                                    <input type="text" class="form-control" id="login-username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="login-password" class="form-label">Wachtwoord</label>
+                                    <input type="password" class="form-control" id="login-password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Inloggen</button>
+                            </form>
+                            <p class="mt-3 text-center">Geen account? <a href="#" onclick="showRegisterForm()">Registreer hier</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- Contact Sectie -->
-<section id="contact" class="content-section" style="display: none;">
-<div class="container">
-<h2 class="section-title">Contacteer Ons</h2>
-<div class="row">
-<div class="col-md-6">
-<h4>Neem Contact Op</h4>
-<form id="contact-form">
-<div class="mb-3">
-<label for="contact-name" class="form-label">Naam</label>
-<input type="text" class="form-control" id="contact-name" required>
-</div>
-<div class="mb-3">
-<label for="contact-email" class="form-label">E-mail</label>
-<input type="email" class="form-control" id="contact-email" required>
-</div>
-<div class="mb-3">
-<label for="contact-message" class="form-label">Bericht</label>
-<textarea class="form-control" id="contact-message" rows="5" required></textarea>
-</div>
-<button type="submit" class="btn btn-primary">Verstuur</button>
-</form>
-</div>
-<div class="col-md-6">
-<h4>Contactgegevens</h4>
-<p><i class="fas fa-map-marker-alt"></i> Paramaribo, Suriname</p>
-<p><i class="fas fa-phone"></i> +597 123 4567</p>
-<p><i class="fas fa-envelope"></i> info@doubletphones.com</p>
-</div>
-</div>
-</div>
-</section>
+        <!-- Registratie Formulier -->
+        <section id="register" class="content-section" style="display: none;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="register-form">
+                            <h2 class="section-title">Registreren</h2>
+                            <form id="register-form">
+                                <div class="mb-3">
+                                    <label for="register-username" class="form-label">Gebruikersnaam</label>
+                                    <input type="text" class="form-control" id="register-username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="register-email" class="form-label">E-mail</label>
+                                    <input type="email" class="form-control" id="register-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="register-password" class="form-label">Wachtwoord</label>
+                                    <input type="password" class="form-control" id="register-password" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="register" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="register-password-conf-password-confirm" classirm" class="form-label">W="form-label">Wachtwoord Bevestigen</label>
+                                    <input type="password"achtwoord Bevestigen</label>
+                                    <input type="password" class="form-control" id="register-password class="form-control" id="register-password-confirm" required>
+                                </div>
+                                <button type="-confirm" required>
+                                </div>
+                                <button type="submit" class="btn btnsubmit" class="btn btn-primary-primary w-100">Registr w-100">Registreren</button>
+                            </eren</button>
+                            </form>
+                            <p class="mtform>
+                            <p class="mt-3 text-center">-3 text-center">Al een account? <a hrefAl een account? <a href="#" onclick="showLogin="#" onclick="showLoginForm()">Log in</a></pForm()">Log in</a></p>
+                       >
+                        </div>
+                    </div </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </section>
 
-<!-- Order Tracking Sectie -->
-<section id="order-tracking" class="content-section" style="display: none;">
-<div class="container">
-<h2 class="section-title">Bestelling Volgen</h2>
-<div class="order-tracking">
-<div class="mb-3">
-<label for="order-number" class="form-label">Ordernummer</label>
-<input type="text" class="form-control" id="order-number" placeholder="Voer je ordernummer in">
-<button class="btn btn-primary mt-2" onclick="trackOrder()">Volgen</button>
-</div>
-<div id="tracking-result"></div>
-</div>
-</div>
-</section>
+       >
+        </section>
 
-<!-- Login Formulier -->
-<section id="login" class="content-section" style="display: none;">
-<div class="container">
-<div class="row justify-content-center">
-<div class="col-md-6">
-<div class="login-form">
-<h2 class="section-title">Inloggen</h2>
-<form id="login-form">
-<div class="mb-3">
-<label for="login-username" class="form-label">Gebruikersnaam</label>
-<input type="text" class="form-control" id="login-username" required>
-</div>
-<div class="mb-3">
-<label for="login-password" class="form-label">Wachtwoord</label>
-<input type="password" class="form-control" id="login-password" required>
-</div>
-<button type="submit" class="btn btn-primary w-100">Inloggen</button>
-</form>
-<p class="mt-3 text-center">Geen account? <a href="#" onclick="showRegisterForm()">Registreer hier</a></p>
-</div>
-</div>
-</div>
-</div>
-</section>
+        <!-- Checkout Sectie -->
+ <!-- Checkout Sectie -->
+        <section id="check        <section id="checkout" class="content-section" styleout" class="content-section" style="display: none;">
+            <="display: none;">
+            <divdiv class="container">
+                class="container">
+                <h <h22 class="section-title">Afrekenen</h2 class="section-title">Afrekenen</h2>
+                <div class=">
+                <div class="rowrow">
+                    <div class="col">
+                    <div class="col-md-md-8">
+                       -8">
+                        <div class <div class="card p-4">
+="card p-4">
+                                                       <h4>L <h4>Leveringseveringsinformatie</hinformatie</h4>
+4>
+                            <form id="                            <form id="checkoutcheckout-form">
+                                <-form">
+                                <div class="div class="mb-3">
+                                   mb-3">
+                                    <label for="checkout-name" class="form-label"> <label for="checkout-name" class="form-label">Volledige NaamVolledige Naam</</label>
+                                   label>
+                                    <input <input type="text" class="form type="text" class="form-control" id="checkout-name"-control" id="checkout-name" required>
+                                </div>
+                                required>
+                                </div>
+                                <div class="mb-3 <div class="mb-3">
+                                   ">
+                                    < <label for="checkout-address" class="form-label">Adres</label>
+                                    <input type="label for="checkout-address" class="form-label">Adres</label>
+                                    <input type="text"text" class="form-control" id class="form-control" id="checkout-address" required>
+="checkout-address"                                </div>
+                                < required>
+                                </div>
+                                <div class="mb-3div class="mb-3">
+                                   ">
+                                    <label for="checkout <label for="checkout-delivery"-delivery" class=" class="form-label">Leveringsmethform-label">Leveringsmethode</ode</label>
+                                    <selectlabel>
+                                    <select id=" id="checkout-delivery"checkout-delivery" class=" class="form-selectform-select">
+                                        <">
+                                        <option value="pickup">Afoption value="pickup">Afhalen in Paramaribo</halen in Paramaribo</option>
+option>
+                                        <option value="                                        <option value="deliverydelivery">Bezorging">Bezorging in Suriname in Suriname</option</option>
+                                    </select>
+                                    </select>
+                                </div>
+                                </div>
+                                <div class>
+                                <div class="mb-="mb-3">
+                                    <label3">
+                                    <label for="checkout for="checkout-payment" class="form-label">Betaalmethode</label>
+                                    <select id="checkout-payment" class="form-select">
+                                        <option value="-payment" class="form-label">Betaalmethode</label>
+                                    <select id="checkout-payment" class="form-select">
+                                        <option value="cash">Contant bij leveringcash">Contant bij levering</option>
+                                        <option value</option>
+                                        <option value="bank">Bankoverschrij="bank">Bankoverschving</option>
+                                    </selectrijving</option>
+                                    </select>
+                                </div>
+                               >
+                                </div>
+                                < <button type="submit" classbutton type="submit" class="="btn btn-primary w-100btn btn-primary w-100">Bestelling Plaatsen">Bestelling Plaatsen</</button>
+                            </form>
+button>
+                            </form>
+                        </div>
+                    </div                        </div>
+                    </div>
+>
+                    <div class="col                    <div class="col-md-4">
+                       -md-4">
+                        <div <div class="card p-4">
+ class="card p-4">
+                            <h4                            <h4>Besteloverzicht</h4>
+>Besteloverzicht</h4>
+                            <div id="checkout-items                            <div id="checkout-items"></div>
+                            <hr>
+                            <p><strong"></div>
+                            <hr>
+                            <p><strong>Subtota>Subtotaal:</strong>al:</strong> €<span id="checkout-sub €<span id="checkout-subtotal">0</span></p>
+                           total">0</span></p>
+                            < <p><strong>p><strong>VerzendkostenVerzendkosten:</:</strongstrong> €<> €<span id="checkout-shipping">span id="checkout-shipping">0</0</span></p>
+                            <p><strong>Tspan></p>
+                            <p><strong>Totaal:</strong> €<span id="checkout-totaal:</strong> €<span id="checkout-total">0</span></p>
+otal">0</span></                            <p><strong>p>
+                            <p><strongLoyaliteits>Loyaliteitspunten:</strong> <span id="checkpunten:</strong> <span id="checkout-points">0</spanout-points">0</></p>
+                        </divspan></p>
+                        </>
+                    </div>
+div>
+                    </                </div>
+            </div>
+        </div>
+                </div>
+            </div>
+       section>
+    </main>
 
-<!-- Registratie Formulier -->
-<section id="register" class="content-section" style="display: none;">
-<div class="container">
-<div class="row justify-content-center">
-<div class="col-md-6">
-<div class="register-form">
-<h2 class="section-title">Registreren</h2>
-<form id="register-form">
-<div class="mb-3">
-<label for="register-username" class="form-label">Gebruikersnaam</label>
-<input type="text" class="form-control" id="register-username" required>
-</div>
-<div class="mb-3">
-<label for="register-email" class="form-label">E-mail</label>
-<input type="email" class="form-control" id="register-email" required>
-</div>
-<div class="mb-3">
-<label for="register-password" class="form-label">Wachtwoord</label>
-<input type="password" class="form-control" id="register-password" required>
-</div>
-<div class="mb-3">
-<label for="register-password-confirm" class="form-label">Wachtwoord Bevestigen</label>
-<input type="password" class="form-control" id="register-password-confirm" required>
-</div>
-<button type="submit" class="btn btn-primary w-100">Registreren</button>
-</form>
-<p class="mt-3 text-center">Al een account? <a href="#" onclick="showLoginForm()">Log in</a></p>
-</div>
-</div>
-</div>
-</div>
-</section>
+ </section>
+    </main>
 
-<!-- Checkout Sectie -->
-<section id="checkout" class="content-section" style="display: none;">
-<div class="container">
-<h2 class="section-title">Afrekenen</h2>
-<div class="row">
-<div class="col-md-8">
-<div class="card p-4">
-<h4>Leveringsinformatie</h4>
-<form id="checkout-form">
-<div class="mb-3">
-<label for="checkout-name" class="form-label">Volledige Naam</label>
-<input type="text" class="form-control" id="checkout-name" required>
-</div>
-<div class="mb-3">
-<label for="checkout-address" class="form-label">Adres</label>
-<input type="text" class="form-control" id="checkout-address" required>
-</div>
-<div class="mb-3">
-<label for="checkout-delivery" class="form-label">Leveringsmethode</label>
-<select id="checkout-delivery" class="form-select">
-<option value="pickup">Afhalen in Paramaribo</option>
-<option value="delivery">Bezorging in Suriname</option>
-</select>
-</div>
-<div class="mb-3">
-<label for="checkout-payment" class="form-label">Betaalmethode</label>
-<select id="checkout-payment" class="form-select">
-<option value="cash">Contant bij levering</option>
-<option value="bank">Bankoverschrijving</option>
-</select>
-</div>
-<button type="submit" class="btn btn-primary w-100">Bestelling Plaatsen</button>
-</form>
-</div>
-</div>
-<div class="col-md-4">
-<div class="card p-4">
-<h4>Besteloverzicht</h4>
-<div id="checkout-items"></div>
-<hr>
-<p><strong>Subtotaal:</strong> €<span id="checkout-subtotal">0</span></p>
-<p><strong>Verzendkosten:</strong> €<span id="checkout-shipping">0</span></p>
-<p><strong>Totaal:</strong> €<span id="checkout-total">0</span></p>
-<p><strong>Loyaliteitspunten:</strong> <span id="checkout-points">0</span></p>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
+    <!-- Admin Panel -->
+    <section id="admin-p    <!-- Admin Panel -->
+    <section id="admin-panel" class="admin-panel" style="display: none;">
+       anel" class="admin-panel" style="display: none;">
+        <div class="admin-nav">
+            <div class="container">
+                <div class="admin-nav">
+            <div class="container">
+                <a href="#" onclick="showAdmin <a href="#" onclick="showAdminSection('dashboard')" classSection('dashboard')" class="active="active">Dashboard</a">Dashboard</a>
+>
+                <a href="#" onclick="showAdminSection('products')">Producten</a>
+                               <a href="#" onclick="showAdminSection('products')">Producten</a>
+                <a <a href="#" onclick="showAdminSection('orders')">Bestellingen</a>
+                <a href="#" onclick="showAdminSection('customers') href="#" onclick="showAdminSection('orders')">Bestellingen</a>
+                <a href="#" onclick="showAdminSection('customers')">Klanten</a>
+                <a href">Klanten</a>
+                <a href="#"="#" onclick="logout()" class onclick="logout()" class="float-end">U="float-end">Uitloggenitloggen</a>
+            </div>
+        </</a>
+            </div>
+        </div>
+       div>
+        <div class <div class="container mt-4">
+="container mt-4">
+            <!-- Admin Dashboard -->
+            <            <!-- Admin Dashboard -->
+            <div id="div id="admin-dashboard"admin-dashboard" class="admin-section">
+                <h2 class="section-title">Admin Dashboard</ class="admin-section">
+                <h2 class="section-title">Admin Dashboard</h2>
+               h2>
+                <div class="quick-stats">
+                    <div class="quick-stats <div class="stat-card">
+                        <div class="stat-number">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-orders">0" id="total-orders">0</div</div>
+                        <div class="stat-label">Totaal Bestellingen</div>
+>
+                        <div class="stat-label">Totaal Bestellingen</div>
+                    </div>
+                    <div class="stat-card">
+                        <                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totaldiv class="stat-number" id="total-re-revenue">€0</div>
+                        <div class="stat-label">Totale Omzet</div>
+                    </divvenue">€0</div>
+                        <div class="stat-label">Totale Omzet</div>
+                    </div>
+                    <div class="stat>
+                    <div class="stat-card">
+                        <div class-card">
+                        <div class="="stat-number" id="total-productsstat-number" id="total-products">0</div>
+                       ">0</div>
+                        <div class="stat-label">T <div class="stat-label">Totaal Productenotaal Producten</div>
+                    </div>
+                    <div</div>
+                    </div>
+                    <div class="stat-card">
+                        class="stat-card">
+                        <div class="stat-number" id <div class="stat-number"="total-custom id="total-customers">0</div>
+                        <div classers">0</div>
+                        <="stat-label">Totadiv class="stat-label">Totaal Klanten</div>
+                   al Klanten</div>
+                    </ </div>
+                </div>
+            </div>
 
-<!-- Admin Panel -->
-<section id="admin-panel" class="admin-panel" style="display: none;">
-<div class="admin-nav">
-<div class="container">
-<a href="#" onclick="showAdminSection('dashboard')" class="active">Dashboard</a>
-<a href="#" onclick="showAdminSection('products')">Producten</a>
-<a href="#" onclick="showAdminSection('orders')">Bestellingen</a>
-<a href="#" onclick="showAdminSection('customers')">Klanten</a>
-<a href="#" onclick="showAdminSection('reports')">Rapporten</a>
-<a href="#" onclick="logout()" class="float-end">Uitloggen</a>
-</div>
-</div>
-<div class="container mt-4">
-<!-- Admin Dashboard -->
-<div id="admin-dashboard" class="admin-section">
-<h2 class="section-title">Admin Dashboard</h2>
-<div class="quick-stats">
-<div class="stat-card">
-<div class="stat-number" id="total-orders">0</div>
-<div class="stat-label">Totaal Bestellingen</div>
-</div>
-<div class="stat-card">
-<div class="stat-number" id="total-revenue">€0</div>
-<div class="stat-label">Totale Omzet</div>
-</div>
-<div class="stat-card">
-<div class="stat-number" id="total-products">0</div>
-<div class="stat-label">Totaal Producten</div>
-</div>
-<div class="stat-card">
-<div class="stat-number" id="total-customers">0</div>
-<div class="stat-label">Totaal Klanten</div>
-</div>
-</div>
-<canvas id="sales-chart" height="100"></canvas>
-</div>
+            <!-- Admin Producten -->
+            <div id="admin-products" class="admin-section" style="display: none;">
+                <h2div>
+                </div>
+            </div>
 
-<!-- Admin Producten -->
-<div id="admin-products" class="admin-section" style="display: none;">
-<h2 class="section-title">Productbeheer</h2>
-<div class="bulk-actions">
-<button class="btn btn-primary" onclick="showAddProductForm()">Nieuw Product</button>
-<button class="btn btn-success" onclick="bulkMarkFeatured()">Markeren als Uitgelicht</button>
-<button class="btn btn-danger" onclick="bulkDeleteProducts()">Verwijderen</button>
-</div>
-<form id="add-product-form" style="display: none;" class="mb-4">
-<div class="row g-3">
-<div class="col-md-4">
-<label for="product-name" class="form-label">Naam</label>
-<input type="text" class="form-control" id="product-name" required>
-</div>
-<div class="col-md-4">
-<label for="product-type" class="form-label">Type</label>
-<select id="product-type" class="form-select" required>
-<option value="phone">Telefoon</option>
-<option value="accessory">Accessoire</option>
-</select>
-</div>
-<div class="col-md-4">
-<label for="product-brand" class="form-label">Merk</label>
-<input type="text" class="form-control" id="product-brand">
-</div>
-<div class="col-md-4">
-<label for="product-price" class="form-label">Prijs (€)</label>
-<input type="number" class="form-control" id="product-price" required>
-</div>
-<div class="col-md-4">
-<label for="product-stock" class="form-label">Voorraad</label>
-<input type="number" class="form-control" id="product-stock" required>
-</div>
-<div class="col-md-4">
-<label for="product-image" class="form-label">Afbeelding URL</label>
-<input type="text" class="form-control" id="product-image">
-</div>
-<div class="col-12">
-<button type="submit" class="btn btn-primary">Product Toevoegen</button>
-<button type="button" class="btn btn-secondary" onclick="cancelAddProduct()">Annuleren</button>
-</div>
-</div>
-</form>
-<table class="table table-striped">
-<thead>
-<tr>
-<th><input type="checkbox" id="select-all-products"></th>
-<th>Naam</th>
-<th>Type</th>
-<th>Merk</th>
-<th>Prijs</th>
-<th>Voorraad</th>
-<th>Acties</th>
-</tr>
-</thead>
-<tbody id="admin-products-table"></tbody>
-</table>
-</div>
+            <!-- Admin Producten -->
+            <div id="admin-products" class="admin-section" style="display: none;">
+                <h2 class=" class="section-title">Productbesection-title">Productbeheer</hheer</h2>
+               2>
+                <button class=" <button class="btn btn-primarybtn btn-primary mb-3" onclick="showAddProductForm()"> mb-3" onclick="showAddProductForm()">NieuwNieuw Product</button>
+ Product</button>
+                <                <form id="add-product-formform id="add-product-form"" style="display: none style="display: none;" class="mb-4">
+                    <div;" class="mb-4">
+                    <div class="row g class="row g-3-3">
+                        <div class="">
+                        <div class="col-mdcol-md-4">
+                           -4">
+                            <label for="product-name" class="form <label for="product-name" class="form-label-label">Na">Naamam</label>
+                           </label>
+                            <input <input type="text" class="form-control type="text" class="form-control" id="product-name" required>
+                        </div>
+                        <div" id="product-name" required>
+                        </div>
+                        <div class class="col-md-4">
+                            <label for="product-type="col-md-4">
+                            <label for="product-type" class="form-label">Type</label>
+                            <select" class="form-label">Type</label>
+                            <select id="product id="product-type" class="form-select" required>
+                               -type" class="form-select" required>
+                                <option <option value="phone">Telefoon value="phone">Telefoon</option</option>
+>
+                                <option value="accessory">Access                                <option value="oire</option>
+                            </select>
+                        </div>
+                        <accessory">Accessoire</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="product-branddiv class="col-md-4">
+                           " class="form-label"> <label for="product-brand" class="form-label">Merk</labelMerk</label>
+                           >
+                            <input type=" <input type="text" class="text" class="form-control" idform-control" id="product="product-brand">
+                        </-brand">
+                        </div>
+div>
+                        <div class="                        <div class="col-md-4">
+                            <label for="productcol-md-4">
+                            <label for="product-price" class-price" class="form-label="form-label">Prijs (">Prijs (€)</label>
+                            <input type="number" class="form-control" id="product-price" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="product-stock" class="form-label">Voorraad</label>
+                            <input type="number" class="form-control" id="product-stock" required>
+                        </div>
+                        <div class="€)</label>
+                            <input type="number" class="form-control" id="product-price" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="product-stock" class="form-label">Voorraad</label>
+                            <input type="number" class="form-control" id="product-stock" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label forcol-md-4">
+                            <label for="product-image" class="product-image" class="form-label">Afbeelding="form-label">Afbeelding URL</label>
+                            URL</label>
+                            <input type <input type="text="text" class="form" class="form-control-control" id="product-image">
+" id="product-image">
+                                               </div>
+                        <div class </div>
+                        <div class="="col-12">
+                            <col-12">
+                            <button type="submit" class="btnbutton type="submit" class=" btn-primary">Product Toevoegen</button>
+btn btn-primary">Product Toevoegen</button                            <button type=">
+                            <button type="button" class="btn btn-secondary" onclick="button" class="btn btn-secondary" onclick="cancelcancelAddProduct()">Annuleren</button>
+                        </AddProduct()">Annuleren</button>
+                        </div>
+                    </div>
+                </form>
+                <table class="tablediv>
+                    </div>
+                </form>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            table-striped">
+                    <thead>
+                        <th>Naam</ <tr>
+                            <th>Naam</th>
+                            <thth>
+                            <th>Type</>Type</th>
+                           th>
+                            <th>M <th>Merk</th>
+                            <therk</th>
+                            <th>Prijs</>Prijs</th>
+th>
+                                                       < <th>Voorraadth>Voorraad</th>
+                            <</th>
+                            <th>Acties</th>
+                        </th>Acties</th>
+                        </tr>
+                    </thead>
+tr>
+                    </thead>
+                    <tbody id="                    <tbody id="admin-products-table"></tbody>
+                </table>
+           admin-products-table"></tbody>
+                </table>
+            </div>
 
-<!-- Admin Bestellingen -->
-<div id="admin-orders" class="admin-section" style="display: none;">
-<h2 class="section-title">Bestellingen</h2>
-<div class="filter-section">
-<select id="order-status-filter" class="form-select d-inline-block w-auto">
-<option value="">Alle Statussen</option>
-<option value="pending">In Afwachting</option>
-<option value="confirmed">Bevestigd</option>
-<option value="processing">In Behandeling</option>
-<option value="ready">Klaar</option>
-<option value="completed">Voltooid</option>
-<option value="cancelled">Geannuleerd</option>
-</select>
-<button class="btn btn-primary ms-2" onclick="filterOrders()">Filteren</button>
-</div>
-<table class="table table-striped">
-<thead>
-<tr>
-<th>Ordernummer</th>
-<th>Klant</th>
-<th>Datum</th>
-<th>Totaal</th>
-<th>Status</th>
-<th>Acties</th>
-</tr>
-</thead>
-<tbody id="admin-orders-table"></tbody>
-</table>
-</div>
+            </div>
 
-<!-- Admin Klanten -->
-<div id="admin-customers" class="admin-section" style="display: none;">
-<h2 class="section-title">Klanten</h2>
-<table class="table table-striped">
-<thead>
-<tr>
-<th>Gebruikersnaam</th>
-<th>E-mail</th>
-<th>Loyaliteitspunten</th>
-<th>Acties</th>
-</tr>
-</thead>
-<tbody id="admin-customers-table"></tbody>
-</table>
-</div>
+            <!-- Admin Best <!-- Admin Bestellingen -->
+           ellingen -->
+            <div id="admin-orders" class=" <div id="admin-orders" class="admin-section" style="display: none;">
+                <h2 class="section-title">Bestellingen</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Ordernummer</th>
+                            <th>Klant</th>
+                            <th>Datum</th>
+                            <th>Totaal</th>
+                            <th>Status</th>
+                            <th>Acties</th>
+                        </admin-section" style="display: none;">
+                <h2 class="section-title">Bestellingen</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Ordernummer</th>
+                            <th>Klant</th>
+                            <th>Datum</th>
+                            <th>Totaal</th>
+                            <th>Status</th>
+                            <th>Actiestr>
+                    </thead>
+                   </th>
+                        </tr>
+                    </thead>
+                    <tbody id <tbody id="admin-="admin-orders-table"></tbody>
+                </table>
+           orders-table"></tbody>
+                </div>
 
-<!-- Admin Rapporten -->
-<div id="admin-reports" class="admin-section" style="display: none;">
-<h2 class="section-title">Rapporten</h2>
-<div class="filter-section">
-<label for="report-type" class="me-2">Rapporttype:</label>
-<select id="report-type" class="form-select d-inline-block w-auto">
-<option value="sales">Verkoop</option>
-<option value="products">Producten</option>
-<option value="customers">Klanten</option>
-</select>
-<label for="report-date-start" class="ms-3 me-2">Van:</label>
-<input type="date" id="report-date-start" class="form-control d-inline-block w-auto">
-<label for="report-date-end" class="ms-3 me-2">Tot:</label>
-<input type="date" id="report-date-end" class="form-control d-inline-block w-auto">
-<button class="btn btn-primary ms-2" onclick="generateReport()">Genereren</button>
-</div>
-<canvas id="report-chart" height="100"></canvas>
-<div id="report-table" class="table-responsive mt-3"></div>
-</div>
-</div>
-</section>
+            <!-- Admin </table>
+            </div>
 
-<!-- Winkelwagen Sidebar -->
-<div class="cart-overlay" onclick="closeCart()"></div>
-<div class="cart-sidebar">
-<h3>Winkelwagen</h3>
-<div id="cart-items"></div>
-<hr>
-<p><strong>Subtotaal:</strong> €<span id="cart-subtotal">0</span></p>
-<p><strong>Verzendkosten:</strong> €<span id="cart-shipping">0</span></p>
-<p><strong>Totaal:</strong> €<span id="cart-total">0</span></p>
-<button class="btn btn-primary w-100" onclick="proceedToCheckout()">Afrekenen</button>
-<button class="btn btn-secondary w-100 mt-2" onclick="closeCart()">Sluiten</button>
-</div>
+            <!-- Admin Klanten -->
+            Klanten -->
+            <div id=" <div id="admin-customersadmin-customers" class="admin" class="admin-section"-section" style="display: style="display: none;">
+                none;">
+                <h2 class="section-title">Klanten</ <h2 class="section-title">Klanten</h2>
+               h2>
+                <table class=" <table class="table table-sttable table-striped">
+                    <theadriped">
+                    <thead>
+                        <tr>
+                        <tr>
+                            <th>G>
+                            <th>Gebruikersnaamebruikersnaam</th>
+                            <th</th>
+                            <th>E-mail</th>
+>E-mail</th>
+                            <th>Loyaliteitspunten                            <th>Loyaliteitspunten</th>
+                           </th>
+                            <th>Acties</th>
+                        </tr>
+ <th>Acties</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-customers-table"></tbody>
+                </table>
+                               </thead>
+                    <tbody id="admin-customers-table"></tbody>
+                </table>
+            </div>
+        </div>
+ </div>
+        </div>
+    </section>
 
-<!-- WhatsApp Knop -->
-<a href="https://wa.me/+5971234567" class="whatsapp-float" target="_blank">
-<i class="fab fa-whatsapp"></i>
-</a>
+    <!-- W    </section>
 
-<!-- Footer -->
-<footer class="py-5">
-<div class="container">
-<div class="row">
-<div class="col-md-4">
-<h5>Double T Phones</h5>
-<p>Premium smartphones en accessoires in Suriname. Topkwaliteit, scherpe prijzen.</p>
-</div>
-<div class="col-md-4">
-<h5>Snelle Links</h5>
-<ul class="list-unstyled">
-<li><a href="#" onclick="showSection('phones')">Telefoons</a></li>
-<li><a href="#" onclick="showSection('accessories')">Accessoires</a></li>
-<li><a href="#" onclick="showSection('about')">Over Ons</a></li>
-<li><a href="#" onclick="showSection('contact')">Contact</a></li>
-<li><a href="#" onclick="showSection('order-tracking')">Bestelling Volgen</a></li>
-</ul>
-</div>
-<div class="col-md-4">
-<h5>Contact</h5>
-<p><i class="fas fa-map-marker-alt"></i> Paramaribo, Suriname</p>
-<p><i class="fas fa-phone"></i> +597 123 4567</p>
-<p><i class="fas fa-envelope"></i> info@doubletphones.com</p>
-</div>
-</div>
-<hr>
-<p class="text-center mb-0">&copy; 2025 Double T Phones. Alle rechten voorbehouden.</p>
-</div>
-</footer>
+    <!-- Winkelwagen Sidebar -->
+    <div class="cart-overlay" onclick="closeCartinkelwagen Sidebar -->
+    <div class="cart-overlay" onclick="closeCart()"></div>
+    <div class="cart-sidebar">
+        <h3>Winkel()"></div>
+    <div class="cart-sidebar">
+        <h3>Wwagen</h3>
+        <div id="cart-itemsinkelwagen</h3>
+        <div id="cart-items"></div>
+        <hr"></div>
+        <hr>
+        <p><strong>Subt>
+        <p><strong>Subtotaal:</strong> €otaal:</strong> €<span id="cart-subtotal"><span id="cart-subtotal">0</span></p>
+0</span></p>
+        <p><strong>Ver        <p><strong>Verzendkosten:</strong> €<span id="cart-shipping">0</span></p>
+        <p><strong>Totaal:</strong> €<span id="cart-total">0</span></p>
+        <button class="btn btn-primary w-100" onclick="proceedToCheckout()">Afzendkosten:</strong> €<span id="cart-shipping">0</span></p>
+        <p><strong>Totaal:</strong> €<span id="cart-total">0</span></p>
+        <button class="btn btn-primary w-100" onclick="proceedToCheckout()">Afrekenen</button>
+        <button class="btn btn-secondary w-100 mt-2" onclick="closeCart()">Sluiten</button>
+    </div>
 
-<script>
-let products = JSON.parse(localStorage.getItem('doublet_products')) || [];
-let cart = JSON.parse(localStorage.getItem('doublet_cart')) || [];
-let wishlist = JSON.parse(localStorage.getItem('doublet_wishlist')) || [];
-let comparison = JSON.parse(localStorage.getItem('doublet_comparison')) || [];
-let users = JSON.parse(localStorage.getItem('doublet_users')) || [];
-let orders = JSON.parse(localStorage.getItem('doublet_orders')) || [];
-let currentUser = JSON.parse(localStorage.getItem('doublet_current_user')) || null;
-let recentlyViewed = JSON.parse(localStorage.getItem('doublet_recently_viewed')) || [];
+    <!-- WhatsApp Knop -->
+    <a href="https://wa.me/+5971234567" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-// Initialize sample data
-if (products.length === 0) {
-products = [
-{ id: 1, name: "iPhone 15 Pro", type: "phone", brand: "Apple", model: "Pro", price: 999, oldPrice: 1099, stock: 10, condition: "Nieuw", storage: "256GB", ram: "8GB", camera: "48MP", image: "https://images.unsplash.com/photo-1695636658398-98f664d2b704", featured: true, discount: 10 },
-{ id: 2, name: "Samsung Galaxy S24", type: "phone", brand: "Samsung", model: "S24", price: 799, stock: 15, condition: "Nieuw", storage: "128GB", ram: "8GB", camera: "50MP", image: "https://images.unsplash.com/photo-1705689434067-7dacul9f0ab5", featured: true },
-{ id: 3, name: "Google Pixel 8", type: "phone", brand: "Google", model: "Pixel 8", price: 699, stock: 8, condition: "Nieuw", storage: "128GB", ram: "8GB", camera: "50MP", image: "https://images.unsplash.com/photo-1696267412013-fb25a378e1ed", featured: false },
-{ id: 4, name: "OnePlus 12", type: "phone", brand: "OnePlus", model: "12", price: 899, stock: 12, condition: "Nieuw", storage: "256GB", ram: "12GB", camera: "50MP", image: "https://images.unsplash.com/photo-1705689434067-7da9f0ab5", featured: true },
-{ id: 5, name: "iPhone 13 Gebruikt", type: "phone", brand: "Apple", model: "13", price: 499, stock: 5, condition: "Gebruikt", storage: "128GB", ram: "6GB", camera: "12MP", image: "https://images.unsplash.com/photo-1624007472915-4f374051cb7b", featured: false },
-{ id: 6, name: "Hoesje iPhone 15", type: "accessory", category: "Hoesjes", price: 29, stock: 50, image: "https://images.unsplash.com/photo-1583394838336-acd977736f90" },
-{ id: 7, name: "Power Bank 10000mAh", type: "accessory", category: "Power Banks", price: 25, stock: 30, image: "https://images.unsplash.com/photo-1618322756931-7e3c5ef75e50", featured: true },
-{ id: 8, name: "USB-C Oplaadkabel", type: "accessory", category: "Oplaadkabels", price: 15, stock: 100, image: "https://images.unsplash.com/photo-1580053459127-2a23a8b9f722" },
-{ id: 9, name: "Samsung Galaxy A54", type: "phone", brand: "Samsung", model: "A54", price: 399, stock: 20, condition: "Nieuw", storage: "128GB", ram: "6GB", camera: "48MP", image: "https://images.unsplash.com/photo-1678738634965-196e76b3c662" },
-{ id: 10, name: "AirPods Pro 2", type: "accessory", category: "Oordopjes", price: 249, stock: 25, image: "https://images.unsplash.com/photo-1606841964936-0252b6c9b2c9", featured: true },
-{ id: 11, name: "Xiaomi 14", type: "phone", brand: "Xiaomi", model: "14", price: 799, stock: 10, condition: "Nieuw", storage: "256GB", ram: "12GB", camera: "50MP", image: "https://images.unsplash.com/photo-1705689434067-7da9f0ab5", featured: true },
-{ id: 12, name: "Screen Protector iPhone 15", type: "accessory", category: "Screen Protectors", price: 19, stock: 40, image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97" }
-];
-saveProducts();
-}
+    <!-- Footer -->
+    <footer class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Double T Phones</h5>
+                    <p>Premium smartphones en accessoires in Suriname. Topkwaliteit, scherpe prijzen.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Snelle Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="showSection('phones')">Telefoons</a></li>
+                        <li><a href="#" onclick="showSection('accessories')">Accessoires</a></li>
+                        <li><a href="#" onclick="showSection('about')">Over Ons</a></li>
+                        <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p><i class="fas fa-map-marker-alt"></i> Paramaribo, Suriname</p>
+                    <p><i class="fas fa-phone"></i> +597 123 4567</p>
+                    <p><i class="fas fa-envelope"></i> info@doubletphones.com</p>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0">&copy; 2025 Double T Phones. Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
 
-if (users.length === 0) {
-users = [
-{ username: "admin", email: "admin@doubletphones.com", password: "doublet2024", role: "admin", loyaltyPoints: 0 },
-{ username: "user1", email: "user1@example.com", password: "password123", role: "user", loyaltyPoints: 100 }
-];
-localStorage.setItem('doublet_users', JSON.stringify(users));
-}
+    <script>
+        // Data initialization
+        let products = JSON.parse(localStorage.getItem('doublet_products')) || [];
+        let cart = JSON.parse(localStorage.getItem('doublet_cart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('doublet_wishlist')) || [];
+        let users = JSON.parse(localStorage.getItem('doublet_users')) || [];
+        let orders = JSON.parse(localStorage.getItem('rekenen</button>
+        <button class="btn btn-secondary w-100 mt-2" onclick="closeCart()">Sluiten</button>
+    </div>
 
-// Save functions
-function saveProducts() {
-localStorage.setItem('doublet_products', JSON.stringify(products));
-}
+    <!-- WhatsApp Knop -->
+    <a href="https://wa.me/+5971234567" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-function saveCart() {
-localStorage.setItem('doublet_cart', JSON.stringify(cart));
-updateCartCount();
-}
+    <!-- Footer -->
+    <footer class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Double T Phones</h5>
+                    <p>Premium smartphones en accessoires in Suriname. Topkwaliteit, scherpe prijzen.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Snelle Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="showSection('phones')">Telefoons</a></li>
+                        <li><a href="#" onclick="showSection('accessories')">Accessoires</a></li>
+                        <li><a href="#" onclick="showSection('about')">Over Ons</a></li>
+                        <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p><i class="fas fa-map-marker-alt"></i> Paramaribo, Suriname</p>
+                    <p><i class="fas fa-phone"></i> +597 123 4567</p>
+                    <p><i class="fas fa-envelope"></i> info@doubletphones.com</p>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0">&copy; 2025 Double T Phones. Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
 
-function saveWishlist() {
-localStorage.setItem('doublet_wishlist', JSON.stringify(wishlist));
-updateWishlistCount();
-}
+    <script>
+        // Data initialization
+        let products = JSON.parse(localStorage.getItem('doublet_products')) || [];
+        let cart = JSON.parse(localStorage.getItem('doublet_cart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('doublet_wishlist')) || [];
+        let users = JSON.parse(localStorage.getItem('doublet_users')) || [];
+        let orders = JSON.parse(localStorage.getItem('doublet_orders')) || [];
+        letdoublet_orders')) || [];
+        let currentUser = JSON.parse currentUser = JSON.parse(localStorage(localStorage.getItem('doublet.getItem('doublet_current_user_current_user'))')) || null;
 
-function saveComparison() {
-localStorage.setItem('doublet_comparison', JSON.stringify(comparison));
-}
+        // Initialize sample data if empty
+        if (products.length === 0 || null;
 
-function saveRecentlyViewed() {
-localStorage.setItem('doublet_recently_viewed', JSON.stringify(recentlyViewed));
-}
+        // Initialize sample data if empty
+        if (products.length === 0) {
+) {
+            products = [
+                { id:             products = [
+                { id: 1, name: "iPhone 151, name: "iPhone 15 Pro", type: " Pro", type: "phonephone", brand: "Apple", model: "Pro", price: ", brand: "Apple", model: "Pro", price: 999, oldPrice: 999, oldPrice: 1099, stock: 1099, stock: 10, condition: "Nieuw10, condition: "Nieuw", storage: "256GB", ram: "8GB",", storage: "256GB", ram: "8GB", camera: "48 camera: "48MP", image:MP", image: "https://images.unsplash.com/photo-1695636658398-98f664 "https://images.unsplash.com/photo-1695636658398-98f664d2b704?ixlib=rb-4.0.3&ixidd2b704?ixlib=rb-4.0.=M3wxMjA33&ixid=M3wxMjA3fDB8MHxwafDB8MHxwaG90by1wYWG90by1wYWdlfdlfHx8fHx8fGVufDB8GVufDB8fHx8fHx8fA%fA%3D%3D3D%3D&auto&auto=format&fit=format&fit=crop=crop&w=800&q=80", featured: true, discount: 10 },
+&w=800&q=80", featured: true, discount: 10 },
+                { id: 2, name: "                { id: 2, name: "SamsungSamsung Galaxy S24", Galaxy S24", type: "phone", type: "phone", brand: brand: "Samsung", model "Samsung", model: "S24", price: 799,: "S24", price: 799, stock: 15 stock: 15, condition, condition: "Nieuw",: "Nieuw", storage: "128GB", ram: "8 storage: "128GB", ramGB", camera: "50MP: "8GB", camera: "50MP", image: "", image: "https://images.unsplash.com/photo-https://images.unsplash1511707171634.com/photo-1511707171634-5f897-5f897ff02aaff02aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fAfHx8fA%3%3D%3D&D%3D&auto=format&fit=cauto=format&fit=crop&wrop&w=800&q=80", featured: true },
+=800&q=80", featured: true },
+                { id                { id: 3, name: "Google Pixel : 3, name: "Google Pixel 8", type: "phone", brand8", type: "phone", brand: "Google", model: "Pixel 8", price: "Google", model: "Pixel 8", price: 699, stock:: 699, stock: 8, condition: "Nieuw 8, condition: "Nieuw", storage", storage: "128GB",: "128GB", ram ram: "8GB", camera: "8GB", camera: "50MP", image: "https://images.uns: "50MP", image: "https://images.unsplash.com/photo-159275047plash.com/photo-1592750475338-745338-74bb7b210857b21085ab?ixlibab?ixlib=rb-4.0.3&ixid=M=rb-4.0.3&ixid=M3wx3wxMjA3fMjA3fDB8MHxDB8MHxwaG90waG90by1wby1wYWdlfHx8fGVufDBYWdlfHx88fHx8fAfGVufDB8fHx%3D%3D&8fA%3D%3D&auto=format&auto=format&fit=cropfit=crop&w=800&w=800&q=80", featured: false },
+&q=80", featured: false },
+                { id: 4                { id: 4, name: "OnePlus 12",, name: "OnePlus 12", type: "phone type: "phone",", brand: "OnePlus", brand: "OnePlus", model: "12", price: 899, model: "12", price: 899, stock: 12 stock: 12, condition, condition: "Nieuw: "Nieuw", storage: "", storage: "256GB", ram: "12GB", camera:256GB", ram: "12GB", camera: "50MP", image: "https://images.unsplash.com/ "50MP", image: "https://images.unsplashphoto-151170717.com/photo-1511707171634-1634-5f897ff5f897ff02aa9?ixlib02aa9?ixlib=rb-4.0.3&ixid=M3=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlwxMjA3fDB8MHxwaG90byfHx8fGVufDB1wYWdlfHx8fGVufDB8fHx8fHx8fA%8fA%3D%33D%3D&auto=format&fit=crop&wD&auto=format&fit=crop&w=800&q=80", featured=800&q=80", featured: true },
+                { id: 5, name: "iPhone : true },
+                { id: 5, name: "iPhone 13 Gebruikt", type:13 Gebruikt", type: "phone", brand: "phone", brand: "Apple", model "Apple", model: ": "13", price: 13", price: 499, stock: 5, condition499, stock: 5, condition: "Gebru: "Gebruikt",ikt", storage: "128GB", ram: "6GB storage: "128GB", ram: "6GB", camera: "12MP", image: "", camera: "12MP", image: "https://images.https://images.unsplashunsplash.com/photo-159289.com/photo-1592899677977-9c10ca9677977-9c10ca588bbd588bbd?ix?ixlib=rb-4.0lib=rb-4.0.3&ixid=M.3&ixid=M3wxMjA3fDB8MHx3wxMjA3fDB8MHxwaG90bywaG90by1wYWdlfHx8fGV1wYWdlfHx8ufDB8fHxfGVufDB8fHx8fA%3D8fA%3D%3D&%3D&auto=format&auto=format&fit=crop&w=800fit=crop&w=800&q=80", featured:&q=80", featured: false },
+                { false },
+                { id: 6 id: 6, name: "Hoesje iPhone , name: "Hoesje iPhone 15", type: "15", type: "accessoryaccessory", category: "", category: "Hoesjes", price: 29Hoesjes", price: 29, stock:, stock:  50, image: "50, image: "https://imageshttps://images.unsplash.com/photo-158.unsplash.com/photo-1583394838333394838336-acd977736f906-acd977736f90?ixlib=rb-4.0.3&ixid?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MH=M3wxMjA3fDB8MHxwaG90xwaG90by1wby1wYWdlfHxYWdlfHx8fGVufDB8fHx8f8fGVufDB8fHx8fA%3D%3D&autoA%3D%3D=format&fit=crop&w=800&q=80" },
+                { id:&auto=format&fit=crop&w =800&q=80" },
+                { id: 7, name:7, name: "Power Bank 10000mAh", type: "accessory", "Power Bank 10000mAh", type: "accessory", category: " category: "PowerPower Banks", price: 25, stock: 30, image: "https://images.unsplash.com/ Banks", price: 25, stock: 30, image: "https://images.unsplash.com/photo-1609592810795-335photo-1609592810795-3350b2fa0b2fa0b7c?ixlib=rb0b7c?ixlib=rb-4.0.3&ix-4.0.3&ixid=M3wxMjAid=M3wxMjA3fDB8MHx3fDB8MHxwaG90by1wwaG90by1wYWdlfHx8fGVufYWdlfHx8fGVufDB8fHx8DB8fHx8fA%3D%3fA%3D%3D&auto=format&fit=cD&auto=format&fit=crop&w=800&qrop&w=800&q=80", featured: true },
+=80", featured: true },
+                { id: 8                { id: 8, name:, name: " "USB-C Oplaadkabel",USB-C Oplaadkabel", type: "accessory", category: type: "accessory", category: "Oplaadkabels", price "Oplaadkabels", price: 15, stock: 100, image: "https://images.unsplash: 15, stock: 100, image: "https://images.unsplash.com/photo-1583394838336.com/photo-1583394838336-acd977736f90?ixlib-acd977736f90?ix=rb-4.0.3&ixidlib=rb-4.0.3=M3wxMjA3fDB8MHxwaG90by1&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHwYWdlfHx8x8fGVufDB8ffGVufDB8fHx8fA%3DHx8fA%3D%3D&auto=%3D&auto=format&fit=cropformat&fit=crop&w=&w=800&q=80" },
+                { id800&q=80" },
+                { id: 9,: 9, name: name: "Samsung Galaxy A54", type: "Samsung Galaxy A54", type: "phone", "phone", brand: "Samsung brand: "Samsung", model: "A54", price: 399, stock: 20, condition: "Nieuw", storage:", model: "A54", price: 399, stock: 20, condition: "Nieuw", storage: "128GB", ram: "128GB", ram: " "6GB", camera:6GB", camera: "48MP", image: "https "48MP", image: "https://images.unsplash.com/photo://images.unsplash.com/-1511707171634-photo-1511707171634-5f897ff5f897ff0202aa9aa?ixlib=rb-4.09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVuf.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fADB8fHx8fA%3D%3D%3D%3D&auto=format&fit=crop&auto=format&fit=crop&w=800&q&w=800&q=80" },
+                { id:=80" },
+                { id: 10, name 10, name: "AirPods Pro 2: "AirPods Pro 2", type", type: "accessory", category: "accessory", category: ": "OordopjesOordopjes", price: 249, stock: 25, image: "https://images.unsplash.com", price: 249, stock: 25, image: "https://images.unsplash.com//photophoto-160684196493-1606841964936-0256-0252b6c9b2c2b6c9b2c9?ixlib=rb-4.0.3&ixid9?ixlib=rb-4.0.3&ixid=M3wxMjA3=M3wxMjA3fDB8MHfDB8MHxwaG90by1wYWxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%dlfHx8fGVufDB8fHx8fA%3D%3D&auto3D&auto=format&fit=crop&w=format&fit=crop&w=800&q=80=800&q=80", featured:", featured: true }
+            true }
+            ];
+            localStorage.setItem('doublet_products ];
+            localStorage.setItem('doublet_products', JSON.stringify', JSON.stringify(products));
+       (products));
+        }
 
-function saveOrders() {
-localStorage.setItem('doublet_orders', JSON.stringify(orders));
-}
+        if ( }
 
-// Navigation
-function showSection(sectionId) {
-document.querySelectorAll('.content-section').forEach(section => section.style.display = 'none');
-document.getElementById(sectionId).style.display = 'block';
-document.getElementById('admin-panel').style.display = 'none';
-document.querySelectorAll('.navbar-nav .nav-link').forEach(link => link.classList.remove('active'));
-document.querySelector(`.navbar-nav .nav-link[onclick="showSection('${sectionId}')"]`)?.classList.add('active');
-if (sectionId === 'home') {
-loadFeaturedProducts();
-loadBestSellers();
-loadSpecialOffers();
-loadRecentlyViewed();
-} else if (sectionId === 'phones') {
-loadProducts('phone');
-} else if (sectionId === 'accessories') {
-loadProducts('accessory');
-} else if (sectionId === 'wishlist') {
-loadWishlist();
-} else if (sectionId === 'comparison') {
-loadComparison();
-}
-}
+        if (users.length === 0) {
+            users =users.length === 0) {
+            users = [
+                { username [
+                { username: ": "admin", email: "admin@doubletphones.com",admin", email: "admin@double password: "doublet202tphones.com", password: "doublet2024", role:4", role: "admin", loyaltyPoints: 0 },
+                "admin", loyaltyPoints: 0 },
+                { username: " { username: "user1user1", email: "", email: "user1@example.com", password: "passworduser1@example.com123", role: "user", loyalty", password: "password123", role: "user", loyaltyPoints: Points: 100 }
+            ];
+            localStorage.setItem('doublet_users', JSON.stringify(users));
+        }
 
-function showAdminSection(sectionId) {
-document.querySelectorAll('.admin-section').forEach(section => section.style.display = 'none');
-document.getElementById(`admin-${sectionId}`).style.display = 'block';
-document.querySelectorAll('.admin-nav a').forEach(link => link.classList.remove('active'));
-document.querySelector(`.admin-nav a[onclick="showAdminSection('${sectionId}')"]`).classList.add('active');
-if (sectionId === 'dashboard') {
-loadAdminDashboard();
-} else if (sectionId === 'products') {
-loadAdminProducts();
-} else if (sectionId === 'orders') {
-loadAdminOrders();
-} else if (sectionId === 'customers') {
-loadAdminCustomers();
-} else if (sectionId === 'reports') {
-loadAdminReports();
-}
-}
+        // Save functions
+        function saveProducts100 }
+            ];
+            localStorage.setItem('doublet_users', JSON.stringify(users));
+        }
 
-function showAdminPanel() {
-document.querySelectorAll('.content-section').forEach(section => section.style.display = 'none');
-document.getElementById('admin-panel').style.display = 'block';
-showAdminSection('dashboard');
-}
+        // Save functions
+        function saveProducts() {
+            localStorage.setItem('doublet_products', JSON.stringify(() {
+            localStorage.setItem('doublet_products', JSON.stringify(products));
+        }
 
-// Product Loading
-function loadFeaturedProducts() {
-const featured = products.filter(p => p.featured);
-document.getElementById('featured-products').innerHTML = renderProducts(featured);
-}
+        function saveCart() {
+            localStorage.setItem('products));
+        }
 
-function loadBestSellers() {
-const bestSellers = products.sort((a, b) => (b.stock || 0) - (a.stock || 0)).slice(0, 4);
-document.getElementById('best-sellers').innerHTML = renderProducts(bestSellers);
-}
+        function saveCart() {
+            localStorage.setItem('doublet_cart', JSON.stringify(cdoublet_cart', JSON.stringify(cart));
+art));
+            updateCartCount            updateCartCount();
+        }
 
-function loadSpecialOffers() {
-const offers = products.filter(p => p.discount).sort((a, b) => b.discount - a.discount).slice(0, 4);
-document.getElementById('special-offers').innerHTML = renderProducts(offers);
-}
+        function saveWish();
+        }
 
-function loadProducts(type) {
-const filtered = products.filter(p => p.type === type);
-document.getElementById(`${type}-products`).innerHTML = renderProducts(filtered);
-}
+        function saveWishlist() {
+            localStorage.setlist() {
+            localStorage.setItem('doublet_wishlist', JSON.stringify(wishlist));
+            updateWishlistCount();
+        }
 
-function renderProducts(productList) {
-return productList.map(product => `
-<div class="product-card card position-relative">
-<img src="${product.image}" class="product-image" alt="${product.name}">
-${product.discount ? `<span class="badge-discount">${product.discount}% Korting</span>` : ''}
-${product.condition === 'Nieuw' ? `<span class="badge-new">Nieuw</span>` : product.condition === 'Gebruikt' ? `<span class="badge-used">Gebruikt</span>` : ''}
-${product.featured ? `<span class="badge-premium">Premium</span>` : ''}
-<button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" onclick="toggleWishlist(${product.id})">
-<i class="fas fa-heart"></i>
-</button>
-<div class="card-body">
-<h5 class="card-title">${product.name}</h5>
-<p class="card-text">${product.brand || product.category || ''}</p>
-<p class="price">€${product.price}</p>
-${product.oldPrice ? `<p class="old-price">€${product.oldPrice}</p>` : ''}
-<p class="${product.stock <= 5 ? 'stock-low' : 'stock-ok'}">Voorraad: ${product.stock}</p>
-<button class="btn btn-primary w-100" onclick="addToCart(${product.id})">Toevoegen aan Winkelwagen</button>
-<button class="btn btn-outline-primary w-100 mt-2" onclick="addToComparison(${product.id})">Vergelijken</button>
-</div>
-</div>
-`).join('');
-}
+        function saveOrders() {
+            localStorage.setItem('doublet_orders', JSON.stringify(orders));
+        }
 
-// Cart Management
-function addToCart(productId) {
-const product = products.find(p => p.id
+        // Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+            document.querySelectorAll('.navbar-nav .nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelector(`.navbar-nav .nav-link[onclick="showSection('${sectionId}')"]`)?.classList.add('active');
+            
+            if (sectionId === 'home') {
+                loadFeaturedProducts();
+                loadBestSellers();
+                loadSpecialOffers();
+Item('doublet_wishlist', JSON.stringify(wishlist));
+            updateWishlistCount();
+        }
 
+        function saveOrders() {
+            localStorage.setItem('doublet_orders', JSON.stringify(orders));
+        }
+
+        // Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+            document.querySelectorAll('.navbar-nav .nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelector(`.navbar-nav .nav-link[onclick="showSection('${sectionId}')"]`)?.classList.add('active');
+            
+            if (sectionId === 'home') {
+                loadFeaturedProducts();
+                loadBestSellers();
+                loadSpecialOffers();
+            } else if (sectionId === 'phones') {
+                loadProducts            } else if (sectionId === 'phones') {
+                loadProducts('('phone');
+           phone');
+            } else if (sectionId === ' } else if (sectionId === 'accessories') {
+                loadProductsaccessories') {
+                loadProducts('accessory');
+            } else if (section('accessory');
+            } else ifId === 'wishlist') (sectionId === 'wishlist {
+                loadWishlist();
+            } else if (sectionId') {
+                loadWishlist();
+            } else if ( === 'checkout') {
+                loadsectionId === 'checkout') {
+                loadCheckout();
+           Checkout();
+            }
+        }
+        }
+
+        function showAdminSection(sectionId) {
+            }
+
+        function showAdminSection(sectionId) document.querySelectorAll('.admin-section').forEach(section => section {
+            document.querySelectorAll('.admin-section').forEach(section => section.style.display = 'none');
+           .style.display = 'none');
+            document.getElementById(`admin-${sectionId}` document.getElementById(`admin-${sectionId}`).style.display = 'block';
+            document.querySelector).style.displayAll('.admin-nav a').forEach( = 'block';
+            document.querySelectorAll('.admin-nav a').forEach(link => link.classList.remove('link => link.classList.remove('active'));
+            document.querySelector(`.adminactive'));
+            document.querySelector(`-nav a[onclick="showAdminSection('${sectionId}')"]`).classList.add('.admin-nav a[onclick="showAdminSection('${sectionId}')"]`).classList.add('active');
+            
+            if (active');
+            
+            if (sectionId === 'dashboard') {
+sectionId === 'dashboard') {
+                loadAdminDashboard();
+            }                loadAdminDashboard();
+            } else if (sectionId === 'products else if (sectionId ===') {
+                loadAdminProducts 'products') {
+                loadAdminProducts();
+            } else();
+            } else if (sectionId === 'orders') {
+ if (sectionId === 'orders') {
+                loadAdminOrders();
+            }                loadAdminOrders();
+            } else if (sectionId === 'customers') {
+                loadAdminCustomers();
+            }
+        }
+
+        else if (sectionId === 'customers') {
+                loadAdminCustomers();
+            }
+        }
+
+        function showAdminPanel() {
+            function showAdminPanel() {
+            document.querySelectorAll('.content-section document.querySelectorAll('.content-section').forEach(section => section.style.display').forEach(section => section.style.display = 'none');
+            document.getElementById = 'none');
+            document.getElementById('admin-panel').style.display('admin-panel').style.display = 'block';
+ = 'block';
+            showAdminSection('dashboard');
+        }
+
+                   showAdminSection('dashboard');
+        }
+
+        // Product Loading
+        function loadFeaturedProducts() {
+            const featured // Product Loading
+        function loadFeaturedProducts() {
+            const featured = products.filter(p => p.featured);
+            document.getElementById('feature = products.filter(p => p.featured);
+            document.getElementById('featured-products').innerHTMLd-products').innerHTML = renderProducts(featured);
+ = renderProducts(f        }
+
+        function loadBestSellers() {
+            const bestSellers = products.sort((a, beatured);
+        }
+
+        function loadBestSellers() {
+            const bestSellers = products.sort((a, b) => (b.stock) => (b.stock || || 0) - (a.stock || 0)).slice 0) - (a.stock || 0)).slice(0, 4);
+            document(0, 4);
+            document.getElementById('best-s.getElementById('best-sellers').innerHTMLellers').innerHTML = renderProducts(bestSellers);
+        }
+
+ = renderProducts(bestSellers);
+        }
+
+        function loadSpecial        function loadSpecialOffers() {
+Offers() {
+            const offers = products.filter(p => p.d            const offers = products.filter(p => p.discount).sort((iscount).sort((a, b) => b.discount - aa, b) => b.discount - a.discount)..discount).slice(0,slice(0,  4);
+4);
+            document.getElementById('special-offers').innerHTML = renderProducts(off            document.getElementById('special-offers').innerHTML = renderProducts(offers);
+        }
+
+        function loadProducts(type) {
+            const filtered = productsers);
+        }
+
+        function loadProducts(type) {
+            const filtered = products.filter(p => p.type ===.filter(p => p.type === type type);
+            document.getElementById(`${type}-products`).innerHTML = renderProducts(filtered);
+        }
+
+);
+            document.getElementById(`${type}-products`).innerHTML = renderProducts(filtered);
+        }
+
+        function renderProducts(productList) {
+            return productList.map(product        function renderProducts(productList) {
+            return productList.map(product => `
+                <div class="product-card card position- => `
+                <div class="product-card card position-relative fade-in">
+                    <img srcrelative fade-in">
+                    <img src="${product.image}" class="${product.image}" class="product-image" alt="${product="product-image" alt="${product.name}">
+                    ${product.discount ? `<span class="bad.name}">
+                    ${product.discount ? `<span class="badge-discount">${product.discount}% Korting</spange-discount">${product.discount}% Korting</span>` : ''}
+                   >` : ''}
+                    ${product ${product.condition === 'Nieuw.condition === 'Nieuw' ? `<span class="badge' ? `<span class="badge-new">Nieuw</span-new">Nieuw</span>` : product.condition === 'Geb>` : product.condition === 'Gebruikt' ?ruikt' ? `<span `<span class="badge-new" style="background: var(-- class="badge-new" style="background: var(--accent)">Gebruikt</span>` : ''}
+                   accent)">Gebruikt</span>` : ''}
+                    <button <button class="wishlist class="wishlist-btn ${-btn ${wishlist.includes(product.id) ? 'active' :wishlist.includes(product.id) ? 'active' : ''}" onclick="toggleWishlist ''}" onclick="toggleWishlist(${product.id})">
+(${product.id})">
+                                               <i class="fas fa-heart"></i>
+                    <i class="fas </button>
+                    <div class fa-heart"></i>
+                    </button>
+                    <div class="card-body">
+                        <="card-body">
+                        <h5 class="card-title">${producth5 class="card-title">${product.name}</h5>
+                       .name}</h5>
+                        <p class="card-text">${ <p class="card-text">${product.brand || product.category ||product.brand || product.category || ''}</p>
+                        ''}</p>
+                        <p class="price">€${product <p class="price">€${product.price}</p>
+                       .price}</p>
+                        ${product.oldPrice ? `<p ${product.oldPrice ? `<p class="old-price">€${ class="old-price">€${product.oldPrice}</p>` :product.oldPrice}</p>` ''}
+                        <p class="${product.stock <= 5 : ''}
+                        <p class="${product.stock <=  ? 'text-danger' : '5 ? 'text-danger' : 'text-success'}">Voorraad: ${product.stock}</p>
+                        <button class="btn btn-primary w-100" onclick="addToCart(${product.id})">Toevoegen aan Winkelwagen</button>
+                    </div>
+                </text-success'}">Voorraad: ${product.stock}</p>
+                        <button class="btn btn-primary w-100" onclick="addToCart(${product.id})">Toevoegen aan Winkelwagen</button>
+                    </div>
+                </div>
+            `).div>
+            `).join('');
+        }
+
+        // Cart Management
+join('');
+        }
+
+        // Cart Management
+        function add        function addToCart(productIdToCart(productId) {
+) {
+            const product = products.find(p => p.id ===            const product = products.find(p => p.id === productId);
+            if productId);
+            if (!product) return;
+
+            if (product (!product) return;
+
+           .stock <= 0) {
+                alert('Product niet op if (product.stock <= 0) {
+                alert('Product niet op voorra voorraad!');
+               ad!');
+                return;
+            }
+
+            const return;
+            }
+
+            const cartItem cartItem = cart.find(item => = cart.find(item => item.id === productId);
+            if (cartItem) {
+ item.id === productId);
+            if (cartItem) {
+                cartItem.quantity += 1;
+            }                cartItem.quantity += 1;
+ else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            save            saveCart();
+            alert('ProductCart();
+            alert('Product toe toegevoegd aan winkelwagen!');
+       gevoegd aan winkelwagen!');
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+           (item => item.id !== productId);
+            saveCart();
+            update updateCartDisplay();
+        }
+
+        function updateCartDisplay();
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((totalCartCount() {
+            const count = cart.reduce((total,, item) => total + item.quantity, 0);
+            document.getElementById item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count('cartCount').textContent = count;
+        }
+
+        function updateWish;
+        }
+
+        function updatelistCount() {
+            document.getElementById('wishlistCountWishlistCount() {
+            document.getElementById('wishlistCount').textContent = wishlist.length;
+        }
+
+        function toggleW').textContent = wishlist.length;
+        }
+
+        function toggleWishlist(productId) {
+            const index = wishlist.indexOf(productId);
+            if (index > -ishlist(productId) {
+            const index = wishlist.indexOf(productId);
+            if (index > -1) {
+                wishlist1) {
+                wishlist.splice(index, 1);
+            } else.splice(index, 1);
+            } else {
+                {
+                wishlist.push(productId);
+            }
+            saveWish wishlist.push(productId);
+            }
+            saveWishlist();
+list();
+        }
+
+        // W        }
+
+        // Winkelwagen functies
+        function openinkelwagen functies
+       Cart() {
+            document.querySelector('.cart-sidebar').classList.add('open');
+            document.querySelector('.cart-overlay').classList.add('show');
+            updateCartDisplay();
+ function openCart() {
+            document.querySelector('.cart-sidebar').classList.add('open');
+            document.querySelector('.cart-overlay').classList.add('show');
+            updateCartDisplay();
+        }
+
+        function closeCart() {
+            document        }
+
+        function closeCart() {
+            document.querySelector('..querySelector('.cart-sidebar').classList.remove('open');
+cart-sidebar').classList.remove('open');
+                       document.querySelector('.cart-overlay').classList.remove('show');
+        }
+
+ document.querySelector('.cart-overlay').classList.remove('show');
+        }
+
+        function updateCart        function updateCartDisplay() {
+Display() {
+            const cart            const cartItems = document.getElementById('cart-items');
+Items = document.getElementById('cart-items');
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), .quantity), 0);
+            const shipping = subtotal0);
+            const shipping = subtotal > 0 ? 5 > 0 ? 5 : 0;
+            const total = subtotal : 0;
+            const + shipping;
+
+            cartItems total = subtotal + shipping;
+
+            cartItems.innerHTML = cart.length === 0 ? 
+                '<p.innerHTML = cart.length === 0 ? 
+                '<p class="text-center">Je winkelwagen is leeg</p>' class="text-center">Je winkelwagen is leeg</p>' :
+ :
+                cart.map(item => `
+                    <div class="cart-item                cart.map(item => `
+                    <div class="cart-item">
+">
+                        <img src="${item                        <img src="${item.image}" class="cart-item.image}" class="cart-item-image" alt="${item.name}">
+-image" alt="${item.name}">
+                        <div class="flex-g                        <div class="flex-grow-1">
+                            <hrow-1">
+                            <h6>${item.name}</h6>${item.name}</h6>
+                            <p>€6>
+                            <p>€${item.price} x ${item.quantity}</p>
+${item.price} x ${item.quantity}</p>
+                                                       <div class="quantity-control">
+                                <div class="quantity-control">
+                                <button class="quantity <button class="quantity-btn" onclick="updateQuantity($-btn" onclick="updateQuantity(${item.id},{item.id}, ${item.quantity - 1})">-</button>
+                                <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                                <button ${item.quantity - 1})">-</button>
+                                <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                                <button class="quantity-btn" onclick="updateQuantity(${item class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity.id}, ${item.quantity + + 1})">+</button>
+                            </ 1})">+</button>
+                            </div>
+                        </div>
+                        </div>
+                        <button class="btn btndiv>
+                        <button-danger btn-sm" onclick="removeFromCart(${item.id})">×</button>
+ class="btn btn-danger btn-sm" onclick="removeFromCart(${item.id})">×</button>
+                    </div>
+                `).join('');
+
+            document.getElementById                    </div>
+                `).join('');
+
+            document.getElementById('cart-subtotal').textContent = subtotal.toFixed('cart-subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('cart-shipping').text(2);
+            document.getElementById('cart-shipping').textContent = shipping.toFixed(2);
+            document.getElementById('cart-tContent = shipping.toFixed(2);
+            document.getElementById('cart-total').textContent = total.toFixedotal').textContent = total.toFixed(2);
+(2);
+        }
+
+        function updateQuantity(productId, newQuantity) {
+            if (newQuantity <         }
+
+        function updateQuantity(productId, newQuantity1) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            const cartItem = cart.find(item => item.id) {
+            if (newQuantity < 1) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            const cartItem = cart.find(item => item.id === productId);
+            const product = products.find(p => === productId);
+            const product = products.find(p => p.id === productId);
+            
+            if p.id === productId);
+            
+            if (cartItem && product) {
+                // Check if (cartItem && product) {
+                // Check if we we have enough stock
+                if (newQuantity > product.st have enough stock
+                if (newQuantity > product.stock + cartItem.quantity) {
+                    alertock + cartItem.quantity) {
+                    alert('Niet genoeg voorraad besch('Niet genoeg voorraad beschikbaar!');
+                    return;
+                }
+                
+                //ikbaar!');
+                    return;
+                }
+                
+                // Update stock
+                product.stock -= (new Update stock
+                product.stockQuantity - cartItem.quantity);
+                cartItem.quantity = newQuantity;
+                
+                saveCart -= (newQuantity - cartItem.quantity);
+                cartItem.quantity = newQuantity;
+                
+               ();
+                saveProducts();
+                updateCartDisplay();
+            }
+        }
+
+        function proceedToCheckout saveCart();
+                saveProducts();
+                updateCartDisplay();
+            }
+        }
+
+        function proceedToCheckout() {
+            if (!currentUser)() {
+            if (!currentUser) {
+                alert('Log in {
+                alert('Log in om af te rekenen!');
+                showLoginForm();
+ om af te rekenen!');
+                showLoginForm();
+                return;
+                           return;
+            }
+            if (cart.length ===  }
+            if (cart.length === 0) {
+                alert('Winkelwagen0) {
+                alert('Winkelwagen is leeg!');
+                return;
+            }
+            is leeg!');
+                return;
+            }
+            showSection('checkout');
+            closeCart();
+        }
+
+        function loadCheckout() {
+            showSection('checkout');
+            closeCart();
+        }
+
+        function loadCheckout() {
+            const checkoutItems = document.getElementById(' const checkoutItems = document.getElementById('checkout-items');
+            letcheckout-items');
+            let subtotal = 0;
+            checkoutItems.innerHTML = cart.map subtotal = 0;
+            checkoutItems.innerHTML = cart.map(item => {
+                const product = products.find(p => p.id === item.id);
+(item => {
+                const product = products.find(p => p.id === item.id);
+                subtotal += product                subtotal += product.price * item.quantity;
+                return `<.price * item.quantity;
+                return `<p>${product.namep>${product.name} x ${item.quantity}: €${(product.price * item.quantity).toFixed(2)}</p} x ${item.quantity}: €${(product.price * item.quantity).toFixed(2>`;
+            }).join('');
+            
+            const deliveryMethod = document.getElementById('checkout-delivery)}</p>`;
+            }).join('');
+            
+            const deliveryMethod = document.getElementById('checkout-delivery').value;
+            const shipping = deliveryMethod').value;
+            const shipping = deliveryMethod === 'delivery' ? 10 : 0;
+ === 'delivery' ? 10 : 0;
+            const total = subtotal + shipping;
+            const total = subtotal + shipping;
+            const points =            const points = Math.floor(total Math.floor(total / 10);
+            
+            document.getElementById('checkout-subtotal').text / 10);
+            
+            document.getElementById('checkout-subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('checkout-shipping').Content = subtotal.toFixed(2);
+            document.getElementById('checkout-shitextContent = shipping.toFixed(2);
+            document.getElementByIdpping').textContent = shipping.toFixed(2);
+            document.getElementById('checkout-total').textContent = total.toFixed(2('checkout-total').textContent = total.toFixed(2);
+            document.getElementById('checkout-points').textContent = points);
+            document.getElementById('checkout-points').textContent = points;
+        }
+
+        // Check;
+        }
+
+        // Checkout form submission
+        document.getElementById('checkout-form').addEventListener('submit', function(eout form submission
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!currentUser) return alert('Log in om af te rekenen) {
+            e.preventDefault();
+            if (!currentUser) return alert('Log in om af te rekenen!');
+            
+            const total = parseFloat(document!');
+            
+            const total = parseFloat(document.getElementById('.getElementById('checkout-tcheckout-total').textContent);
+            const order = {
+                id: 'DT-' + Mathotal').textContent);
+            const order = {
+                id: 'DT-' + Math.random().toString(36).substr(2.random().toString(36).substr(2, 9).toUpperCase(),
+                user: currentUser.username,
+                items: [...cart],
+               , 9).toUpperCase(),
+                user: currentUser.username,
+                items: [...cart],
+                total: total,
+                status: total: total,
+                status: 'pending 'pending',
+                date: new Date().toISOString(),
+                delivery: document.getElementById('',
+                date: new Date().toISOString(),
+                delivery: document.getElementById('checkout-delivery').value,
+                payment: document.getElementById('checkout-payment').value,
+                customer: {
+                    name:checkout-delivery').value,
+                payment: document.getElementById('checkout-payment').value,
+                customer: {
+                    name: document.getElementById('checkout-name').value,
+                    address: document document.getElementById('checkout-name').value,
+                    address: document.getElementById('checkout-address').value.getElementById('checkout-address').value
+
+                }
+            };
+            
+            orders.push(order);
+            
+            // Update loyalty points
+            const userIndex = users.findIndex                }
+            };
+            
+            orders.push(order);
+            
+            // Update loyalty points
+            const userIndex = users.findIndex(u =>(u => u.username === currentUser u.username === currentUser.username);
+            if (userIndex !== -1) {
+                users[userIndex].loyaltyPoints = (users[userIndex]..username);
+            if (userIndex !== -1) {
+                users[userIndex].loyaltyPoints = (users[userIndex].loyaltyPoints || loyaltyPoints || 0) + Math.floor(total /0) + Math.floor(total / 10);
+                currentUser = users[userIndex];
+                localStorage.setItem('doublet_current_user 10);
+                currentUser = users[userIndex];
+                localStorage.setItem('doublet_current_user', JSON.stringify(currentUser));
+', JSON.stringify(currentUser));
+            }
+            
+            // Update product stock
+            cart.forEach(cartItem => {
+                const product = products.find(p => p.id            }
+            
+            // Update product stock
+            cart.forEach(cartItem => {
+                const product = === cartItem.id);
+                if (product) {
+                    product.stock -= cartItem.quantity products.find(p => p.id === cartItem.id);
+                if (product) {
+                    product.stock -= cartItem.quantity;
+                }
+            });
+            
+            save;
+                }
+            });
+            
+            saveOrders();
+            saveProducts();
+            localStorageOrders();
+            saveProducts();
+            localStorage.setItem('doublet_users', JSON.stringify(users));
+            
+            // Clear cart
+            cart = [];
+            saveCart.setItem('doublet_users', JSON.stringify(users));
+            
+            // Clear cart
+            cart = [];
+            saveCart();
+            
+            alert(`Bestelling geplaatst! Je ordernummer();
+            
+            alert(`Bestelling geplaatst! Je ordernummer is: ${order.id}`);
+            showSection('home');
+        });
+
+        // Wishlist Management
+        function loadWishlist() is: ${order.id}`);
+            showSection('home');
+        });
+
+        // Wishlist Management
+        function loadWishlist() {
+            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
+            document.getElementById(' {
+            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
+            document.getElementById('wishlist-products').innerHTML = renderProducts(wishlistwishlist-products').innerHTML = renderProducts(wishlistProducts);
+        }
+
+        // Login/Register Management
+        function showLoginFormProducts);
+        }
+
+        // Login/Register Management
+        function show() {
+            showSection('login');
+        }
+
+        function showRegisterForm()LoginForm() {
+            showSection('login');
+        }
+
+        function showRegisterForm() {
+            showSection {
+            showSection('register');
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+('register');
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value            const password = document.getElementById('login-password').value;
+            
+            const user = users.find(u => u.username;
+            const password = document.getElementById('login-password').value;
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            if === username && u.password === password);
+            if (user) {
+                currentUser = user;
+                localStorage (user) {
+                currentUser = user;
+                localStorage.setItem('doublet_current_user', JSON.stringify(user));
+                alert('Succesvol ingelogd!');
+                if (user..setItem('doublet_current_user', JSON.stringify(user));
+                alert('Succesvol ingelogd!');
+                if (user.role === 'admin') {
+                    showAdminPanel();
+                } else {
+                    showSectionrole === 'admin') {
+                    showAdminPanel();
+                } else {
+                    showSection('home');
+                }
+            } else {
+                alert('Ongeldige inlogge('home');
+                }
+            } else {
+                alert('Ongeldige inloggegevens!');
+            }
+        });
+
+        documentgevens!');
+            }
+        });
+
+        document.getElementById('register.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('register--form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('register-email').value;
+            const password =register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password'). document.getElementById('register-password').value;
+            const passwordConfirm = document.getElementById('register-password-confirm').value;
+            
+           value;
+            const passwordConfirm = document.getElementById('register-password-confirm').value;
+            
+            if (password !== passwordConfirm) {
+                alert('Wacht if (password !== passwordConfirm) {
+                alert('Wachtwoorden komen niet overeen!');
+                return;
+            }
+            
+            if (users.find(u => u.username === username)) {
+               woorden komen niet overeen!');
+                return;
+            }
+            
+            if (users.find(u => u.username === username)) {
+                alert('Gebruikersnaam bestaat al!');
+                return;
+            }
+            
+            users.push alert('Gebruikersnaam bestaat al!');
+                return;
+            }
+            
+            users.push({ 
+                username, 
+                email, 
+                password, 
+                role: 'user', 
+                loyaltyPoints: 0({ 
+                username, 
+                email, 
+                password, 
+                role: 'user', 
+                loyaltyPoints: 0 
+            });
+            localStorage.setItem('doublet_users 
+            });
+            localStorage.setItem('doublet_users', JSON.stringify(users));
+            alert('Reg', JSON.stringify(users));
+            alert('Registratie succesvol! Jeistratie succesvol! Je kunt nu inloggen.');
+            showLoginForm kunt nu inloggen.');
+            showLoginForm();
+        });
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('doublet();
+        });
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('doublet_current_user');
+            showSection('home');
+        }
+
+        // Admin Functions
+        function loadAdminDashboard() {
+            document.getElementById('total-orders').textContent = orders_current_user');
+            showSection('home');
+        }
+
+        // Admin Functions
+        function loadAdminDashboard() {
+            document.getElementById('total-orders').textContent = orders.length;
+            document.getElementById('total-revenue').textContent.length;
+            document.getElementById('total-revenue').textContent = '€' + orders.reduce((sum, o) => sum + o = '€' + orders.reduce((sum, o) => sum.total, 0).to + o.total, 0).toFixed(2);
+            document.getElementById('total-products').textContent = products.length;
+            document.getElementById('total-customers').textContent = users.filter(u => uFixed(2);
+            document.getElementById('total-products').textContent = products.length;
+            document.getElementById('total-customers').textContent = users.filter(u => u..role === 'user').length;
+        }
+
+        function loadAdminProducts() {
+            document.getElementById('admin-products-table').innerHTML =role === 'user').length;
+        }
+
+        function loadAdminProducts() {
+            document.getElementById('admin-products-table').innerHTML = products products.map(p => `
+                <tr>
+                    <td>${p.name}</td>
+                    <td>${p.type}</td.map(p => `
+                <tr>
+                    <td>${p.name}</td>
+                    <td>${p.type}</td>
+                    <td>${p.brand || '-'>
+                    <td>${p.brand || '-'}</td>
+                    <td>€${p.price}</td>
+                   }</td>
+                    <td>€${p.price}</td>
+                    <td>${p.stock <td>${p.stock}</td>
+                    <td>
+                       }</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="editProduct(${p.id})">Bewerken</button <button class="btn btn-primary btn-sm" onclick="editProduct(${p.id})">Bewerken</button>
+                        <button class="btn btn-danger>
+                        <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Verwijderen btn-sm" onclick="deleteProduct(${p.id})">Verwij</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadAdminOrders() {
+            document.getElementById('adminderen</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadAdminOrders() {
+            document.getElementById('admin-orders-table').innerHTML = orders.map(o-orders-table').innerHTML = => `
+                <tr>
+                    <td>${o.id}</td>
+                    <td>${o orders.map(o => `
+                <tr>
+                    <td>${o.id}</td>
+                    <td>${o.user}</td>
+                    <td>${new.user}</td>
+                    <td>${new Date(o.date).toLocaleDateString('nl-NL')}</td>
+                    Date(o.date).toLocaleDateString('nl-NL')}</td>
+                    <td>€${ <td>€${o.total.toFixed(2)}</td>
+                    <td>
+                        <span class="badge ${o.status === 'pending' ? 'bg-warning' : 'bg-success'}">
+                            ${o.status === 'o.total.toFixed(2)}</td>
+                    <td>
+                        <span class="badge ${o.status === 'pending' ? 'bg-warning' : 'bg-success'}">
+                            ${o.status === 'pending' ? 'In Afwachting' : 'Voltooid'}
+                       pending' ? 'In Afwachting' : 'Voltooid'}
+                        </span>
+                    </td>
+                    <td>
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick <button class="btn btn-primary btn-sm" onclick="viewOrder('${o.id}')">Bekijken</button>
+                        <button class="btn="viewOrder('${o.id}')">Bekijken</button>
+                        <button class="btn btn-success btn-sm" onclick="updateOrderStatus('${o.id}', ' btn-success btn-sm" onclick="updateOrderStatus('${o.idcompleted')">Voltoo}', 'completed')">Voltooien</button>
+                    </td>
+                </tr>
+            `ien</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadAdminCustomers()).join('');
+        }
+
+        function loadAdminCustomers() {
+            document {
+            document.getElementById('admin-customers-table').innerHTML = users
+                .filter(u => u.role === 'user')
+                .map(u => `
+                <tr>
+                    <td>${u.username}</td>
+                    <td>.getElementById('admin-customers-table').innerHTML = users
+                .filter(u => u.role === 'user')
+                .map(u => `
+                <tr>
+                    <td>${u.username}</td>
+                    <td>${u.email}</td>
+                    <td>${u${u.email}</td>
+                    <.loyaltyPoints || td>${u.loyaltyPoints || 0}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm"0}</td>
+                    <td>
+                        <button class="btn onclick="editCustomer('${u.username}')">Bewerken</button>
+                    </td>
+                </tr>
+            `).join('');
+        btn-primary btn-sm" onclick="editCustomer('${u.username}')">Bewerken</button>
+                    </td>
+                </tr>
+ }
+
+        function showAddProductForm() {
+            document.getElementById('add            `).join('');
+        }
+
+        function showAddProductForm() {
+            document.getElementById-product-form').style.display = 'block('add-product-form').style.display = 'block';
+        }
+
+        function cancelAddProduct() {
+            document.getElementById('add-product-form').style.display = 'none';
+            document.getElementById('add-product-form').reset();
+        }
+
+        document.getElementById('add-product-form').addEventListener('submit', function(e';
+        }
+
+        function cancelAddProduct() {
+            document.getElementById('add-product-form').style.display = 'none';
+            document.getElementById('add-product-form').reset();
+        }
+
+        document.getElementById('add-product-form').addEventListener('submit) {
+            e.preventDefault();
+            const name = document.getElementById('product-name').', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('product-name').value;
+            const type = document.getElementById('product-type').value;
+            const brand = document.getElementById('product-brand').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+            constvalue;
+            const type = document.getElementById('product-type').value;
+            const brand = document.getElementById('product-brand').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+            const stock = parseInt(document.getElementById('product-stock').value);
+            const image stock = parseInt(document.getElementById('product-stock').value);
+            const image = document.getElementById('product-image').value || 'https:// = document.getElementById('product-image').value || 'https://via.placeholder.com/300';
+            
+            products.push({ 
+via.placeholder.com/300';
+            
+            products.push({                id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1, 
+                name, 
+                type, 
+                brand: type === 
+                id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1, 
+                name, 
+                type, 
+                brand: type === 'phone' ? brand : undefined,
+                category: type === 'accessory' ? 'Al 'phone' ? brand : undefined,
+                category: type === 'accessory' ? 'Algemeen' : undefined,
+                price, 
+                stock, 
+                conditiongemeen' : undefined,
+                price, 
+                stock, 
+                condition: 'Nieuw',
+                image,
+                featured: false
+            });
+: 'Nieuw',
+                image,
+            
+            saveProducts();
+            loadAdminProducts();
+            document.getElementById('add-product-form').style.display = 'none';
+            document.getElementById('add-product-form                featured: false
+            });
+            
+            saveProducts();
+            loadAdminProducts();
+            document.getElementById('add-product-form').style.display = 'none';
+            document.getElementById('add-product-form').reset();
+            alert('Product toegevoegd!');
+        });
+
+').reset();
+            alert('Product toegevoegd!');
+        });
+
+        function editProduct(product        function editProduct(productId) {
+            // Implementation for editing a product
+            alert('Bewerken van product ' + productId) {
+            // Implementation for editing a product
+            alert('Bewerken van productId + ' zou hier geïmplementeerd worden.');
+        }
+
+        function deleteProduct(productId) {
+            if (confirm ' + productId + ' zou hier geïmplementeerd worden.');
+        }
+
+        function deleteProduct(productId) {
+            if (confirm('Weet('Weet je zeker dat je dit product wilt verwijderen?')) {
+                products = products.filter(p => p.id !== product je zeker dat je dit product wilt verwijderen?')) {
+                products = products.filter(p => p.id !== productId);
+                saveProducts();
+                loadAdminId);
+                saveProducts();
+                loadProducts();
+                alert('Product verwijderd!');
+            }
+        }
+
+        function viewOrder(orderId) {
+            const order = ordersAdminProducts();
+                alert('Product verwijderd!');
+            }
+        }
+
+        function viewOrder(orderId) {
+            const order =.find(o => o.id === orderId);
+            if (order) {
+                alert(`Orderdetails:\n\nOrdernummer: ${order.id}\nKlant: orders.find(o => o.id === orderId);
+            if (order) {
+                alert(`Orderdetails:\n\nOrdernummer: ${order.id}\nKlant: ${order.user}\nDatum: ${new Date(order.date). ${order.user}\nDatum: ${new Date(order.date).toLocaleDateString('nl-NtoLocaleDateString('nl-NL')}\nTotaal: €${order.total.toFixed(2)}\nStatus: ${order.status}\nLevering: ${order.deliveryL')}\nTotaal: €${order.total.toFixed(2)}\nStatus: ${order.status}\nLevering: ${order.delivery === 'delivery' ? 'Bezorging' : ' === 'delivery' ? 'Bezorging' : 'Afhalen'}\nBetaling: ${order.payment === 'cash' ? 'Afhalen'}\nBetaling: ${order.payment ===Contant' : 'Bankoverschrijving'}`);
+            'cash' ? 'Contant' : 'Bankoverschrijving }
+        }
+
+        function updateOrderStatus(orderId, status) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = status;
+               '}`);
+            }
+        }
+
+        function updateOrderStatus(orderId, status) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = saveOrders();
+                loadAdminOrders();
+                alert(`Order ${ status;
+                saveOrders();
+                loadAdminOrders();
+                alert(`Order ${orderId}orderId} status bijgewerkt naar ${status === 'completed' ? 'Voltooid' : 'In Afwachting'}`);
+            }
+        }
+
+        function edit status bijgewerkt naar ${status === 'completed' ? 'Voltooid' : 'In Afwachting'}`);
+            }
+        }
+
+        function editCustomer(username) {
+Customer(username) {
+            // Implementation for editing a customer
+            alert('Bewerken van klant ' + username + ' zou hier geïmplement            // Implementation for editing a customer
+            alert('Bewerken van klant ' + username + ' zou hier geïmplementeerdeerd worden.');
+        }
+
+        // Search functionality
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (! worden.');
+        }
+
+        // Search functionality
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (!searchTerm) return;
+            
+            const results =searchTerm) return;
+            
+            const results = products.filter(p => 
+                p.name.toLowerCase().includes(searchTerm) ||
+                products.filter(p => 
+                p.name.toLowerCase().includes(searchTerm) (p.brand && p.brand.toLowerCase().includes ||
+                (p.brand && p.b(searchTerm)) ||
+                (p.category && p.category.toLowerCase().includes(searchTerm))
+            );
+            
+            if (results.length > 0) {
+                document.getElementById('phone-products').innerHTML = renderProducts(results);
+               rand.toLowerCase().includes(searchTerm)) ||
+                (p.category && p.category.toLowerCase().includes(searchTerm))
+            );
+            
+            if (results.length > 0) {
+                document.getElementById('phone-products').innerHTML = renderProducts(results);
+                showSection('phones');
+            } else {
+                alert('Geen producten gevonden showSection('phones');
+            } else {
+                alert('Geen producten gevonden voor "' voor "' + searchTerm + '"');
+            }
+        }
+
+        // Form submissions
+        document.getElementById('newsletter-form').addEventListener(' + searchTerm + '"');
+            }
+        }
+
+        // Form submissions
+        document.getElementById('newsletter-form').addEventListener('submitsubmit', function(e) {
+            e.preventDefault();
+            alert('Bedankt voor je inschrijving! Je ontvangt binnen', function(e) {
+            e.preventDefault();
+            alert('Bedankt voor je inschrijving! Je ontvangt binnenkort onze nieuwsbrief.');
+            this.reset();
+        });
+
+        document.getElementById('contact-form').addEventListener('submit', function(e)kort onze nieuwsbrief.');
+            this.reset();
+        });
+
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Bedankt voor je bericht! We nemen {
+            e.preventDefault();
+            alert('Bedankt voor je bericht! We nemen zo snel mogelijk contact zo snel mogelijk contact met je op.');
+            this.reset();
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function met je op.');
+            this.reset();
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+() {
+            updateCartCount();
+            updateWishlistCount();
+            showSection('home');
+            
+            // Initialize Bootstrap components            updateCartCount();
+            updateWishlistCount();
+            showSection('home');
+            
+            // Initialize Bootstrap components
+            if (typeof bootstrap !== 'undefined') {
+                const carousel =
+            if (typeof bootstrap !== 'undefined') {
+                new bootstrap.Carousel(document.getElementById('heroCarousel'));
+            }
+        });
+    </script>
+    <script src="https:// const carousel = new bootstrap.Carousel(document.getElementById('heroCarousel'));
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5cdn.jsdelivr.net/npm/bootstrap@5.3.3.0/dist/js/bootstrap.b.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
