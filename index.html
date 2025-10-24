@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Double T Phones - Premium Smartphones & Accessories</title>
+<title>Double T Phones - Premium Smartphones & Accessoires</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root {
 --primary: #0056b3;
@@ -33,14 +34,15 @@ font-size: 1.5rem;
 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.hero-section {
-background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
-background-size: cover;
-background-position: center;
-color: white;
-padding: 120px 0;
-text-align: center;
+.hero-carousel .carousel-item img {
+height: 500px;
+object-fit: cover;
+}
+
+.hero-carousel .carousel-caption {
+background: rgba(0,0,0,0.5);
+padding: 20px;
+border-radius: 10px;
 }
 
 .feature-card {
@@ -213,7 +215,7 @@ padding: 30px;
 .admin-panel {
 display: none;
 min-height: 100vh;
-background-color: #f8f9fa;
+background-color: #e9ecef; /* Andere achtergrond voor admin */
 }
 
 .category-badge {
@@ -331,7 +333,6 @@ grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 gap: 20px;
 }
 
-/* Nieuwe styles voor uitbreidingen */
 .wishlist-btn {
 position: absolute;
 top: 10px;
@@ -459,7 +460,6 @@ font-weight: 600;
 color: var(--success);
 }
 
-/* Nieuwe filter styles */
 .advanced-filters {
 background: white;
 border-radius: 10px;
@@ -478,7 +478,6 @@ justify-content: space-between;
 margin-top: 10px;
 }
 
-/* Admin specifieke styles */
 .admin-section {
 display: none;
 }
@@ -566,15 +565,14 @@ margin-bottom: 20px;
 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
 .cart-sidebar {
 width: 100%;
 right: -100%;
 }
 
-.hero-section {
-padding: 80px 0;
+.hero-carousel .carousel-item img {
+height: 300px;
 }
 
 .whatsapp-float {
@@ -591,7 +589,6 @@ grid-template-columns: repeat(2, 1fr);
 }
 }
 
-/* Animation classes */
 .fade-in {
 animation: fadeIn 0.5s ease-in;
 }
@@ -601,7 +598,6 @@ from { opacity: 0; transform: translateY(20px); }
 to { opacity: 1; transform: translateY(0); }
 }
 
-/* Loading spinner */
 .loading-spinner {
 display: inline-block;
 width: 20px;
@@ -615,6 +611,52 @@ animation: spin 1s linear infinite;
 @keyframes spin {
 0% { transform: rotate(0deg); }
 100% { transform: rotate(360deg); }
+}
+
+.testimonials-section {
+background: #f8f9fa;
+padding: 60px 0;
+}
+
+.testimonial-card {
+background: white;
+border-radius: 10px;
+padding: 20px;
+box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+text-align: center;
+}
+
+.testimonial-card i {
+color: #FFD700;
+font-size: 1.5rem;
+}
+
+.testimonial-card p {
+font-style: italic;
+}
+
+.categories-section {
+padding: 60px 0;
+}
+
+.category-card {
+border: none;
+border-radius: 10px;
+transition: transform 0.3s;
+box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+text-align: center;
+}
+
+.category-card img {
+height: 150px;
+object-fit: cover;
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+}
+
+.category-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 </style>
 </head>
@@ -642,7 +684,7 @@ animation: spin 1s linear infinite;
 </li>
 <li class="nav-item">
 <a class="nav-link" href="#" onclick="showSection('wishlist')">
-<i class="fas fa-heart"></i> Wishlist
+<i class="fas fa-heart"></i> Wensenlijst
 <span class="badge bg-danger ms-1" id="wishlistCount">0</span>
 </a>
 </li>
@@ -658,7 +700,7 @@ animation: spin 1s linear infinite;
 <a class="nav-link" href="#" onclick="showSection('contact')">Contact</a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="#" onclick="showAdminLogin()">Eigenaar Login</a>
+<a class="nav-link" href="#" onclick="showSection('order-tracking')">Bestelling Volgen</a>
 </li>
 </ul>
 <div class="d-flex">
@@ -673,9 +715,7 @@ animation: spin 1s linear infinite;
 </a>
 <a href="#" class="btn btn-outline-primary position-relative" onclick="openCart()">
 <i class="fas fa-shopping-cart"></i>
-<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
-0
-</span>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">0</span>
 </a>
 </div>
 </div>
@@ -687,20 +727,42 @@ animation: spin 1s linear infinite;
 <main id="main-content">
 <!-- Home Sectie -->
 <section id="home" class="content-section">
-<!-- Hero Sectie -->
-<div class="hero-section">
-<div class="container">
-<h1 class="display-4 fw-bold mb-4">PREMIUM SMARTPHONES & ACCESSOIRES</h1>
-<p class="lead mb-4">Beste kwaliteit telefoons tegen scherpe prijzen</p>
-<div class="d-flex justify-content-center flex-wrap gap-3">
-<a href="#" class="btn btn-primary btn-lg px-4" onclick="showSection('phones')">
-<i class="fas fa-mobile-alt me-2"></i>Bekijk Telefoons
-</a>
-<a href="#" class="btn btn-outline-light btn-lg px-4" onclick="showSection('accessories')">
-<i class="fas fa-headphones me-2"></i>Bekijk Accessoires
-</a>
+<!-- Hero Carousel -->
+<div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+<div class="carousel-inner">
+<div class="carousel-item active">
+<img src="https://www.shutterstock.com/image-photo/strasbourg-france-oct-1-2023-260nw-2383351351.jpg" class="d-block w-100" alt="Premium Smartphones">
+<div class="carousel-caption d-none d-md-block">
+<h1 class="display-4 fw-bold">Ontdek Onze Premium Smartphones</h1>
+<p class="lead">Beste kwaliteit tegen scherpe prijzen</p>
+<a href="#" class="btn btn-primary btn-lg" onclick="showSection('phones')">Shop Nu</a>
 </div>
 </div>
+<div class="carousel-item">
+<img src="https://www.shutterstock.com/image-photo/smartphones-on-shelf-technology-store-260nw-2457741293.jpg" class="d-block w-100" alt="Accessoires">
+<div class="carousel-caption d-none d-md-block">
+<h1 class="display-4 fw-bold">Top Accessoires voor Jouw Device</h1>
+<p class="lead">Van hoesjes tot opladers</p>
+<a href="#" class="btn btn-primary btn-lg" onclick="showSection('accessories')">Bekijk Meer</a>
+</div>
+</div>
+<div class="carousel-item">
+<img src="https://www.shutterstock.com/image-photo/create-banner-gadget-store-flat-260nw-2553356023.jpg" class="d-block w-100" alt="Deals">
+<div class="carousel-caption d-none d-md-block">
+<h1 class="display-4 fw-bold">Exclusieve Deals</h1>
+<p class="lead">Bespaar tot 30% op geselecteerde items</p>
+<a href="#" class="btn btn-primary btn-lg" onclick="showSection('phones')">Profiteer Nu</a>
+</div>
+</div>
+</div>
+<button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+<span class="visually-hidden">Vorige</span>
+</button>
+<button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+<span class="carousel-control-next-icon" aria-hidden="true"></span>
+<span class="visually-hidden">Volgende</span>
+</button>
 </div>
 
 <!-- Features Sectie -->
@@ -744,22 +806,85 @@ animation: spin 1s linear infinite;
 </div>
 </section>
 
-<!-- Featured Products -->
-<section class="py-5">
+<!-- Categories Overview -->
+<section class="categories-section">
 <div class="container">
-<h2 class="section-title">Uitgelichte Producten</h2>
-<div id="featured-products" class="product-grid">
-<!-- Featured products will be loaded here by JavaScript -->
+<h2 class="section-title">Ontdek Onze Categorieën</h2>
+<div class="row g-4">
+<div class="col-md-6">
+<div class="category-card card">
+<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9" class="card-img-top" alt="Telefoons">
+<div class="card-body">
+<h5 class="card-title">Telefoons</h5>
+<p class="card-text">Nieuwste modellen van topmerken.</p>
+<a href="#" class="btn btn-primary" onclick="showSection('phones')">Bekijk</a>
+</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="category-card card">
+<img src="https://images.unsplash.com/photo-1583394838336-acd977736f90" class="card-img-top" alt="Accessoires">
+<div class="card-body">
+<h5 class="card-title">Accessoires</h5>
+<p class="card-text">Hoesjes, opladers en meer.</p>
+<a href="#" class="btn btn-primary" onclick="showSection('accessories')">Bekijk</a>
+</div>
+</div>
+</div>
 </div>
 </div>
 </section>
 
-<!-- Special Offers -->
+<!-- Featured Products -->
+<section class="py-5">
+<div class="container">
+<h2 class="section-title">Uitgelichte Producten</h2>
+<div id="featured-products" class="product-grid"></div>
+</div>
+</section>
+
+<!-- Best Sellers -->
 <section class="py-5 bg-light">
 <div class="container">
+<h2 class="section-title">Best Sellers</h2>
+<div id="best-sellers" class="product-grid"></div>
+</div>
+</section>
+
+<!-- Special Offers -->
+<section class="py-5">
+<div class="container">
 <h2 class="section-title">Speciale Aanbiedingen</h2>
-<div id="special-offers" class="product-grid">
-<!-- Special offers will be loaded here by JavaScript -->
+<div id="special-offers" class="product-grid"></div>
+</div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials-section">
+<div class="container">
+<h2 class="section-title">Wat Onze Klanten Zeggen</h2>
+<div class="row g-4">
+<div class="col-md-4">
+<div class="testimonial-card">
+<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+<p>"Geweldige service en kwaliteitsproducten!"</p>
+<strong>- John Doe</strong>
+</div>
+</div>
+<div class="col-md-4">
+<div class="testimonial-card">
+<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+<p>"Snelle levering en goede prijzen."</p>
+<strong>- Jane Smith</strong>
+</div>
+</div>
+<div class="col-md-4">
+<div class="testimonial-card">
+<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+<p>"Aanrader voor iedereen!"</p>
+<strong>- Mike Johnson</strong>
+</div>
+</div>
 </div>
 </div>
 </section>
@@ -768,9 +893,7 @@ animation: spin 1s linear infinite;
 <section class="py-5" id="recent-viewed-section" style="display: none;">
 <div class="container">
 <h2 class="section-title">Recent Bekeken</h2>
-<div id="recent-viewed" class="product-grid">
-<!-- Recently viewed products will be loaded here by JavaScript -->
-</div>
+<div id="recent-viewed" class="product-grid"></div>
 </div>
 </section>
 
@@ -793,284 +916,157 @@ animation: spin 1s linear infinite;
 </section>
 </section>
 
-<!-- Wishlist Sectie -->
-<section id="wishlist" class="content-section" style="display: none;">
-<div class="container py-5">
-<h2 class="section-title">Mijn Wishlist</h2>
-<div id="wishlist-container" class="product-grid">
-<!-- Wishlist items will be loaded here by JavaScript -->
-</div>
-<div id="empty-wishlist" class="text-center py-5" style="display: none;">
-<i class="fas fa-heart-broken fa-3x text-muted mb-3"></i>
-<h4 class="text-muted">Je wishlist is leeg</h4>
-<p class="text-muted">Voeg producten toe aan je wishlist om ze hier op te slaan</p>
-<a href="#" class="btn btn-primary" onclick="showSection('phones')">Verken Producten</a>
-</div>
-</div>
-</section>
-
-<!-- Product Comparison Sectie -->
-<section id="comparison" class="content-section" style="display: none;">
-<div class="container py-5">
-<h2 class="section-title">Producten Vergelijken</h2>
-<div id="comparison-container">
-<div id="empty-comparison" class="text-center py-5">
-<i class="fas fa-balance-scale fa-3x text-muted mb-3"></i>
-<h4 class="text-muted">Nog geen producten om te vergelijken</h4>
-<p class="text-muted">Voeg producten toe aan de vergelijking om specificaties te vergelijken</p>
-<a href="#" class="btn btn-primary" onclick="showSection('phones')">Verken Producten</a>
-</div>
-<div id="comparison-table" style="display: none;">
-<div class="table-responsive">
-<table class="comparison-table">
-<thead>
-<tr>
-<th>Specificatie</th>
-<!-- Comparison product headers will be added here by JavaScript -->
-</tr>
-</thead>
-<tbody id="comparison-tbody">
-<!-- Comparison data will be added here by JavaScript -->
-</tbody>
-</table>
-</div>
-<div class="text-center mt-4">
-<button class="btn btn-danger" onclick="clearComparison()">
-<i class="fas fa-trash me-2"></i>Vergelijking Wissen
-</button>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<!-- Order Tracking Sectie -->
-<section id="order-tracking" class="content-section" style="display: none;">
-<div class="container py-5">
-<h2 class="section-title">Bestelling Volgen</h2>
-<div class="row justify-content-center">
-<div class="col-md-6">
-<div class="card">
-<div class="card-body">
-<h5 class="card-title">Voer je ordernummer in</h5>
-<form id="track-order-form">
-<div class="mb-3">
-<label for="orderNumber" class="form-label">Ordernummer</label>
-<input type="text" class="form-control" id="orderNumber" placeholder="Bijv. DT-0001" required>
-</div>
-<button type="submit" class="btn btn-primary w-100">Volg Bestelling</button>
-</form>
-</div>
-</div>
-<div id="tracking-result" class="mt-4">
-<!-- Tracking result will be displayed here -->
-</div>
-</div>
-</div>
-</div>
-</section>
-
 <!-- Telefoons Sectie -->
 <section id="phones" class="content-section" style="display: none;">
-<div class="container py-5">
-<h2 class="section-title">Onze Telefoons</h2>
-
-<!-- Advanced Filters -->
-<div class="advanced-filters mb-4">
-<h5 class="mb-3">Geavanceerde Filters</h5>
+<div class="container">
+<h2 class="section-title">Telefoons</h2>
+<div class="advanced-filters">
 <div class="row g-3">
 <div class="col-md-3">
-<label for="brandFilter" class="form-label">Merk</label>
-<select class="form-select" id="brandFilter" onchange="filterPhones()">
-<option value="">Alle Merken</option>
+<label for="brand-filter">Merk</label>
+<select id="brand-filter" class="form-select">
+<option value="">Alle</option>
 <option value="Apple">Apple</option>
 <option value="Samsung">Samsung</option>
 <option value="Google">Google</option>
 <option value="OnePlus">OnePlus</option>
-<option value="Oppo">Oppo</option>
-<option value="Xiaomi">Xiaomi</option>
-<option value="Huawei">Huawei</option>
 </select>
 </div>
 <div class="col-md-3">
-<label for="conditionFilter" class="form-label">Conditie</label>
-<select class="form-select" id="conditionFilter" onchange="filterPhones()">
-<option value="">Alle Condities</option>
-<option value="new">Nieuw</option>
-<option value="used">Gebruikt</option>
-<option value="premium">Premium</option>
+<label for="condition-filter">Conditie</label>
+<select id="condition-filter" class="form-select">
+<option value="">Alle</option>
+<option value="Nieuw">Nieuw</option>
+<option value="Gebruikt">Gebruikt</option>
 </select>
 </div>
 <div class="col-md-3">
-<label for="storageFilter" class="form-label">Storage</label>
-<select class="form-select" id="storageFilter" onchange="filterPhones()">
-<option value="">Alle Storage</option>
-<option value="64GB">64GB</option>
+<label for="storage-filter">Opslag</label>
+<select id="storage-filter" class="form-select">
+<option value="">Alle</option>
 <option value="128GB">128GB</option>
 <option value="256GB">256GB</option>
 <option value="512GB">512GB</option>
-<option value="1TB">1TB</option>
 </select>
 </div>
 <div class="col-md-3">
-<label for="ramFilter" class="form-label">RAM</label>
-<select class="form-select" id="ramFilter" onchange="filterPhones()">
-<option value="">Alle RAM</option>
+<label for="ram-filter">RAM</label>
+<select id="ram-filter" class="form-select">
+<option value="">Alle</option>
 <option value="4GB">4GB</option>
 <option value="6GB">6GB</option>
 <option value="8GB">8GB</option>
 <option value="12GB">12GB</option>
-<option value="16GB">16GB</option>
 </select>
 </div>
-<div class="col-md-6">
-<label for="priceRange" class="form-label">Prijsbereik: $<span id="priceRangeValue">0 - 2000</span></label>
-<input type="range" class="form-range price-range" id="priceRange" min="0" max="2000" step="50" onchange="updatePriceRange()">
+<div class="col-md-3">
+<label for="camera-filter">Camera</label>
+<select id="camera-filter" class="form-select">
+<option value="">Alle</option>
+<option value="12MP">12MP</option>
+<option value="48MP">48MP</option>
+<option value="108MP">108MP</option>
+</select>
+</div>
+<div class="col-md-3">
+<label for="price-range">Prijsbereik</label>
+<input type="range" class="form-range price-range" id="price-range" min="0" max="2000" value="2000">
 <div class="range-values">
-<span>$0</span>
-<span>$2000</span>
+<span>€0</span>
+<span>€2000</span>
 </div>
 </div>
 <div class="col-md-3">
-<label for="cameraFilter" class="form-label">Camera (MP)</label>
-<select class="form-select" id="cameraFilter" onchange="filterPhones()">
-<option value="">Alle Camera's</option>
-<option value="12">12MP+</option>
-<option value="48">48MP+</option>
-<option value="64">64MP+</option>
-<option value="108">108MP+</option>
+<label for="sort-filter">Sorteren</label>
+<select id="sort-filter" class="form-select">
+<option value="name-asc">Naam (A-Z)</option>
+<option value="name-desc">Naam (Z-A)</option>
+<option value="price-asc">Prijs (Laag-Hoog)</option>
+<option value="price-desc">Prijs (Hoog-Laag)</option>
 </select>
 </div>
-<div class="col-md-3">
-<label for="priceFilter" class="form-label">Sorteren op</label>
-<select class="form-select" id="priceFilter" onchange="filterPhones()">
-<option value="">Standaard</option>
-<option value="low">Prijs: Laag naar Hoog</option>
-<option value="high">Prijs: Hoog naar Laag</option>
-<option value="name">Naam A-Z</option>
-<option value="newest">Nieuwste Eerst</option>
-</select>
+<div class="col-md-3 align-self-end">
+<button class="btn btn-primary w-100" onclick="filterProducts('phone')">Filteren</button>
 </div>
 </div>
 </div>
-
-<div id="phones-container" class="product-grid">
-<!-- Phones will be loaded here by JavaScript -->
-</div>
+<div id="phone-products" class="product-grid"></div>
 </div>
 </section>
 
 <!-- Accessoires Sectie -->
 <section id="accessories" class="content-section" style="display: none;">
-<div class="container py-5">
+<div class="container">
 <h2 class="section-title">Accessoires</h2>
-
-<!-- Category Filters -->
-<div class="d-flex flex-wrap gap-2 mb-4">
-<button class="btn btn-outline-primary active" onclick="filterAccessories('all')">Alles</button>
-<button class="btn btn-outline-primary" onclick="filterAccessories('Hoesjes')">Hoesjes</button>
-<button class="btn btn-outline-primary" onclick="filterAccessories('Oplaadkabels')">Oplaadkabels</button>
-<button class="btn btn-outline-primary" onclick="filterAccessories('Adapters')">Adapters</button>
-<button class="btn btn-outline-primary" onclick="filterAccessories('AirPods')">AirPods</button>
-<button class="btn btn-outline-primary" onclick="filterAccessories('Oordopjes')">Oordopjes</button>
-<button class="btn btn-outline-primary" onclick="filterAccessories('Screen Protectors')">Screen Protectors</button>
-<button class="btn btn-outline-primary" onclick="filterAccessories('Power Banks')">Power Banks</button>
+<div class="advanced-filters">
+<div class="row g-3">
+<div class="col-md-3">
+<label for="accessory-category">Categorie</label>
+<select id="accessory-category" class="form-select">
+<option value="">Alle</option>
+<option value="Hoesjes">Hoesjes</option>
+<option value="Oplaadkabels">Oplaadkabels</option>
+<option value="Power Banks">Power Banks</option>
+</select>
 </div>
-
-<div id="accessories-container" class="product-grid">
-<!-- Accessories will be loaded here by JavaScript -->
+<div class="col-md-3">
+<label for="sort-accessory">Sorteren</label>
+<select id="sort-accessory" class="form-select">
+<option value="name-asc">Naam (A-Z)</option>
+<option value="name-desc">Naam (Z-A)</option>
+<option value="price-asc">Prijs (Laag-Hoog)</option>
+<option value="price-desc">Prijs (Hoog-Laag)</option>
+</select>
 </div>
+<div class="col-md-3 align-self-end">
+<button class="btn btn-primary w-100" onclick="filterProducts('accessory')">Filteren</button>
+</div>
+</div>
+</div>
+<div id="accessory-products" class="product-grid"></div>
+</div>
+</section>
+
+<!-- Wensenlijst Sectie -->
+<section id="wishlist" class="content-section" style="display: none;">
+<div class="container">
+<h2 class="section-title">Mijn Wensenlijst</h2>
+<div id="wishlist-products" class="product-grid"></div>
+</div>
+</section>
+
+<!-- Vergelijking Sectie -->
+<section id="comparison" class="content-section" style="display: none;">
+<div class="container">
+<h2 class="section-title">Vergelijk Producten</h2>
+<div id="comparison-table" class="table-responsive">
+<table class="comparison-table">
+<thead>
+<tr>
+<th>Eigenschap</th>
+<th id="compare-product-1">Product 1</th>
+<th id="compare-product-2">Product 2</th>
+<th id="compare-product-3">Product 3</th>
+</tr>
+</thead>
+<tbody id="comparison-body"></tbody>
+</table>
+</div>
+<button class="btn btn-danger mt-3" onclick="clearComparison()">Wissen</button>
 </div>
 </section>
 
 <!-- Over Ons Sectie -->
 <section id="about" class="content-section" style="display: none;">
-<div class="container py-5">
+<div class="container">
 <h2 class="section-title">Over Double T Phones</h2>
 <div class="row">
 <div class="col-md-6">
-<div class="card h-100">
-<div class="card-body">
-<h5 class="card-title">Ons Verhaal</h5>
-<p class="card-text">Double T Phones is opgericht met een simpele missie: het leveren van hoogwaardige smartphones en accessoires tegen betaalbare prijzen in Suriname.</p>
-<p>Onze focus ligt op kwaliteit, betrouwbaarheid en uitstekende klantenservice. We begrijpen hoe belangrijk uw telefoon is in het dagelijks leven, daarom bieden we alleen producten aan die voldoen aan onze strikte kwaliteitseisen.</p>
-</div>
-</div>
+<p>Double T Phones is dé bestemming voor premium smartphones en accessoires in Suriname. Wij bieden topmerken zoals Apple, Samsung, en meer tegen concurrerende prijzen.</p>
+<p>Met ons loyaliteitsprogramma verdien je punten bij elke aankoop, die je kunt inwisselen voor kortingen. Onze missie is om technologie toegankelijk te maken voor iedereen.</p>
 </div>
 <div class="col-md-6">
-<div class="card h-100">
-<div class="card-body">
-<h5 class="card-title">Waarom Kiezen Voor Ons?</h5>
-<ul class="list-group list-group-flush">
-<li class="list-group-item d-flex align-items-center">
-<i class="fas fa-check text-success me-2"></i>
-1 Maand Garantie op alle producten
-</li>
-<li class="list-group-item d-flex align-items-center">
-<i class="fas fa-check text-success me-2"></i>
-Premium kwaliteit telefoons en accessoires
-</li>
-<li class="list-group-item d-flex align-items-center">
-<i class="fas fa-check text-success me-2"></i>
-Scherpe prijzen in USD
-</li>
-<li class="list-group-item d-flex align-items-center">
-<i class="fas fa-check text-success me-2"></i>
-Persoonlijke WhatsApp ondersteuning
-</li>
-<li class="list-group-item d-flex align-items-center">
-<i class="fas fa-check text-success me-2"></i>
-Nieuw, gebruikt en premium opties
-</li>
-<li class="list-group-item d-flex align-items-center">
-<i class="fas fa-check text-success me-2"></i>
-Loyalty programma met punten
-</li>
-<li class="list-group-item d-flex align-items-center">
-<i class="fas fa-check text-success me-2"></i>
-Afhaaloptie in Suriname
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Loyalty Program Info -->
-<div class="row mt-4">
-<div class="col-12">
-<div class="card">
-<div class="card-body">
-<h5 class="card-title d-flex align-items-center">
-<i class="fas fa-crown text-warning me-2"></i>
-Double T Loyalty Program
-</h5>
-<p class="card-text">Verdien punten bij elke aankoop en geniet van exclusieve voordelen:</p>
-<div class="row">
-<div class="col-md-4">
-<div class="text-center p-3">
-<div class="loyalty-badge d-inline-block mb-2">100 PTS</div>
-<h6>Bij registratie</h6>
-<p class="small text-muted">Ontvang 100 punten bij het aanmaken van je account</p>
-</div>
-</div>
-<div class="col-md-4">
-<div class="text-center p-3">
-<div class="loyalty-badge d-inline-block mb-2">10 PTS/$</div>
-<h6>Bij elke aankoop</h6>
-<p class="small text-muted">Verdien 10 punten voor elke dollar die je uitgeeft</p>
-</div>
-</div>
-<div class="col-md-4">
-<div class="text-center p-3">
-<div class="loyalty-badge d-inline-block mb-2">Review PTS</div>
-<h6>Product reviews</h6>
-<p class="small text-muted">Krijg 50 punten voor elke productreview die je schrijft</p>
-</div>
-</div>
-</div>
-</div>
-</div>
+<img src="https://images.unsplash.com/photo-1516321310763-383f7b18a7d7" class="img-fluid rounded" alt="Over Ons">
 </div>
 </div>
 </div>
@@ -1078,138 +1074,154 @@ Double T Loyalty Program
 
 <!-- Contact Sectie -->
 <section id="contact" class="content-section" style="display: none;">
-<div class="container py-5">
-<h2 class="section-title">Contact</h2>
+<div class="container">
+<h2 class="section-title">Contacteer Ons</h2>
 <div class="row">
 <div class="col-md-6">
-<div class="card h-100">
-<div class="card-body">
-<h5 class="card-title">Neem Contact Op</h5>
-<p class="card-text">
-<i class="fas fa-phone me-2"></i> +597 899 6512<br>
-<i class="fas fa-envelope me-2"></i> doubletphone20@gmail.com
-</p>
-<p>Bereikbaar via WhatsApp voor vragen en bestellingen.</p>
-<div class="d-flex">
-<a href="#" class="btn btn-outline-primary me-2">
-<i class="fab fa-facebook-f"></i> Facebook
-</a>
-<a href="#" class="btn btn-outline-primary me-2">
-<i class="fab fa-instagram"></i> Instagram
-</a>
-<a href="https://wa.me/5978996512" class="btn btn-outline-primary" target="_blank">
-<i class="fab fa-whatsapp"></i> WhatsApp
-</a>
-</div>
-</div>
-</div>
-</div>
-<div class="col-md-6">
-<div class="card h-100">
-<div class="card-body">
-<h5 class="card-title">Stuur ons een bericht</h5>
+<h4>Neem Contact Op</h4>
 <form id="contact-form">
 <div class="mb-3">
-<label for="name" class="form-label">Naam</label>
-<input type="text" class="form-control" id="name" required>
+<label for="contact-name" class="form-label">Naam</label>
+<input type="text" class="form-control" id="contact-name" required>
 </div>
 <div class="mb-3">
-<label for="email" class="form-label">E-mail</label>
-<input type="email" class="form-control" id="email" required>
+<label for="contact-email" class="form-label">E-mail</label>
+<input type="email" class="form-control" id="contact-email" required>
 </div>
 <div class="mb-3">
-<label for="message" class="form-label">Bericht</label>
-<textarea class="form-control" id="message" rows="4" required></textarea>
+<label for="contact-message" class="form-label">Bericht</label>
+<textarea class="form-control" id="contact-message" rows="5" required></textarea>
 </div>
-<button type="submit" class="btn btn-primary">Verstuur Bericht</button>
+<button type="submit" class="btn btn-primary">Verstuur</button>
 </form>
 </div>
-</div>
+<div class="col-md-6">
+<h4>Contactgegevens</h4>
+<p><i class="fas fa-map-marker-alt"></i> Paramaribo, Suriname</p>
+<p><i class="fas fa-phone"></i> +597 123 4567</p>
+<p><i class="fas fa-envelope"></i> info@doubletphones.com</p>
 </div>
 </div>
 </div>
 </section>
 
-<!-- Login Form -->
-<section id="login-section" class="content-section" style="display: none;">
-<div class="container py-5">
+<!-- Order Tracking Sectie -->
+<section id="order-tracking" class="content-section" style="display: none;">
+<div class="container">
+<h2 class="section-title">Bestelling Volgen</h2>
+<div class="order-tracking">
+<div class="mb-3">
+<label for="order-number" class="form-label">Ordernummer</label>
+<input type="text" class="form-control" id="order-number" placeholder="Voer je ordernummer in">
+<button class="btn btn-primary mt-2" onclick="trackOrder()">Volgen</button>
+</div>
+<div id="tracking-result"></div>
+</div>
+</div>
+</section>
+
+<!-- Login Formulier -->
+<section id="login" class="content-section" style="display: none;">
+<div class="container">
 <div class="row justify-content-center">
-<div class="col-md-5">
+<div class="col-md-6">
 <div class="login-form">
-<h3 class="text-center mb-4">Inloggen</h3>
+<h2 class="section-title">Inloggen</h2>
 <form id="login-form">
 <div class="mb-3">
-<label for="loginEmail" class="form-label">E-mail of Gebruikersnaam</label>
-<input type="text" class="form-control" id="loginEmail" required>
+<label for="login-username" class="form-label">Gebruikersnaam</label>
+<input type="text" class="form-control" id="login-username" required>
 </div>
 <div class="mb-3">
-<label for="loginPassword" class="form-label">Wachtwoord</label>
-<input type="password" class="form-control" id="loginPassword" required>
+<label for="login-password" class="form-label">Wachtwoord</label>
+<input type="password" class="form-control" id="login-password" required>
 </div>
-<div class="mb-3 form-check">
-<input type="checkbox" class="form-check-input" id="rememberMe">
-<label class="form-check-label" for="rememberMe">Onthoud mij</label>
-</div>
-<div class="d-grid">
-<button type="submit" class="btn btn-primary">Inloggen</button>
-</div>
-<div class="text-center mt-3">
-<a href="#" onclick="showRegisterForm()">Nog geen account? Registreer hier</a>
-</div>
+<button type="submit" class="btn btn-primary w-100">Inloggen</button>
 </form>
+<p class="mt-3 text-center">Geen account? <a href="#" onclick="showRegisterForm()">Registreer hier</a></p>
 </div>
 </div>
 </div>
 </div>
 </section>
 
-<!-- Register Form -->
-<section id="register-section" class="content-section" style="display: none;">
-<div class="container py-5">
+<!-- Registratie Formulier -->
+<section id="register" class="content-section" style="display: none;">
+<div class="container">
 <div class="row justify-content-center">
-<div class="col-md-5">
+<div class="col-md-6">
 <div class="register-form">
-<h3 class="text-center mb-4">Account Aanmaken</h3>
+<h2 class="section-title">Registreren</h2>
 <form id="register-form">
 <div class="mb-3">
-<label for="fullName" class="form-label">Volledige Naam</label>
-<input type="text" class="form-control" id="fullName" required>
+<label for="register-username" class="form-label">Gebruikersnaam</label>
+<input type="text" class="form-control" id="register-username" required>
 </div>
 <div class="mb-3">
-<label for="email" class="form-label">E-mailadres</label>
-<input type="email" class="form-control" id="email" required>
+<label for="register-email" class="form-label">E-mail</label>
+<input type="email" class="form-control" id="register-email" required>
 </div>
 <div class="mb-3">
-<label for="phone" class="form-label">Telefoonnummer</label>
-<input type="tel" class="form-control" id="phone" required>
+<label for="register-password" class="form-label">Wachtwoord</label>
+<input type="password" class="form-control" id="register-password" required>
 </div>
 <div class="mb-3">
-<label for="password" class="form-label">Wachtwoord</label>
-<input type="password" class="form-control" id="password" required>
+<label for="register-password-confirm" class="form-label">Wachtwoord Bevestigen</label>
+<input type="password" class="form-control" id="register-password-confirm" required>
 </div>
-<div class="mb-3">
-<label for="confirmPassword" class="form-label">Bevestig Wachtwoord</label>
-<input type="password" class="form-control" id="confirmPassword" required>
-</div>
-<div class="mb-3 form-check">
-<input type="checkbox" class="form-check-input" id="agreeTerms" required>
-<label class="form-check-label" for="agreeTerms">
-Ik ga akkoord met de <a href="#">Algemene Voorwaarden</a>
-</label>
-</div>
-<div class="mb-3 form-check">
-<input type="checkbox" class="form-check-input" id="newsletterSignup" checked>
-<label class="form-check-label" for="newsletterSignup">
-Schrijf me in voor de nieuwsbrief
-</label>
-</div>
-<div class="d-grid">
-<button type="submit" class="btn btn-primary">Account Aanmaken</button>
-</div>
-<div class="text-center mt-3">
-<a href="#" onclick="showLoginForm()">Al een account? Log hier in</a>
-</div>
+<button type="submit" class="btn btn-primary w-100">Registreren</button>
 </form>
+<p class="mt-3 text-center">Al een account? <a href="#" onclick="showLoginForm()">Log in</a></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Checkout Sectie -->
+<section id="checkout" class="content-section" style="display: none;">
+<div class="container">
+<h2 class="section-title">Afrekenen</h2>
+<div class="row">
+<div class="col-md-8">
+<div class="card p-4">
+<h4>Leveringsinformatie</h4>
+<form id="checkout-form">
+<div class="mb-3">
+<label for="checkout-name" class="form-label">Volledige Naam</label>
+<input type="text" class="form-control" id="checkout-name" required>
+</div>
+<div class="mb-3">
+<label for="checkout-address" class="form-label">Adres</label>
+<input type="text" class="form-control" id="checkout-address" required>
+</div>
+<div class="mb-3">
+<label for="checkout-delivery" class="form-label">Leveringsmethode</label>
+<select id="checkout-delivery" class="form-select">
+<option value="pickup">Afhalen in Paramaribo</option>
+<option value="delivery">Bezorging in Suriname</option>
+</select>
+</div>
+<div class="mb-3">
+<label for="checkout-payment" class="form-label">Betaalmethode</label>
+<select id="checkout-payment" class="form-select">
+<option value="cash">Contant bij levering</option>
+<option value="bank">Bankoverschrijving</option>
+</select>
+</div>
+<button type="submit" class="btn btn-primary w-100">Bestelling Plaatsen</button>
+</form>
+</div>
+</div>
+<div class="col-md-4">
+<div class="card p-4">
+<h4>Besteloverzicht</h4>
+<div id="checkout-items"></div>
+<hr>
+<p><strong>Subtotaal:</strong> €<span id="checkout-subtotal">0</span></p>
+<p><strong>Verzendkosten:</strong> €<span id="checkout-shipping">0</span></p>
+<p><strong>Totaal:</strong> €<span id="checkout-total">0</span></p>
+<p><strong>Loyaliteitspunten:</strong> <span id="checkout-points">0</span></p>
 </div>
 </div>
 </div>
@@ -1218,811 +1230,252 @@ Schrijf me in voor de nieuwsbrief
 </main>
 
 <!-- Admin Panel -->
-<section id="admin-panel" class="admin-panel">
+<section id="admin-panel" class="admin-panel" style="display: none;">
 <div class="admin-nav">
-<div class="container d-flex justify-content-between align-items-center">
-<h4 class="mb-0"><i class="fas fa-cog me-2"></i>Double T Phones Admin Panel</h4>
-<div>
-<a href="#" class="active" onclick="showAdminSection('dashboard')">Dashboard</a>
+<div class="container">
+<a href="#" onclick="showAdminSection('dashboard')" class="active">Dashboard</a>
 <a href="#" onclick="showAdminSection('products')">Producten</a>
 <a href="#" onclick="showAdminSection('orders')">Bestellingen</a>
 <a href="#" onclick="showAdminSection('customers')">Klanten</a>
 <a href="#" onclick="showAdminSection('reports')">Rapporten</a>
-<a href="#" class="text-warning" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt me-1"></i>Uitloggen</a>
+<a href="#" onclick="logout()" class="float-end">Uitloggen</a>
 </div>
 </div>
-</div>
-
-<div class="container py-4">
-<!-- Dashboard -->
+<div class="container mt-4">
+<!-- Admin Dashboard -->
 <div id="admin-dashboard" class="admin-section">
-<h2 class="mb-4">Dashboard Overzicht</h2>
-
-<!-- Quick Stats -->
+<h2 class="section-title">Admin Dashboard</h2>
 <div class="quick-stats">
 <div class="stat-card">
-<div class="stat-number text-primary" id="stat-total-orders">0</div>
+<div class="stat-number" id="total-orders">0</div>
 <div class="stat-label">Totaal Bestellingen</div>
 </div>
 <div class="stat-card">
-<div class="stat-number text-success" id="stat-total-revenue">$0</div>
-<div class="stat-label">Totale Inkomsten</div>
+<div class="stat-number" id="total-revenue">€0</div>
+<div class="stat-label">Totale Omzet</div>
 </div>
 <div class="stat-card">
-<div class="stat-number text-info" id="stat-total-products">0</div>
+<div class="stat-number" id="total-products">0</div>
 <div class="stat-label">Totaal Producten</div>
 </div>
 <div class="stat-card">
-<div class="stat-number text-warning" id="stat-total-customers">0</div>
+<div class="stat-number" id="total-customers">0</div>
 <div class="stat-label">Totaal Klanten</div>
 </div>
-<div class="stat-card">
-<div class="stat-number text-danger" id="stat-pending-orders">0</div>
-<div class="stat-label">Openstaande Orders</div>
 </div>
-<div class="stat-card">
-<div class="stat-number" id="stat-low-stock">0</div>
-<div class="stat-label">Lage Voorraad</div>
-</div>
+<canvas id="sales-chart" height="100"></canvas>
 </div>
 
-<div class="row">
-<!-- Recent Orders -->
-<div class="col-md-8">
-<div class="card">
-<div class="card-header d-flex justify-content-between align-items-center">
-<h5 class="mb-0">Recente Bestellingen</h5>
-<a href="#" onclick="showAdminSection('orders')" class="btn btn-sm btn-primary">Alle Bestellingen</a>
-</div>
-<div class="card-body">
-<div class="table-responsive">
-<table class="table table-striped">
-<thead>
-<tr>
-<th>Order #</th>
-<th>Klant</th>
-<th>Datum</th>
-<th>Bedrag</th>
-<th>Status</th>
-<th>Actie</th>
-</tr>
-</thead>
-<tbody id="recent-orders-list">
-<!-- Recent orders will be loaded here -->
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Low Stock Alerts -->
-<div class="col-md-4">
-<div class="card border-warning">
-<div class="card-header bg-warning text-dark">
-<h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Lage Voorraad</h5>
-</div>
-<div class="card-body">
-<div id="low-stock-alerts">
-<!-- Low stock products will be loaded here -->
-</div>
-</div>
-</div>
-
-<!-- Quick Actions -->
-<div class="card mt-4">
-<div class="card-header">
-<h5 class="mb-0">Snelle Acties</h5>
-</div>
-<div class="card-body">
-<div class="d-grid gap-2">
-<button class="btn btn-primary" onclick="showAdminSection('products'); showAddProductForm();">
-<i class="fas fa-plus me-2"></i>Nieuw Product Toevoegen
-</button>
-<button class="btn btn-outline-primary" onclick="showAdminSection('orders')">
-<i class="fas fa-shopping-cart me-2"></i>Bestellingen Beheren
-</button>
-<button class="btn btn-outline-success" onclick="exportData('orders')">
-<i class="fas fa-download me-2"></i>Exporteer Orders
-</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Product Management -->
+<!-- Admin Producten -->
 <div id="admin-products" class="admin-section" style="display: none;">
-<div class="d-flex justify-content-between align-items-center mb-4">
-<h2><i class="fas fa-boxes me-2"></i>Productbeheer</h2>
-<button class="btn btn-primary" onclick="showAddProductForm()">
-<i class="fas fa-plus me-2"></i>Product Toevoegen
-</button>
-</div>
-
-<!-- Bulk Actions -->
+<h2 class="section-title">Productbeheer</h2>
 <div class="bulk-actions">
-<div class="row align-items-center">
-<div class="col-md-6">
-<h6 class="mb-0">Bulk Acties</h6>
+<button class="btn btn-primary" onclick="showAddProductForm()">Nieuw Product</button>
+<button class="btn btn-success" onclick="bulkMarkFeatured()">Markeren als Uitgelicht</button>
+<button class="btn btn-danger" onclick="bulkDeleteProducts()">Verwijderen</button>
 </div>
-<div class="col-md-6 text-end">
-<select class="form-select d-inline-block w-auto me-2" id="bulk-action-select">
-<option value="">Kies actie...</option>
-<option value="delete">Verwijderen</option>
-<option value="featured">Markeer als uitgelicht</option>
-<option value="unfeatured">Verwijder uitgelicht</option>
-<option value="onsale">Markeer als aanbieding</option>
-<option value="notonsale">Verwijder aanbieding</option>
-</select>
-<button class="btn btn-secondary" onclick="applyBulkAction()">Toepassen</button>
+<form id="add-product-form" style="display: none;" class="mb-4">
+<div class="row g-3">
+<div class="col-md-4">
+<label for="product-name" class="form-label">Naam</label>
+<input type="text" class="form-control" id="product-name" required>
 </div>
-</div>
-</div>
-
-<!-- Add/Edit Product Form -->
-<div id="add-product-form" class="admin-form mb-5" style="display: none;">
-<h4 class="mb-4" id="product-form-title">Product Toevoegen</h4>
-<form id="product-form">
-<input type="hidden" id="edit-product-id" value="">
-
-<div class="mb-3">
-<label class="form-label">Product Type</label>
-<div>
-<div class="form-check form-check-inline">
-<input class="form-check-input" type="radio" name="productType" id="phoneType" value="phone" checked>
-<label class="form-check-label" for="phoneType">Telefoon</label>
-</div>
-<div class="form-check form-check-inline">
-<input class="form-check-input" type="radio" name="productType" id="accessoryType" value="accessory">
-<label class="form-check-label" for="accessoryType">Accessoire</label>
-</div>
-</div>
-</div>
-
-<!-- Phone Fields -->
-<div id="phone-fields">
-<div class="row">
-<div class="col-md-6">
-<div class="mb-3">
-<label for="phoneBrand" class="form-label">Merk *</label>
-<select class="form-select" id="phoneBrand" required>
-<option value="">Kies merk</option>
-<option value="Apple">Apple</option>
-<option value="Samsung">Samsung</option>
-<option value="Google">Google</option>
-<option value="OnePlus">OnePlus</option>
-<option value="Oppo">Oppo</option>
-<option value="Xiaomi">Xiaomi</option>
-<option value="Huawei">Huawei</option>
+<div class="col-md-4">
+<label for="product-type" class="form-label">Type</label>
+<select id="product-type" class="form-select" required>
+<option value="phone">Telefoon</option>
+<option value="accessory">Accessoire</option>
 </select>
 </div>
-</div>
-<div class="col-md-6">
-<div class="mb-3">
-<label for="phoneModel" class="form-label">Model *</label>
-<input type="text" class="form-control" id="phoneModel" placeholder="Bijv. iPhone 15 Pro" required>
-</div>
-</div>
-</div>
-<div class="row">
 <div class="col-md-4">
-<div class="mb-3">
-<label for="phoneColor" class="form-label">Kleur *</label>
-<input type="text" class="form-control" id="phoneColor" placeholder="Bijv. Zwart, Wit, etc." required>
-</div>
+<label for="product-brand" class="form-label">Merk</label>
+<input type="text" class="form-control" id="product-brand">
 </div>
 <div class="col-md-4">
-<div class="mb-3">
-<label for="phoneStorage" class="form-label">Storage *</label>
-<select class="form-select" id="phoneStorage" required>
-<option value="">Kies storage</option>
-<option value="64GB">64GB</option>
-<option value="128GB">128GB</option>
-<option value="256GB">256GB</option>
-<option value="512GB">512GB</option>
-<option value="1TB">1TB</option>
-</select>
-</div>
+<label for="product-price" class="form-label">Prijs (€)</label>
+<input type="number" class="form-control" id="product-price" required>
 </div>
 <div class="col-md-4">
-<div class="mb-3">
-<label for="phoneRAM" class="form-label">RAM</label>
-<select class="form-select" id="phoneRAM">
-<option value="">Kies RAM</option>
-<option value="4GB">4GB</option>
-<option value="6GB">6GB</option>
-<option value="8GB">8GB</option>
-<option value="12GB">12GB</option>
-<option value="16GB">16GB</option>
-</select>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="col-md-6">
-<div class="mb-3">
-<label for="phoneCamera" class="form-label">Camera</label>
-<input type="text" class="form-control" id="phoneCamera" placeholder="Bijv. 12+48+12 MP">
-</div>
-</div>
-<div class="col-md-6">
-<div class="mb-3">
-<label for="phoneBattery" class="form-label">Batterij</label>
-<input type="text" class="form-control" id="phoneBattery" placeholder="Bijv. 4000mAh">
-</div>
-</div>
-</div>
-<div class="mb-3">
-<label class="form-label">Conditie *</label>
-<div>
-<div class="form-check form-check-inline">
-<input class="form-check-input" type="radio" name="phoneCondition" id="newCondition" value="new" checked>
-<label class="form-check-label" for="newCondition">Nieuw</label>
-</div>
-<div class="form-check form-check-inline">
-<input class="form-check-input" type="radio" name="phoneCondition" id="usedCondition" value="used">
-<label class="form-check-label" for="usedCondition">Gebruikt</label>
-</div>
-<div class="form-check form-check-inline">
-<input class="form-check-input" type="radio" name="phoneCondition" id="premiumCondition" value="premium">
-<label class="form-check-label" for="premiumCondition">Premium</label>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Accessory Fields -->
-<div id="accessory-fields" style="display: none;">
-<div class="row">
-<div class="col-md-6">
-<div class="mb-3">
-<label for="accessoryCategory" class="form-label">Categorie *</label>
-<select class="form-select" id="accessoryCategory" required>
-<option value="">Kies categorie</option>
-<option value="Hoesjes">Hoesjes</option>
-<option value="Oplaadkabels">Oplaadkabels</option>
-<option value="Adapters">Adapters</option>
-<option value="AirPods">AirPods</option>
-<option value="Oordopjes">Oordopjes</option>
-<option value="Screen Protectors">Screen Protectors</option>
-<option value="Power Banks">Power Banks</option>
-</select>
-</div>
-</div>
-<div class="col-md-6">
-<div class="mb-3">
-<label for="accessoryName" class="form-label">Product Naam *</label>
-<input type="text" class="form-control" id="accessoryName" placeholder="Bijv. iPhone 15 Silicone Case" required>
-</div>
-</div>
-</div>
-<div class="mb-3">
-<label for="accessoryCompatibility" class="form-label">Compatibiliteit</label>
-<input type="text" class="form-control" id="accessoryCompatibility" placeholder="Bijv. iPhone 14/15, Samsung S23, etc.">
-</div>
-</div>
-
-<!-- Common Fields -->
-<div class="row">
-<div class="col-md-6">
-<div class="mb-3">
-<label for="productName" class="form-label">Product Naam (weergavenaam) *</label>
-<input type="text" class="form-control" id="productName" required>
-</div>
-</div>
-<div class="col-md-6">
-<div class="mb-3">
-<label for="productPrice" class="form-label">Prijs (USD) *</label>
-<input type="number" class="form-control" id="productPrice" placeholder="Bijv. 999" step="0.01" required>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="col-md-4">
-<div class="mb-3">
-<label for="oldPrice" class="form-label">Oude Prijs (optioneel)</label>
-<input type="number" class="form-control" id="oldPrice" placeholder="Bijv. 1099" step="0.01">
-</div>
+<label for="product-stock" class="form-label">Voorraad</label>
+<input type="number" class="form-control" id="product-stock" required>
 </div>
 <div class="col-md-4">
-<div class="mb-3">
-<label for="productStock" class="form-label">Voorraad *</label>
-<input type="number" class="form-control" id="productStock" value="1" min="0" required>
+<label for="product-image" class="form-label">Afbeelding URL</label>
+<input type="text" class="form-control" id="product-image">
 </div>
+<div class="col-12">
+<button type="submit" class="btn btn-primary">Product Toevoegen</button>
+<button type="button" class="btn btn-secondary" onclick="cancelAddProduct()">Annuleren</button>
 </div>
-<div class="col-md-4">
-<div class="mb-3">
-<label class="form-label">Special Features</label>
-<div class="form-check">
-<input class="form-check-input" type="checkbox" id="productFeatured">
-<label class="form-check-label" for="productFeatured">Uitgelicht product</label>
-</div>
-<div class="form-check">
-<input class="form-check-input" type="checkbox" id="productOnSale">
-<label class="form-check-label" for="productOnSale">In aanbieding</label>
-</div>
-</div>
-</div>
-</div>
-<div class="mb-3">
-<label for="productDescription" class="form-label">Beschrijving *</label>
-<textarea class="form-control" id="productDescription" rows="3" required></textarea>
-</div>
-<div class="mb-3">
-<label for="productImages" class="form-label">Product Foto URL's (één per regel) *</label>
-<textarea class="form-control" id="productImages" rows="3" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg" required></textarea>
-<div class="form-text">Voeg URLs toe naar productfoto's, één per regel. Eerste URL wordt de hoofdafbeelding.</div>
-</div>
-<div class="d-flex gap-2">
-<button type="submit" class="btn btn-primary" id="product-submit-btn">Product Toevoegen</button>
-<button type="button" class="btn btn-secondary" onclick="hideAddProductForm()">Annuleren</button>
 </div>
 </form>
-</div>
-
-<!-- Products List -->
-<div class="card">
-<div class="card-header">
-<h5 class="mb-0">Alle Producten</h5>
-</div>
-<div class="card-body">
-<div class="table-responsive">
 <table class="table table-striped">
 <thead>
 <tr>
-<th><input type="checkbox" id="select-all-products" onchange="toggleSelectAllProducts()"></th>
-<th>ID</th>
+<th><input type="checkbox" id="select-all-products"></th>
 <th>Naam</th>
 <th>Type</th>
+<th>Merk</th>
 <th>Prijs</th>
 <th>Voorraad</th>
-<th>Status</th>
 <th>Acties</th>
 </tr>
 </thead>
-<tbody id="admin-products-list">
-<!-- Products will be loaded here by JavaScript -->
-</tbody>
+<tbody id="admin-products-table"></tbody>
 </table>
 </div>
-</div>
-</div>
-</div>
 
-<!-- Order Management -->
+<!-- Admin Bestellingen -->
 <div id="admin-orders" class="admin-section" style="display: none;">
-<h2 class="mb-4"><i class="fas fa-shopping-cart me-2"></i>Bestellingen Beheren</h2>
-
-<!-- Order Filters -->
+<h2 class="section-title">Bestellingen</h2>
 <div class="filter-section">
-<div class="row g-3">
-<div class="col-md-3">
-<label for="order-status-filter" class="form-label">Status Filter</label>
-<select class="form-select" id="order-status-filter" onchange="filterOrders()">
-<option value="">Alle Status</option>
-<option value="pending">In behandeling</option>
+<select id="order-status-filter" class="form-select d-inline-block w-auto">
+<option value="">Alle Statussen</option>
+<option value="pending">In Afwachting</option>
 <option value="confirmed">Bevestigd</option>
-<option value="processing">In behandeling</option>
+<option value="processing">In Behandeling</option>
 <option value="ready">Klaar</option>
 <option value="completed">Voltooid</option>
 <option value="cancelled">Geannuleerd</option>
 </select>
+<button class="btn btn-primary ms-2" onclick="filterOrders()">Filteren</button>
 </div>
-<div class="col-md-3">
-<label for="order-date-from" class="form-label">Vanaf Datum</label>
-<input type="date" class="form-control" id="order-date-from" onchange="filterOrders()">
-</div>
-<div class="col-md-3">
-<label for="order-date-to" class="form-label">Tot Datum</label>
-<input type="date" class="form-control" id="order-date-to" onchange="filterOrders()">
-</div>
-<div class="col-md-3">
-<label class="form-label">&nbsp;</label>
-<button class="btn btn-outline-secondary w-100" onclick="clearOrderFilters()">
-<i class="fas fa-times me-2"></i>Filters Wissen
-</button>
-</div>
-</div>
-</div>
-
-<!-- Orders List -->
-<div class="card">
-<div class="card-header">
-<h5 class="mb-0">Bestelling Overzicht</h5>
-</div>
-<div class="card-body">
-<div class="table-responsive">
 <table class="table table-striped">
 <thead>
 <tr>
-<th>Order #</th>
+<th>Ordernummer</th>
 <th>Klant</th>
 <th>Datum</th>
-<th>Producten</th>
-<th>Bedrag</th>
+<th>Totaal</th>
 <th>Status</th>
-<th>Type</th>
 <th>Acties</th>
 </tr>
 </thead>
-<tbody id="admin-orders-list">
-<!-- Orders will be loaded here by JavaScript -->
-</tbody>
+<tbody id="admin-orders-table"></tbody>
 </table>
 </div>
-</div>
-</div>
 
-<!-- Order Details Modal -->
-<div class="modal fade" id="orderDetailsModal" tabindex="-1">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title">Order Details - <span id="modal-order-number"></span></h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-</div>
-<div class="modal-body">
-<div id="order-details-content">
-<!-- Order details will be loaded here -->
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
-<button type="button" class="btn btn-primary" onclick="printOrder()"><i class="fas fa-print me-2"></i>Afdrukken</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Customer Management -->
+<!-- Admin Klanten -->
 <div id="admin-customers" class="admin-section" style="display: none;">
-<h2 class="mb-4"><i class="fas fa-users me-2"></i>Klantbeheer</h2>
-
-<div class="card">
-<div class="card-header">
-<h5 class="mb-0">Klanten Overzicht</h5>
-</div>
-<div class="card-body">
-<div class="table-responsive">
+<h2 class="section-title">Klanten</h2>
 <table class="table table-striped">
 <thead>
 <tr>
-<th>ID</th>
-<th>Naam</th>
+<th>Gebruikersnaam</th>
 <th>E-mail</th>
-<th>Telefoon</th>
-<th>Aankopen</th>
-<th>Totaal Besteed</th>
-<th>Loyalty Punten</th>
-<th>Laatste Order</th>
-<th>Actie</th>
+<th>Loyaliteitspunten</th>
+<th>Acties</th>
 </tr>
 </thead>
-<tbody id="admin-customers-list">
-<!-- Customers will be loaded here by JavaScript -->
-</tbody>
+<tbody id="admin-customers-table"></tbody>
 </table>
 </div>
-</div>
-</div>
-</div>
 
-<!-- Reports -->
+<!-- Admin Rapporten -->
 <div id="admin-reports" class="admin-section" style="display: none;">
-<h2 class="mb-4"><i class="fas fa-chart-bar me-2"></i>Verkooprapporten</h2>
-
-<div class="row">
-<div class="col-md-8">
-<div class="card">
-<div class="card-header">
-<h5 class="mb-0">Verkoop Overzicht (Laatste 30 Dagen)</h5>
-</div>
-<div class="card-body">
-<canvas id="salesChart" width="400" height="200"></canvas>
-</div>
-</div>
-</div>
-<div class="col-md-4">
-<div class="card">
-<div class="card-header">
-<h5 class="mb-0">Top Producten</h5>
-</div>
-<div class="card-body">
-<div id="top-products-list">
-<!-- Top products will be loaded here -->
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<div class="row mt-4">
-<div class="col-12">
-<div class="card">
-<div class="card-header">
-<h5 class="mb-0">Gedetailleerde Rapportage</h5>
-</div>
-<div class="card-body">
-<div class="row mb-3">
-<div class="col-md-3">
-<label for="reportStartDate" class="form-label">Start Datum</label>
-<input type="date" class="form-control" id="reportStartDate">
-</div>
-<div class="col-md-3">
-<label for="reportEndDate" class="form-label">Eind Datum</label>
-<input type="date" class="form-control" id="reportEndDate">
-</div>
-<div class="col-md-3">
-<label for="reportType" class="form-label">Rapport Type</label>
-<select class="form-select" id="reportType">
+<h2 class="section-title">Rapporten</h2>
+<div class="filter-section">
+<label for="report-type" class="me-2">Rapporttype:</label>
+<select id="report-type" class="form-select d-inline-block w-auto">
 <option value="sales">Verkoop</option>
 <option value="products">Producten</option>
 <option value="customers">Klanten</option>
 </select>
+<label for="report-date-start" class="ms-3 me-2">Van:</label>
+<input type="date" id="report-date-start" class="form-control d-inline-block w-auto">
+<label for="report-date-end" class="ms-3 me-2">Tot:</label>
+<input type="date" id="report-date-end" class="form-control d-inline-block w-auto">
+<button class="btn btn-primary ms-2" onclick="generateReport()">Genereren</button>
 </div>
-<div class="col-md-3">
-<label class="form-label">&nbsp;</label>
-<button class="btn btn-primary w-100" onclick="generateReport()">Rapport Genereren</button>
-</div>
-</div>
-<div id="report-results">
-<!-- Report results will be displayed here -->
-</div>
-</div>
-</div>
-</div>
-</div>
+<canvas id="report-chart" height="100"></canvas>
+<div id="report-table" class="table-responsive mt-3"></div>
 </div>
 </div>
 </section>
 
-<!-- Cart Sidebar -->
-<div class="cart-overlay" id="cart-overlay"></div>
-<div class="cart-sidebar" id="cart-sidebar">
-<div class="d-flex justify-content-between align-items-center mb-4">
-<h4>Winkelwagen</h4>
-<button class="btn btn-sm btn-outline-secondary" onclick="closeCart()">
-<i class="fas fa-times"></i>
-</button>
+<!-- Winkelwagen Sidebar -->
+<div class="cart-overlay" onclick="closeCart()"></div>
+<div class="cart-sidebar">
+<h3>Winkelwagen</h3>
+<div id="cart-items"></div>
+<hr>
+<p><strong>Subtotaal:</strong> €<span id="cart-subtotal">0</span></p>
+<p><strong>Verzendkosten:</strong> €<span id="cart-shipping">0</span></p>
+<p><strong>Totaal:</strong> €<span id="cart-total">0</span></p>
+<button class="btn btn-primary w-100" onclick="proceedToCheckout()">Afrekenen</button>
+<button class="btn btn-secondary w-100 mt-2" onclick="closeCart()">Sluiten</button>
 </div>
 
-<div id="cart-items">
-<!-- Cart items will be loaded here -->
-</div>
-
-<div class="cart-total mt-4 pt-4 border-top">
-<div class="d-flex justify-content-between mb-2">
-<span>Subtotaal:</span>
-<span id="cart-subtotal">$0.00</span>
-</div>
-<div class="d-flex justify-content-between mb-3">
-<strong>Totaal:</strong>
-<strong id="cart-total">$0.00</strong>
-</div>
-<div class="mb-3">
-<label class="form-label">Bezorgoptie</label>
-<select class="form-select" id="deliveryOption">
-<option value="pickup">Afhalen in winkel</option>
-<option value="delivery">Bezorgen (Suriname)</option>
-</select>
-</div>
-<button class="btn btn-primary w-100" onclick="checkout()">Afrekenen</button>
-</div>
-</div>
-
-<!-- Footer -->
-<footer class="py-5 mt-5">
-<div class="container">
-<div class="row">
-<div class="col-md-4 mb-4 mb-md-0">
-<h5>Double T Phones</h5>
-<p>Uw betrouwbare partner voor premium smartphones en accessoires.</p>
-<div class="d-flex">
-<a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
-<a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
-<a href="https://wa.me/5978996512" class="text-light" target="_blank"><i class="fab fa-whatsapp"></i></a>
-</div>
-</div>
-<div class="col-md-2 mb-4 mb-md-0">
-<h5>Links</h5>
-<ul class="list-unstyled">
-<li><a href="#" class="text-light" onclick="showSection('home')">Home</a></li>
-<li><a href="#" class="text-light" onclick="showSection('phones')">Telefoons</a></li>
-<li><a href="#" class="text-light" onclick="showSection('accessories')">Accessoires</a></li>
-<li><a href="#" class="text-light" onclick="showSection('contact')">Contact</a></li>
-</ul>
-</div>
-<div class="col-md-3 mb-4 mb-md-0">
-<h5>Service</h5>
-<ul class="list-unstyled">
-<li><a href="#" class="text-light">Garantie</a></li>
-<li><a href="#" class="text-light">Retourneren</a></li>
-<li><a href="#" class="text-light">Veelgestelde Vragen</a></li>
-<li><a href="#" class="text-light" onclick="showSection('order-tracking')">Order Tracking</a></li>
-</ul>
-</div>
-<div class="col-md-3">
-<h5>Contact</h5>
-<ul class="list-unstyled">
-<li><i class="fas fa-phone me-2"></i> +597 899 6512</li>
-<li><i class="fas fa-envelope me-2"></i> doubletphone20@gmail.com</li>
-</ul>
-</div>
-</div>
-<hr class="my-4">
-<div class="text-center">
-<p>&copy; 2023 Double T Phones. Alle rechten voorbehouden.</p>
-</div>
-</div>
-</footer>
-
-<!-- WhatsApp Float Button -->
-<a href="https://wa.me/5978996512" class="whatsapp-float" target="_blank">
+<!-- WhatsApp Knop -->
+<a href="https://wa.me/+5971234567" class="whatsapp-float" target="_blank">
 <i class="fab fa-whatsapp"></i>
 </a>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Footer -->
+<footer class="py-5">
+<div class="container">
+<div class="row">
+<div class="col-md-4">
+<h5>Double T Phones</h5>
+<p>Premium smartphones en accessoires in Suriname. Topkwaliteit, scherpe prijzen.</p>
+</div>
+<div class="col-md-4">
+<h5>Snelle Links</h5>
+<ul class="list-unstyled">
+<li><a href="#" onclick="showSection('phones')">Telefoons</a></li>
+<li><a href="#" onclick="showSection('accessories')">Accessoires</a></li>
+<li><a href="#" onclick="showSection('about')">Over Ons</a></li>
+<li><a href="#" onclick="showSection('contact')">Contact</a></li>
+<li><a href="#" onclick="showSection('order-tracking')">Bestelling Volgen</a></li>
+</ul>
+</div>
+<div class="col-md-4">
+<h5>Contact</h5>
+<p><i class="fas fa-map-marker-alt"></i> Paramaribo, Suriname</p>
+<p><i class="fas fa-phone"></i> +597 123 4567</p>
+<p><i class="fas fa-envelope"></i> info@doubletphones.com</p>
+</div>
+</div>
+<hr>
+<p class="text-center mb-0">&copy; 2025 Double T Phones. Alle rechten voorbehouden.</p>
+</div>
+</footer>
+
 <script>
-// Data initialization
 let products = JSON.parse(localStorage.getItem('doublet_products')) || [];
 let cart = JSON.parse(localStorage.getItem('doublet_cart')) || [];
-let orders = JSON.parse(localStorage.getItem('doublet_orders')) || [];
-let users = JSON.parse(localStorage.getItem('doublet_users')) || [];
-let currentUser = JSON.parse(localStorage.getItem('doublet_current_user')) || null;
-let adminLoggedIn = localStorage.getItem('doublet_admin_logged_in') === 'true';
 let wishlist = JSON.parse(localStorage.getItem('doublet_wishlist')) || [];
 let comparison = JSON.parse(localStorage.getItem('doublet_comparison')) || [];
+let users = JSON.parse(localStorage.getItem('doublet_users')) || [];
+let orders = JSON.parse(localStorage.getItem('doublet_orders')) || [];
+let currentUser = JSON.parse(localStorage.getItem('doublet_current_user')) || null;
 let recentlyViewed = JSON.parse(localStorage.getItem('doublet_recently_viewed')) || [];
-let newsletterSubscribers = JSON.parse(localStorage.getItem('doublet_newsletter')) || [];
-let selectedProducts = [];
 
-// Initialize with sample data if empty
+// Initialize sample data
 if (products.length === 0) {
 products = [
-{
-id: 1,
-name: "iPhone 15 Pro",
-type: "phone",
-brand: "Apple",
-model: "iPhone 15 Pro",
-color: "Zwart",
-storage: "256GB",
-ram: "8GB",
-camera: "48+12+12 MP",
-battery: "3274mAh",
-condition: "new",
-price: 999,
-oldPrice: 1110,
-description: "Nieuwste iPhone met A17 Pro chip en titanium design.",
-images: ["https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"],
-stock: 5,
-featured: true,
-onSale: true,
-specifications: {
-"Scherm": "6.1 inch Super Retina XDR",
-"Processor": "A17 Pro",
-"Opslag": "256GB",
-"RAM": "8GB",
-"Camera": "48MP + 12MP + 12MP",
-"Batterij": "3274mAh",
-"Besturingssysteem": "iOS 17"
-}
-},
-{
-id: 2,
-name: "Samsung Galaxy S24",
-type: "phone",
-brand: "Samsung",
-model: "Galaxy S24",
-color: "Paars",
-storage: "512GB",
-ram: "12GB",
-camera: "50+10+12 MP",
-battery: "4000mAh",
-condition: "premium",
-price: 899,
-description: "Krachtige Android telefoon met geavanceerde camera.",
-images: ["https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"],
-stock: 3,
-featured: true,
-specifications: {
-"Scherm": "6.2 inch Dynamic AMOLED",
-"Processor": "Snapdragon 8 Gen 3",
-"Opslag": "512GB",
-"RAM": "12GB",
-"Camera": "50MP + 10MP + 12MP",
-"Batterij": "4000mAh",
-"Besturingssysteem": "Android 14"
-}
-},
-{
-id: 3,
-name: "Google Pixel 8",
-type: "phone",
-brand: "Google",
-model: "Pixel 8",
-color: "Wit",
-storage: "128GB",
-ram: "8GB",
-camera: "50+12 MP",
-battery: "4575mAh",
-condition: "used",
-price: 599,
-oldPrice: 749,
-description: "Pure Android ervaring met uitstekende camera prestaties.",
-images: ["https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"],
-stock: 2,
-featured: true,
-onSale: true,
-specifications: {
-"Scherm": "6.2 inch OLED",
-"Processor": "Google Tensor G3",
-"Opslag": "128GB",
-"RAM": "8GB",
-"Camera": "50MP + 12MP",
-"Batterij": "4575mAh",
-"Besturingssysteem": "Android 14"
-}
-},
-{
-id: 4,
-name: "iPhone Hoesjes",
-type: "accessory",
-category: "Hoesjes",
-name: "iPhone Hoesjes",
-compatibility: "Alle iPhone modellen",
-price: 15,
-oldPrice: 18,
-description: "Premium telefoonhoesjes voor alle iPhone modellen.",
-images: ["https://images.unsplash.com/photo-1601599561383-875b8e4b4349?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"],
-stock: 20,
-featured: true,
-onSale: true
-},
-{
-id: 5,
-name: "Oplaadkabels",
-type: "accessory",
-category: "Oplaadkabels",
-name: "Oplaadkabels",
-compatibility: "Alle telefoon merken",
-price: 12,
-description: "Snellaad kabels voor alle telefoon merken.",
-images: ["https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"],
-stock: 50
-},
-{
-id: 6,
-name: "AirPods",
-type: "accessory",
-category: "AirPods",
-name: "AirPods",
-compatibility: "Alle Apple apparaten",
-price: 149,
-description: "Original Apple AirPods met wireless charging case.",
-images: ["https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"],
-stock: 10,
-featured: true
-}
+{ id: 1, name: "iPhone 15 Pro", type: "phone", brand: "Apple", model: "Pro", price: 999, oldPrice: 1099, stock: 10, condition: "Nieuw", storage: "256GB", ram: "8GB", camera: "48MP", image: "https://images.unsplash.com/photo-1695636658398-98f664d2b704", featured: true, discount: 10 },
+{ id: 2, name: "Samsung Galaxy S24", type: "phone", brand: "Samsung", model: "S24", price: 799, stock: 15, condition: "Nieuw", storage: "128GB", ram: "8GB", camera: "50MP", image: "https://images.unsplash.com/photo-1705689434067-7dacul9f0ab5", featured: true },
+{ id: 3, name: "Google Pixel 8", type: "phone", brand: "Google", model: "Pixel 8", price: 699, stock: 8, condition: "Nieuw", storage: "128GB", ram: "8GB", camera: "50MP", image: "https://images.unsplash.com/photo-1696267412013-fb25a378e1ed", featured: false },
+{ id: 4, name: "OnePlus 12", type: "phone", brand: "OnePlus", model: "12", price: 899, stock: 12, condition: "Nieuw", storage: "256GB", ram: "12GB", camera: "50MP", image: "https://images.unsplash.com/photo-1705689434067-7da9f0ab5", featured: true },
+{ id: 5, name: "iPhone 13 Gebruikt", type: "phone", brand: "Apple", model: "13", price: 499, stock: 5, condition: "Gebruikt", storage: "128GB", ram: "6GB", camera: "12MP", image: "https://images.unsplash.com/photo-1624007472915-4f374051cb7b", featured: false },
+{ id: 6, name: "Hoesje iPhone 15", type: "accessory", category: "Hoesjes", price: 29, stock: 50, image: "https://images.unsplash.com/photo-1583394838336-acd977736f90" },
+{ id: 7, name: "Power Bank 10000mAh", type: "accessory", category: "Power Banks", price: 25, stock: 30, image: "https://images.unsplash.com/photo-1618322756931-7e3c5ef75e50", featured: true },
+{ id: 8, name: "USB-C Oplaadkabel", type: "accessory", category: "Oplaadkabels", price: 15, stock: 100, image: "https://images.unsplash.com/photo-1580053459127-2a23a8b9f722" },
+{ id: 9, name: "Samsung Galaxy A54", type: "phone", brand: "Samsung", model: "A54", price: 399, stock: 20, condition: "Nieuw", storage: "128GB", ram: "6GB", camera: "48MP", image: "https://images.unsplash.com/photo-1678738634965-196e76b3c662" },
+{ id: 10, name: "AirPods Pro 2", type: "accessory", category: "Oordopjes", price: 249, stock: 25, image: "https://images.unsplash.com/photo-1606841964936-0252b6c9b2c9", featured: true },
+{ id: 11, name: "Xiaomi 14", type: "phone", brand: "Xiaomi", model: "14", price: 799, stock: 10, condition: "Nieuw", storage: "256GB", ram: "12GB", camera: "50MP", image: "https://images.unsplash.com/photo-1705689434067-7da9f0ab5", featured: true },
+{ id: 12, name: "Screen Protector iPhone 15", type: "accessory", category: "Screen Protectors", price: 19, stock: 40, image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97" }
 ];
 saveProducts();
 }
 
-// Add admin user if not exists
 if (users.length === 0) {
-users.push({
-id: 1,
-username: "admin",
-password: "doublet2024",
-email: "doubletphone20@gmail.com",
-role: "admin",
-loyaltyPoints: 0
-});
-saveUsers();
+users = [
+{ username: "admin", email: "admin@doubletphones.com", password: "doublet2024", role: "admin", loyaltyPoints: 0 },
+{ username: "user1", email: "user1@example.com", password: "password123", role: "user", loyaltyPoints: 100 }
+];
+localStorage.setItem('doublet_users', JSON.stringify(users));
 }
 
 // Save functions
@@ -2033,14 +1486,6 @@ localStorage.setItem('doublet_products', JSON.stringify(products));
 function saveCart() {
 localStorage.setItem('doublet_cart', JSON.stringify(cart));
 updateCartCount();
-}
-
-function saveOrders() {
-localStorage.setItem('doublet_orders', JSON.stringify(orders));
-}
-
-function saveUsers() {
-localStorage.setItem('doublet_users', JSON.stringify(users));
 }
 
 function saveWishlist() {
@@ -2056,913 +1501,38 @@ function saveRecentlyViewed() {
 localStorage.setItem('doublet_recently_viewed', JSON.stringify(recentlyViewed));
 }
 
-function saveNewsletter() {
-localStorage.setItem('doublet_newsletter', JSON.stringify(newsletterSubscribers));
+function saveOrders() {
+localStorage.setItem('doublet_orders', JSON.stringify(orders));
 }
 
-// Initialize the page
-document.addEventListener('DOMContentLoaded', function() {
-// Check if admin is logged in
-if (adminLoggedIn) {
-showAdminPanel();
-} else {
-showSection('home');
-}
-
-// Load initial data
-loadFeaturedProducts();
-loadSpecialOffers();
-loadPhones();
-loadAccessories();
-updateCartCount();
-updateWishlistCount();
-updateAdminDashboard();
-loadRecentlyViewed();
-
-// Set up event listeners
-document.getElementById('login-form').addEventListener('submit', handleLogin);
-document.getElementById('register-form').addEventListener('submit', handleRegister);
-document.getElementById('contact-form').addEventListener('submit', handleContact);
-document.getElementById('product-form').addEventListener('submit', handleProductSubmit);
-document.getElementById('newsletter-form').addEventListener('submit', handleNewsletterSignup);
-document.getElementById('track-order-form').addEventListener('submit', handleOrderTracking);
-
-// Toggle between phone and accessory fields in admin
-document.getElementById('phoneType').addEventListener('change', function() {
-if (this.checked) {
-document.getElementById('phone-fields').style.display = 'block';
-document.getElementById('accessory-fields').style.display = 'none';
-}
-});
-
-document.getElementById('accessoryType').addEventListener('change', function() {
-if (this.checked) {
-document.getElementById('phone-fields').style.display = 'none';
-document.getElementById('accessory-fields').style.display = 'block';
-}
-});
-
-// Initialize price range
-updatePriceRange();
-});
-
-// WEBSITE FUNCTIES
-
-// Navigation functions
+// Navigation
 function showSection(sectionId) {
-// Hide all sections
-document.querySelectorAll('.content-section').forEach(section => {
-section.style.display = 'none';
-});
-
-// Show the selected section
+document.querySelectorAll('.content-section').forEach(section => section.style.display = 'none');
 document.getElementById(sectionId).style.display = 'block';
-
-// Update active nav link
-document.querySelectorAll('.nav-link').forEach(link => {
-link.classList.remove('active');
-});
-
-// Load section-specific data
-if (sectionId === 'wishlist') {
+document.getElementById('admin-panel').style.display = 'none';
+document.querySelectorAll('.navbar-nav .nav-link').forEach(link => link.classList.remove('active'));
+document.querySelector(`.navbar-nav .nav-link[onclick="showSection('${sectionId}')"]`)?.classList.add('active');
+if (sectionId === 'home') {
+loadFeaturedProducts();
+loadBestSellers();
+loadSpecialOffers();
+loadRecentlyViewed();
+} else if (sectionId === 'phones') {
+loadProducts('phone');
+} else if (sectionId === 'accessories') {
+loadProducts('accessory');
+} else if (sectionId === 'wishlist') {
 loadWishlist();
 } else if (sectionId === 'comparison') {
 loadComparison();
 }
-
-// Update active state for the clicked link
-event.target.classList.add('active');
-}
-
-function showLoginForm() {
-showSection('login-section');
-}
-
-function showRegisterForm() {
-showSection('register-section');
-}
-
-function showAdminLogin() {
-const username = prompt("Admin Gebruikersnaam:");
-const password = prompt("Admin Wachtwoord:");
-
-if (username === "admin" && password === "doublet2024") {
-localStorage.setItem('doublet_admin_logged_in', 'true');
-adminLoggedIn = true;
-showAdminPanel();
-} else {
-alert("Ongeldige inloggegevens");
-}
-}
-
-// Product loading functions
-function loadFeaturedProducts() {
-const container = document.getElementById('featured-products');
-const featured = products.filter(p => p.featured);
-
-container.innerHTML = '';
-
-featured.forEach(product => {
-container.innerHTML += createProductCard(product);
-});
-}
-
-function loadSpecialOffers() {
-const container = document.getElementById('special-offers');
-const specialOffers = products.filter(p => p.onSale);
-
-container.innerHTML = '';
-
-if (specialOffers.length === 0) {
-container.innerHTML = '<p class="text-center w-100">Momenteel geen speciale aanbiedingen</p>';
-return;
-}
-
-specialOffers.forEach(product => {
-container.innerHTML += createProductCard(product);
-});
-}
-
-function loadPhones() {
-const container = document.getElementById('phones-container');
-const phones = products.filter(p => p.type === 'phone');
-
-container.innerHTML = '';
-
-phones.forEach(phone => {
-container.innerHTML += createProductCard(phone);
-});
-}
-
-function loadAccessories() {
-const container = document.getElementById('accessories-container');
-const accessories = products.filter(p => p.type === 'accessory');
-
-container.innerHTML = '';
-
-accessories.forEach(accessory => {
-container.innerHTML += createProductCard(accessory);
-});
-}
-
-function filterPhones() {
-const brand = document.getElementById('brandFilter').value;
-const condition = document.getElementById('conditionFilter').value;
-const storage = document.getElementById('storageFilter').value;
-const ram = document.getElementById('ramFilter').value;
-const camera = document.getElementById('cameraFilter').value;
-const priceRange = parseInt(document.getElementById('priceRange').value);
-const sortBy = document.getElementById('priceFilter').value;
-
-let filtered = products.filter(p => p.type === 'phone');
-
-if (brand) {
-filtered = filtered.filter(p => p.brand === brand);
-}
-
-if (condition) {
-filtered = filtered.filter(p => p.condition === condition);
-}
-
-if (storage) {
-filtered = filtered.filter(p => p.storage === storage);
-}
-
-if (ram) {
-filtered = filtered.filter(p => p.ram === ram);
-}
-
-if (camera) {
-const minMp = parseInt(camera);
-filtered = filtered.filter(p => {
-const mainCamera = parseInt(p.camera);
-return mainCamera >= minMp;
-});
-}
-
-// Price range filter
-filtered = filtered.filter(p => p.price <= priceRange);
-
-// Sorting
-if (sortBy === 'low') {
-filtered.sort((a, b) => a.price - b.price);
-} else if (sortBy === 'high') {
-filtered.sort((a, b) => b.price - a.price);
-} else if (sortBy === 'name') {
-filtered.sort((a, b) => a.name.localeCompare(b.name));
-} else if (sortBy === 'newest') {
-// Assuming newer products have higher IDs
-filtered.sort((a, b) => b.id - a.id);
-}
-
-const container = document.getElementById('phones-container');
-container.innerHTML = '';
-
-if (filtered.length === 0) {
-container.innerHTML = '<p class="text-center w-100">Geen producten gevonden met de geselecteerde filters</p>';
-} else {
-filtered.forEach(phone => {
-container.innerHTML += createProductCard(phone);
-});
-}
-}
-
-function filterAccessories(category) {
-// Update active filter button
-document.querySelectorAll('#accessories .btn').forEach(btn => {
-btn.classList.remove('active');
-});
-event.target.classList.add('active');
-
-const container = document.getElementById('accessories-container');
-let filtered = products.filter(p => p.type === 'accessory');
-
-if (category !== 'all') {
-filtered = filtered.filter(p => p.category === category);
-}
-
-container.innerHTML = '';
-
-filtered.forEach(accessory => {
-container.innerHTML += createProductCard(accessory);
-});
-}
-
-function searchProducts() {
-const query = document.getElementById('searchInput').value.toLowerCase();
-
-if (!query) {
-loadFeaturedProducts();
-return;
-}
-
-const filtered = products.filter(p =>
-p.name.toLowerCase().includes(query) ||
-(p.brand && p.brand.toLowerCase().includes(query)) ||
-(p.model && p.model.toLowerCase().includes(query)) ||
-(p.category && p.category.toLowerCase().includes(query))
-);
-
-const container = document.getElementById('featured-products');
-container.innerHTML = '';
-
-if (filtered.length === 0) {
-container.innerHTML = '<p class="text-center w-100">Geen producten gevonden</p>';
-} else {
-filtered.forEach(product => {
-container.innerHTML += createProductCard(product);
-});
-}
-}
-
-// Product card template
-function createProductCard(product) {
-let badge = '';
-if (product.type === 'phone') {
-if (product.condition === 'new') {
-badge = '<span class="badge-new">Nieuw</span>';
-} else if (product.condition === 'used') {
-badge = '<span class="badge-used">Gebruikt</span>';
-} else if (product.condition === 'premium') {
-badge = '<span class="badge-premium">Premium</span>';
-}
-}
-
-if (product.oldPrice) {
-badge += '<span class="badge-discount">-' + Math.round((1 - product.price / product.oldPrice) * 100) + '%</span>';
-}
-
-let details = '';
-if (product.type === 'phone') {
-details = `
-<span class="category-badge">${product.brand}</span>
-<span class="category-badge">${product.storage}</span>
-<span class="category-badge">${product.ram}</span>
-${product.camera ? `<span class="category-badge">${product.camera}</span>` : ''}
-`;
-} else {
-details = `<span class="category-badge">${product.category}</span>`;
-}
-
-let priceHtml = '';
-if (product.oldPrice) {
-priceHtml = `
-<div class="d-flex justify-content-between align-items-center mb-2">
-<span class="price">$${product.price}</span>
-<span class="old-price">$${product.oldPrice}</span>
-</div>
-`;
-} else {
-priceHtml = `
-<div class="d-flex justify-content-between align-items-center mb-2">
-<span class="price">$${product.price}</span>
-</div>
-`;
-}
-
-const isInWishlist = currentUser && wishlist.some(item => item.productId === product.id && item.userId === currentUser.id);
-const isInComparison = comparison.includes(product.id);
-
-return `
-<div class="product-card card h-100">
-<div class="position-relative">
-<img src="${product.images[0]}" class="product-image card-img-top" alt="${product.name}">
-${badge}
-<button class="wishlist-btn ${isInWishlist ? 'active' : ''}"
-onclick="toggleWishlist(${product.id})"
-data-product-id="${product.id}">
-<i class="${isInWishlist ? 'fas' : 'far'} fa-heart"></i>
-</button>
-</div>
-<div class="card-body d-flex flex-column">
-<h5 class="card-title">${product.name}</h5>
-<p class="card-text flex-grow-1">
-${details}
-</p>
-${priceHtml}
-<div class="stock-info mb-2 ${product.stock < 5 ? 'stock-low' : 'stock-ok'}">
-${product.stock < 5 ? 'Nog ' + product.stock + ' op voorraad' : 'Op voorraad'}
-</div>
-<div class="mt-auto">
-<div class="d-grid gap-2">
-<button class="btn btn-primary" onclick="addToCart(${product.id})">
-<i class="fas fa-cart-plus me-2"></i>In Winkelwagen
-</button>
-${product.type === 'phone' ? `
-<button class="btn btn-outline-secondary" onclick="addToComparison(${product.id})"
-${isInComparison ? 'disabled' : ''}>
-<i class="fas fa-balance-scale me-2"></i>
-${isInComparison ? 'In vergelijking' : 'Vergelijken'}
-</button>
-` : ''}
-</div>
-</div>
-</div>
-</div>
-`;
-}
-
-// Cart functions
-function addToCart(productId) {
-const product = products.find(p => p.id === productId);
-if (!product) return;
-
-const existingItem = cart.find(item => item.id === productId);
-
-if (existingItem) {
-existingItem.quantity += 1;
-} else {
-cart.push({
-id: product.id,
-name: product.name,
-price: product.price,
-image: product.images[0],
-quantity: 1
-});
-}
-
-saveCart();
-alert(`${product.name} toegevoegd aan winkelwagen!`);
-}
-
-function openCart() {
-document.getElementById('cart-overlay').classList.add('show');
-document.getElementById('cart-sidebar').classList.add('open');
-loadCartItems();
-}
-
-function closeCart() {
-document.getElementById('cart-overlay').classList.remove('show');
-document.getElementById('cart-sidebar').classList.remove('open');
-}
-
-function loadCartItems() {
-const container = document.getElementById('cart-items');
-const subtotalEl = document.getElementById('cart-subtotal');
-const totalEl = document.getElementById('cart-total');
-
-if (cart.length === 0) {
-container.innerHTML = '<p class="text-center">Je winkelwagen is leeg</p>';
-subtotalEl.textContent = '$0.00';
-totalEl.textContent = '$0.00';
-return;
-}
-
-let subtotal = 0;
-container.innerHTML = '';
-
-cart.forEach(item => {
-const itemTotal = item.price * item.quantity;
-subtotal += itemTotal;
-
-container.innerHTML += `
-<div class="cart-item">
-<img src="${item.image}" class="cart-item-image" alt="${item.name}">
-<div class="flex-grow-1">
-<h6>${item.name}</h6>
-<div class="d-flex justify-content-between align-items-center">
-<span>$${item.price}</span>
-<div class="quantity-control">
-<button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
-<input type="text" class="quantity-input" value="${item.quantity}" readonly>
-<button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
-</div>
-</div>
-</div>
-<button class="btn btn-sm btn-outline-danger ms-2" onclick="removeFromCart(${item.id})">
-<i class="fas fa-trash"></i>
-</button>
-</div>
-`;
-});
-
-subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-totalEl.textContent = `$${subtotal.toFixed(2)}`;
-}
-
-function updateQuantity(productId, newQuantity) {
-if (newQuantity < 1) {
-removeFromCart(productId);
-return;
-}
-
-const item = cart.find(item => item.id === productId);
-if (item) {
-item.quantity = newQuantity;
-saveCart();
-loadCartItems();
-}
-}
-
-function removeFromCart(productId) {
-cart = cart.filter(item => item.id !== productId);
-saveCart();
-loadCartItems();
-}
-
-function updateCartCount() {
-const count = cart.reduce((total, item) => total + item.quantity, 0);
-document.getElementById('cartCount').textContent = count;
-}
-
-function checkout() {
-if (cart.length === 0) {
-alert('Je winkelwagen is leeg');
-return;
-}
-
-if (!currentUser) {
-alert('Je moet ingelogd zijn om af te rekenen');
-showLoginForm();
-closeCart();
-return;
-}
-
-const deliveryOption = document.getElementById('deliveryOption').value;
-
-const order = {
-id: orders.length + 1,
-userId: currentUser.id,
-items: [...cart],
-total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-date: new Date().toISOString(),
-status: 'pending',
-deliveryOption: deliveryOption
-};
-
-orders.push(order);
-saveOrders();
-
-// Add loyalty points
-const pointsEarned = Math.floor(order.total);
-addLoyaltyPoints(currentUser.id, pointsEarned, `Aankoop order #DT-${order.id}`);
-
-cart = [];
-saveCart();
-
-closeCart();
-alert(`Bestelling geplaatst! Order #DT-${order.id}. Je hebt ${pointsEarned} loyalty punten verdiend.`);
-updateAdminDashboard();
-}
-
-// Wishlist functionaliteit
-function toggleWishlist(productId) {
-if (!currentUser) {
-alert('Je moet ingelogd zijn om producten aan je wishlist toe te voegen');
-showLoginForm();
-return;
-}
-
-const index = wishlist.findIndex(item => item.productId === productId && item.userId === currentUser.id);
-
-if (index > -1) {
-wishlist.splice(index, 1);
-} else {
-wishlist.push({
-id: wishlist.length + 1,
-productId: productId,
-userId: currentUser.id,
-date: new Date().toISOString()
-});
-}
-
-saveWishlist();
-loadWishlist();
-
-// Update wishlist buttons op de pagina
-document.querySelectorAll('.wishlist-btn').forEach(btn => {
-if (parseInt(btn.dataset.productId) === productId) {
-btn.classList.toggle('active');
-btn.innerHTML = btn.classList.contains('active') ?
-'<i class="fas fa-heart"></i>' :
-'<i class="far fa-heart"></i>';
-}
-});
-}
-
-function loadWishlist() {
-if (!currentUser) return;
-
-const container = document.getElementById('wishlist-container');
-const emptyMessage = document.getElementById('empty-wishlist');
-
-const userWishlist = wishlist.filter(item => item.userId === currentUser.id);
-const wishlistProducts = products.filter(product =>
-userWishlist.some(item => item.productId === product.id)
-);
-
-if (wishlistProducts.length === 0) {
-container.style.display = 'none';
-emptyMessage.style.display = 'block';
-} else {
-container.style.display = 'grid';
-emptyMessage.style.display = 'none';
-container.innerHTML = '';
-
-wishlistProducts.forEach(product => {
-container.innerHTML += createProductCard(product);
-});
-}
-}
-
-function updateWishlistCount() {
-if (!currentUser) {
-document.getElementById('wishlistCount').textContent = '0';
-return;
-}
-
-const userWishlistCount = wishlist.filter(item => item.userId === currentUser.id).length;
-document.getElementById('wishlistCount').textContent = userWishlistCount;
-}
-
-// Product vergelijking functionaliteit
-function addToComparison(productId) {
-if (comparison.length >= 3) {
-alert('Je kunt maximaal 3 producten vergelijken');
-return;
-}
-
-if (comparison.some(id => id === productId)) {
-alert('Dit product zit al in de vergelijking');
-return;
-}
-
-comparison.push(productId);
-saveComparison();
-loadComparison();
-alert('Product toegevoegd aan vergelijking');
-}
-
-function loadComparison() {
-const container = document.getElementById('comparison-table');
-const emptyMessage = document.getElementById('empty-comparison');
-const tbody = document.getElementById('comparison-tbody');
-
-if (comparison.length === 0) {
-container.style.display = 'none';
-emptyMessage.style.display = 'block';
-return;
-}
-
-container.style.display = 'block';
-emptyMessage.style.display = 'none';
-
-// Clear existing content
-const thead = container.querySelector('thead tr');
-while (thead.children.length > 1) {
-thead.removeChild(thead.lastChild);
-}
-tbody.innerHTML = '';
-
-// Add product headers
-const comparisonProducts = products.filter(product => comparison.includes(product.id));
-comparisonProducts.forEach(product => {
-const th = document.createElement('th');
-th.innerHTML = `
-<strong>${product.name}</strong>
-<br>
-<span class="price">$${product.price}</span>
-<button class="btn btn-sm btn-outline-danger mt-2" onclick="removeFromComparison(${product.id})">
-<i class="fas fa-times"></i>
-</button>
-`;
-thead.appendChild(th);
-});
-
-// Add comparison rows for phones
-if (comparisonProducts[0].type === 'phone') {
-const specifications = ['Merk', 'Model', 'Opslag', 'RAM', 'Camera', 'Batterij', 'Conditie', 'Prijs'];
-
-specifications.forEach(spec => {
-const row = document.createElement('tr');
-const cell = document.createElement('td');
-cell.textContent = spec;
-row.appendChild(cell);
-
-comparisonProducts.forEach(product => {
-const cell = document.createElement('td');
-switch(spec) {
-case 'Merk': cell.textContent = product.brand; break;
-case 'Model': cell.textContent = product.model; break;
-case 'Opslag': cell.textContent = product.storage; break;
-case 'RAM': cell.textContent = product.ram; break;
-case 'Camera': cell.textContent = product.camera; break;
-case 'Batterij': cell.textContent = product.battery; break;
-case 'Conditie':
-cell.textContent = product.condition === 'new' ? 'Nieuw' :
-product.condition === 'used' ? 'Gebruikt' : 'Premium';
-break;
-case 'Prijs': cell.textContent = `$${product.price}`; break;
-}
-row.appendChild(cell);
-});
-
-tbody.appendChild(row);
-});
-}
-}
-
-function removeFromComparison(productId) {
-comparison = comparison.filter(id => id !== productId);
-saveComparison();
-loadComparison();
-}
-
-function clearComparison() {
-comparison = [];
-saveComparison();
-loadComparison();
-}
-
-// Recent bekeken producten
-function addToRecentlyViewed(productId) {
-if (!currentUser) return;
-
-// Remove if already exists
-recentlyViewed = recentlyViewed.filter(item => item.productId !== productId || item.userId !== currentUser.id);
-
-// Add to beginning
-recentlyViewed.unshift({
-productId: productId,
-userId: currentUser.id,
-date: new Date().toISOString()
-});
-
-// Keep only last 5 items
-recentlyViewed = recentlyViewed.filter(item => item.userId === currentUser.id).slice(0, 5);
-
-saveRecentlyViewed();
-loadRecentlyViewed();
-}
-
-function loadRecentlyViewed() {
-if (!currentUser) return;
-
-const container = document.getElementById('recent-viewed');
-const section = document.getElementById('recent-viewed-section');
-
-const userRecentlyViewed = recentlyViewed
-.filter(item => item.userId === currentUser.id)
-.map(item => products.find(p => p.id === item.productId))
-.filter(Boolean);
-
-if (userRecentlyViewed.length === 0) {
-section.style.display = 'none';
-return;
-}
-
-section.style.display = 'block';
-container.innerHTML = '';
-
-userRecentlyViewed.forEach(product => {
-container.innerHTML += createProductCard(product);
-});
-}
-
-// Geavanceerde filters voor telefoons
-function updatePriceRange() {
-const range = document.getElementById('priceRange');
-const value = document.getElementById('priceRangeValue');
-value.textContent = `0 - ${range.value}`;
-filterPhones();
-}
-
-// Loyalty programma
-function addLoyaltyPoints(userId, points, reason) {
-const user = users.find(u => u.id === userId);
-if (user) {
-user.loyaltyPoints = (user.loyaltyPoints || 0) + points;
-saveUsers();
-
-// Log loyalty transaction
-const transactions = JSON.parse(localStorage.getItem('doublet_loyalty_transactions')) || [];
-transactions.push({
-id: transactions.length + 1,
-userId: userId,
-points: points,
-reason: reason,
-date: new Date().toISOString()
-});
-localStorage.setItem('doublet_loyalty_transactions', JSON.stringify(transactions));
-}
-}
-
-// Order tracking
-function handleOrderTracking(e) {
-e.preventDefault();
-const orderNumber = document.getElementById('orderNumber').value;
-const orderId = parseInt(orderNumber.replace('DT-', ''));
-
-const order = orders.find(o => o.id === orderId);
-const resultDiv = document.getElementById('tracking-result');
-
-if (!order) {
-resultDiv.innerHTML = `
-<div class="alert alert-danger">
-Order niet gevonden. Controleer het ordernummer.
-</div>
-`;
-return;
-}
-
-const trackingSteps = [
-{ status: 'pending', label: 'Order ontvangen', icon: 'fas fa-clipboard-list' },
-{ status: 'confirmed', label: 'Bevestigd', icon: 'fas fa-check-circle' },
-{ status: 'processing', label: 'In behandeling', icon: 'fas fa-cogs' },
-{ status: 'ready', label: 'Klaar voor afhalen/verzending', icon: 'fas fa-box' },
-{ status: 'completed', label: 'Voltooid', icon: 'fas fa-flag-checkered' }
-];
-
-let currentStepIndex = trackingSteps.findIndex(step => step.status === order.status);
-if (currentStepIndex === -1) currentStepIndex = 0;
-
-let trackingHtml = `
-<div class="order-tracking">
-<h5>Order #DT-${order.id.toString().padStart(4, '0')}</h5>
-<p><strong>Datum:</strong> ${new Date(order.date).toLocaleDateString('nl-NL')}</p>
-<p><strong>Totaal:</strong> $${order.total.toFixed(2)}</p>
-<p><strong>Bezorgoptie:</strong> ${order.deliveryOption === 'pickup' ? 'Afhalen' : 'Bezorgen'}</p>
-
-<div class="mt-4">
-<h6>Order Status</h6>
-`;
-
-trackingSteps.forEach((step, index) => {
-const isCompleted = index < currentStepIndex;
-const isActive = index === currentStepIndex;
-
-trackingHtml += `
-<div class="tracking-step ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}">
-<div class="tracking-icon">
-<i class="${step.icon}"></i>
-</div>
-<div>
-<strong>${step.label}</strong>
-${isActive ? '<div class="text-primary">Huidige status</div>' : ''}
-</div>
-</div>
-`;
-});
-
-trackingHtml += `</div></div>`;
-resultDiv.innerHTML = trackingHtml;
-}
-
-// Newsletter signup
-function handleNewsletterSignup(e) {
-e.preventDefault();
-const email = e.target.querySelector('input[type="email"]').value;
-
-if (newsletterSubscribers.includes(email)) {
-alert('Dit e-mailadres is al ingeschreven voor de nieuwsbrief');
-return;
-}
-
-newsletterSubscribers.push(email);
-saveNewsletter();
-e.target.reset();
-alert('Bedankt voor je inschrijving! Je ontvangt voortaan onze nieuwsbrief.');
-}
-
-// User authentication functions
-function handleLogin(e) {
-e.preventDefault();
-
-const email = document.getElementById('loginEmail').value;
-const password = document.getElementById('loginPassword').value;
-
-const user = users.find(u =>
-(u.email === email || u.username === email) && u.password === password
-);
-
-if (user) {
-currentUser = user;
-localStorage.setItem('doublet_current_user', JSON.stringify(user));
-alert('Ingelogd als ' + user.username);
-showSection('home');
-updateWishlistCount();
-loadRecentlyViewed();
-} else {
-alert('Ongeldige inloggegevens');
-}
-}
-
-function handleRegister(e) {
-e.preventDefault();
-
-const fullName = document.getElementById('fullName').value;
-const email = document.getElementById('email').value;
-const phone = document.getElementById('phone').value;
-const password = document.getElementById('password').value;
-const confirmPassword = document.getElementById('confirmPassword').value;
-
-if (password !== confirmPassword) {
-alert('Wachtwoorden komen niet overeen');
-return;
-}
-
-if (users.find(u => u.email === email)) {
-alert('Er bestaat al een account met dit e-mailadres');
-return;
-}
-
-const newUser = {
-id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
-username: fullName,
-email: email,
-phone: phone,
-password: password,
-role: 'customer',
-loyaltyPoints: 100 // Start met 100 punten
-};
-
-users.push(newUser);
-saveUsers();
-
-currentUser = newUser;
-localStorage.setItem('doublet_current_user', JSON.stringify(newUser));
-
-alert('Account aangemaakt en ingelogd! Je hebt 100 loyalty punten ontvangen.');
-showSection('home');
-updateWishlistCount();
-}
-
-function handleContact(e) {
-e.preventDefault();
-
-const name = document.getElementById('name').value;
-const email = document.getElementById('email').value;
-const message = document.getElementById('message').value;
-
-// In a real app, you would send this to a server
-alert(`Bedankt voor je bericht, ${name}! We nemen zo snel mogelijk contact met je op.`);
-document.getElementById('contact-form').reset();
-}
-
-// ADMIN FUNCTIES
-
-function showAdminPanel() {
-document.getElementById('main-content').style.display = 'none';
-document.getElementById('admin-panel').style.display = 'block';
-showAdminSection('dashboard');
 }
 
 function showAdminSection(sectionId) {
-// Hide all admin sections
-document.querySelectorAll('.admin-section').forEach(section => {
-section.style.display = 'none';
-});
-
-// Remove active class from all nav links
-document.querySelectorAll('.admin-nav a').forEach(link => {
-link.classList.remove('active');
-});
-
-// Show the selected section and set active nav link
-document.getElementById('admin-' + sectionId).style.display = 'block';
-event.target.classList.add('active');
-
-// Load section data
+document.querySelectorAll('.admin-section').forEach(section => section.style.display = 'none');
+document.getElementById(`admin-${sectionId}`).style.display = 'block';
+document.querySelectorAll('.admin-nav a').forEach(link => link.classList.remove('active'));
+document.querySelector(`.admin-nav a[onclick="showAdminSection('${sectionId}')"]`).classList.add('active');
 if (sectionId === 'dashboard') {
 loadAdminDashboard();
 } else if (sectionId === 'products') {
@@ -2972,870 +1542,60 @@ loadAdminOrders();
 } else if (sectionId === 'customers') {
 loadAdminCustomers();
 } else if (sectionId === 'reports') {
-loadReports();
+loadAdminReports();
 }
 }
 
-function logoutAdmin() {
-localStorage.setItem('doublet_admin_logged_in', 'false');
-adminLoggedIn = false;
-document.getElementById('admin-panel').style.display = 'none';
-document.getElementById('main-content').style.display = 'block';
-showSection('home');
+function showAdminPanel() {
+document.querySelectorAll('.content-section').forEach(section => section.style.display = 'none');
+document.getElementById('admin-panel').style.display = 'block';
+showAdminSection('dashboard');
 }
 
-// Dashboard Functions
-function loadAdminDashboard() {
-updateDashboardStats();
-loadRecentOrders();
-loadLowStockAlerts();
+// Product Loading
+function loadFeaturedProducts() {
+const featured = products.filter(p => p.featured);
+document.getElementById('featured-products').innerHTML = renderProducts(featured);
 }
 
-function updateDashboardStats() {
-const totalOrders = orders.length;
-const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
-const totalProducts = products.length;
-const totalCustomers = users.filter(u => u.role !== 'admin').length;
-const pendingOrders = orders.filter(o => o.status === 'pending').length;
-const lowStockProducts = products.filter(p => p.stock < 5).length;
-
-document.getElementById('stat-total-orders').textContent = totalOrders;
-document.getElementById('stat-total-revenue').textContent = '$' + totalRevenue.toFixed(2);
-document.getElementById('stat-total-products').textContent = totalProducts;
-document.getElementById('stat-total-customers').textContent = totalCustomers;
-document.getElementById('stat-pending-orders').textContent = pendingOrders;
-document.getElementById('stat-low-stock').textContent = lowStockProducts;
+function loadBestSellers() {
+const bestSellers = products.sort((a, b) => (b.stock || 0) - (a.stock || 0)).slice(0, 4);
+document.getElementById('best-sellers').innerHTML = renderProducts(bestSellers);
 }
 
-function loadRecentOrders() {
-const container = document.getElementById('recent-orders-list');
-const recentOrders = orders.slice(-5).reverse();
-
-container.innerHTML = '';
-
-if (recentOrders.length === 0) {
-container.innerHTML = '<tr><td colspan="6" class="text-center">Geen recente bestellingen</td></tr>';
-return;
+function loadSpecialOffers() {
+const offers = products.filter(p => p.discount).sort((a, b) => b.discount - a.discount).slice(0, 4);
+document.getElementById('special-offers').innerHTML = renderProducts(offers);
 }
 
-recentOrders.forEach(order => {
-const user = users.find(u => u.id === order.userId) || {username: 'Onbekend'};
-const date = new Date(order.date).toLocaleDateString('nl-NL');
+function loadProducts(type) {
+const filtered = products.filter(p => p.type === type);
+document.getElementById(`${type}-products`).innerHTML = renderProducts(filtered);
+}
 
-container.innerHTML += `
-<tr>
-<td><strong>#DT-${order.id.toString().padStart(4, '0')}</strong></td>
-<td>${user.username}</td>
-<td>${date}</td>
-<td>$${order.total.toFixed(2)}</td>
-<td><span class="status-badge status-${order.status}">${getStatusText(order.status)}</span></td>
-<td>
-<button class="btn btn-sm btn-outline-primary" onclick="viewOrderDetails(${order.id})" data-bs-toggle="modal" data-bs-target="#orderDetailsModal">
-<i class="fas fa-eye"></i>
+function renderProducts(productList) {
+return productList.map(product => `
+<div class="product-card card position-relative">
+<img src="${product.image}" class="product-image" alt="${product.name}">
+${product.discount ? `<span class="badge-discount">${product.discount}% Korting</span>` : ''}
+${product.condition === 'Nieuw' ? `<span class="badge-new">Nieuw</span>` : product.condition === 'Gebruikt' ? `<span class="badge-used">Gebruikt</span>` : ''}
+${product.featured ? `<span class="badge-premium">Premium</span>` : ''}
+<button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" onclick="toggleWishlist(${product.id})">
+<i class="fas fa-heart"></i>
 </button>
-</td>
-</tr>
-`;
-});
-}
-
-function loadLowStockAlerts() {
-const container = document.getElementById('low-stock-alerts');
-const lowStockProducts = products.filter(p => p.stock < 5);
-
-if (lowStockProducts.length === 0) {
-container.innerHTML = '<p class="text-muted mb-0">Geen lage voorraad meldingen</p>';
-return;
-}
-
-container.innerHTML = lowStockProducts.map(product => `
-<div class="d-flex justify-content-between align-items-center mb-2">
-<div>
-<strong>${product.name}</strong>
-<br>
-<small class="text-muted">${product.type === 'phone' ? product.brand + ' ' + product.model : product.category}</small>
-</div>
-<span class="badge bg-warning">${product.stock} over</span>
-</div>
-`).join('');
-}
-
-// Product Management Functions
-function showAddProductForm() {
-document.getElementById('add-product-form').style.display = 'block';
-document.getElementById('product-form-title').textContent = 'Product Toevoegen';
-document.getElementById('product-submit-btn').textContent = 'Product Toevoegen';
-document.getElementById('edit-product-id').value = '';
-document.getElementById('product-form').reset();
-}
-
-function hideAddProductForm() {
-document.getElementById('add-product-form').style.display = 'none';
-}
-
-function handleProductSubmit(e) {
-e.preventDefault();
-
-const productId = document.getElementById('edit-product-id').value;
-const productType = document.querySelector('input[name="productType"]:checked').value;
-
-const productData = {
-name: document.getElementById('productName').value,
-type: productType,
-price: parseFloat(document.getElementById('productPrice').value),
-oldPrice: document.getElementById('oldPrice').value ? parseFloat(document.getElementById('oldPrice').value) : null,
-stock: parseInt(document.getElementById('productStock').value),
-description: document.getElementById('productDescription').value,
-images: document.getElementById('productImages').value.split('\n').filter(url => url.trim() !== ''),
-featured: document.getElementById('productFeatured').checked,
-onSale: document.getElementById('productOnSale').checked
-};
-
-if (productType === 'phone') {
-productData.brand = document.getElementById('phoneBrand').value;
-productData.model = document.getElementById('phoneModel').value;
-productData.color = document.getElementById('phoneColor').value;
-productData.storage = document.getElementById('phoneStorage').value;
-productData.ram = document.getElementById('phoneRAM').value;
-productData.camera = document.getElementById('phoneCamera').value;
-productData.battery = document.getElementById('phoneBattery').value;
-productData.condition = document.querySelector('input[name="phoneCondition"]:checked').value;
-} else {
-productData.category = document.getElementById('accessoryCategory').value;
-productData.compatibility = document.getElementById('accessoryCompatibility').value;
-}
-
-if (productId) {
-// Edit existing product
-const index = products.findIndex(p => p.id === parseInt(productId));
-if (index !== -1) {
-products[index] = { ...products[index], ...productData };
-}
-} else {
-// Add new product
-productData.id = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-products.push(productData);
-}
-
-saveProducts();
-loadAdminProducts();
-hideAddProductForm();
-
-alert(productId ? 'Product bijgewerkt!' : 'Product toegevoegd!');
-
-// Reload frontend product displays
-if (document.getElementById('main-content').style.display !== 'none') {
-loadFeaturedProducts();
-loadSpecialOffers();
-loadPhones();
-loadAccessories();
-}
-}
-
-function loadAdminProducts() {
-const container = document.getElementById('admin-products-list');
-container.innerHTML = '';
-
-products.forEach(product => {
-const stockClass = product.stock < 5 ? 'stock-low' : 'stock-ok';
-const stockText = product.stock < 5 ? `Nog ${product.stock} over` : 'Op voorraad';
-
-container.innerHTML += `
-<tr>
-<td><input type="checkbox" value="${product.id}" onchange="toggleProductSelection(${product.id})"></td>
-<td>${product.id}</td>
-<td>
-<strong>${product.name}</strong>
-<br>
-<small class="text-muted">${product.type === 'phone' ? product.brand + ' ' + product.model : product.category}</small>
-</td>
-<td>${product.type === 'phone' ? 'Telefoon' : 'Accessoire'}</td>
-<td>$${product.price}</td>
-<td class="${stockClass}">${stockText}</td>
-<td>
-${product.featured ? '<span class="badge bg-primary me-1">Uitgelicht</span>' : ''}
-${product.onSale ? '<span class="badge bg-success">Aanbieding</span>' : ''}
-</td>
-<td class="table-actions">
-<button class="btn btn-sm btn-outline-primary" onclick="editProduct(${product.id})">
-<i class="fas fa-edit"></i>
-</button>
-<button class="btn btn-sm btn-outline-danger" onclick="deleteProduct(${product.id})">
-<i class="fas fa-trash"></i>
-</button>
-</td>
-</tr>
-`;
-});
-}
-
-function editProduct(productId) {
-const product = products.find(p => p.id === productId);
-if (!product) return;
-
-// Set form title and button
-document.getElementById('product-form-title').textContent = 'Product Bewerken';
-document.getElementById('product-submit-btn').textContent = 'Product Bijwerken';
-document.getElementById('edit-product-id').value = product.id;
-
-// Set product type
-document.getElementById(product.type + 'Type').checked = true;
-document.getElementById('phone-fields').style.display = product.type === 'phone' ? 'block' : 'none';
-document.getElementById('accessory-fields').style.display = product.type === 'accessory' ? 'block' : 'none';
-
-// Set common fields
-document.getElementById('productName').value = product.name;
-document.getElementById('productPrice').value = product.price;
-document.getElementById('oldPrice').value = product.oldPrice || '';
-document.getElementById('productStock').value = product.stock;
-document.getElementById('productDescription').value = product.description;
-document.getElementById('productImages').value = product.images.join('\n');
-document.getElementById('productFeatured').checked = product.featured || false;
-document.getElementById('productOnSale').checked = product.onSale || false;
-
-// Set type-specific fields
-if (product.type === 'phone') {
-document.getElementById('phoneBrand').value = product.brand || '';
-document.getElementById('phoneModel').value = product.model || '';
-document.getElementById('phoneColor').value = product.color || '';
-document.getElementById('phoneStorage').value = product.storage || '';
-document.getElementById('phoneRAM').value = product.ram || '';
-document.getElementById('phoneCamera').value = product.camera || '';
-document.getElementById('phoneBattery').value = product.battery || '';
-document.querySelector(`input[name="phoneCondition"][value="${product.condition}"]`).checked = true;
-} else {
-document.getElementById('accessoryCategory').value = product.category || '';
-document.getElementById('accessoryName').value = product.name;
-document.getElementById('accessoryCompatibility').value = product.compatibility || '';
-}
-
-// Show form
-document.getElementById('add-product-form').style.display = 'block';
-}
-
-function deleteProduct(productId) {
-if (confirm('Weet je zeker dat je dit product wilt verwijderen?')) {
-products = products.filter(p => p.id !== productId);
-saveProducts();
-loadAdminProducts();
-updateDashboardStats();
-
-// Reload frontend product displays
-if (document.getElementById('main-content').style.display !== 'none') {
-loadFeaturedProducts();
-loadSpecialOffers();
-loadPhones();
-loadAccessories();
-}
-}
-}
-
-// Bulk Actions for Products
-function toggleSelectAllProducts() {
-const selectAll = document.getElementById('select-all-products').checked;
-const checkboxes = document.querySelectorAll('#admin-products-list input[type="checkbox"]');
-
-checkboxes.forEach(checkbox => {
-checkbox.checked = selectAll;
-toggleProductSelection(parseInt(checkbox.value));
-});
-}
-
-function toggleProductSelection(productId) {
-const checkbox = document.querySelector(`input[value="${productId}"]`);
-if (checkbox.checked) {
-if (!selectedProducts.includes(productId)) {
-selectedProducts.push(productId);
-}
-} else {
-selectedProducts = selectedProducts.filter(id => id !== productId);
-}
-}
-
-function applyBulkAction() {
-const action = document.getElementById('bulk-action-select').value;
-if (!action || selectedProducts.length === 0) {
-alert('Selecteer eerst producten en kies een actie');
-return;
-}
-
-switch(action) {
-case 'delete':
-if (confirm(`Weet je zeker dat je ${selectedProducts.length} product(en) wilt verwijderen?`)) {
-products = products.filter(p => !selectedProducts.includes(p.id));
-saveProducts();
-loadAdminProducts();
-selectedProducts = [];
-}
-break;
-
-case 'featured':
-products.forEach(p => {
-if (selectedProducts.includes(p.id)) p.featured = true;
-});
-saveProducts();
-loadAdminProducts();
-break;
-
-case 'unfeatured':
-products.forEach(p => {
-if (selectedProducts.includes(p.id)) p.featured = false;
-});
-saveProducts();
-loadAdminProducts();
-break;
-
-case 'onsale':
-products.forEach(p => {
-if (selectedProducts.includes(p.id)) p.onSale = true;
-});
-saveProducts();
-loadAdminProducts();
-break;
-
-case 'notonsale':
-products.forEach(p => {
-if (selectedProducts.includes(p.id)) p.onSale = false;
-});
-saveProducts();
-loadAdminProducts();
-break;
-}
-
-document.getElementById('bulk-action-select').value = '';
-}
-
-// Order Management Functions
-function loadAdminOrders() {
-const container = document.getElementById('admin-orders-list');
-container.innerHTML = '';
-
-const filteredOrders = filterOrdersData();
-
-if (filteredOrders.length === 0) {
-container.innerHTML = '<tr><td colspan="8" class="text-center">Geen bestellingen gevonden</td></tr>';
-return;
-}
-
-filteredOrders.forEach(order => {
-const user = users.find(u => u.id === order.userId) || {username: 'Onbekend', email: 'Onbekend'};
-const date = new Date(order.date).toLocaleDateString('nl-NL');
-const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
-
-container.innerHTML += `
-<tr>
-<td><strong>#DT-${order.id.toString().padStart(4, '0')}</strong></td>
-<td>
-<div>${user.username}</div>
-<small class="text-muted">${user.email}</small>
-</td>
-<td>${date}</td>
-<td>${itemCount} product(en)</td>
-<td>$${order.total.toFixed(2)}</td>
-<td>
-<select class="form-select form-select-sm" onchange="updateOrderStatus(${order.id}, this.value)">
-<option value="pending" ${order.status === 'pending' ? 'selected' : ''}>In behandeling</option>
-<option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Bevestigd</option>
-<option value="processing" ${order.status === 'processing' ? 'selected' : ''}>In behandeling</option>
-<option value="ready" ${order.status === 'ready' ? 'selected' : ''}>Klaar</option>
-<option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Voltooid</option>
-<option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Geannuleerd</option>
-</select>
-</td>
-<td>${order.deliveryOption === 'pickup' ? 'Afhalen' : 'Bezorgen'}</td>
-<td class="table-actions">
-<button class="btn btn-sm btn-outline-primary" onclick="viewOrderDetails(${order.id})" data-bs-toggle="modal" data-bs-target="#orderDetailsModal">
-<i class="fas fa-eye"></i>
-</button>
-<button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(${order.id})">
-<i class="fas fa-trash"></i>
-</button>
-</td>
-</tr>
-`;
-});
-}
-
-function filterOrdersData() {
-const statusFilter = document.getElementById('order-status-filter').value;
-const dateFrom = document.getElementById('order-date-from').value;
-const dateTo = document.getElementById('order-date-to').value;
-
-let filtered = [...orders];
-
-if (statusFilter) {
-filtered = filtered.filter(order => order.status === statusFilter);
-}
-
-if (dateFrom) {
-filtered = filtered.filter(order => new Date(order.date) >= new Date(dateFrom));
-}
-
-if (dateTo) {
-const toDate = new Date(dateTo);
-toDate.setHours(23, 59, 59, 999);
-filtered = filtered.filter(order => new Date(order.date) <= toDate);
-}
-
-return filtered;
-}
-
-function filterOrders() {
-loadAdminOrders();
-}
-
-function clearOrderFilters() {
-document.getElementById('order-status-filter').value = '';
-document.getElementById('order-date-from').value = '';
-document.getElementById('order-date-to').value = '';
-loadAdminOrders();
-}
-
-function updateOrderStatus(orderId, newStatus) {
-const order = orders.find(o => o.id === orderId);
-if (order) {
-order.status = newStatus;
-saveOrders();
-loadAdminOrders();
-loadRecentOrders();
-updateDashboardStats();
-
-// Show confirmation
-const statusText = getStatusText(newStatus);
-alert(`Order #DT-${orderId.toString().padStart(4, '0')} status bijgewerkt naar: ${statusText}`);
-}
-}
-
-function viewOrderDetails(orderId) {
-const order = orders.find(o => o.id === orderId);
-if (!order) return;
-
-const user = users.find(u => u.id === order.userId) || {username: 'Onbekend', email: 'Onbekend', phone: 'Onbekend'};
-
-document.getElementById('modal-order-number').textContent = `#DT-${order.id.toString().padStart(4, '0')}`;
-
-let itemsHtml = '';
-order.items.forEach(item => {
-itemsHtml += `
-<div class="d-flex align-items-center mb-3 p-2 border rounded">
-<img src="${item.image}" class="product-image-small me-3" alt="${item.name}">
-<div class="flex-grow-1">
-<h6 class="mb-1">${item.name}</h6>
-<div class="d-flex justify-content-between">
-<span>$${item.price} x ${item.quantity}</span>
-<strong>$${(item.price * item.quantity).toFixed(2)}</strong>
-</div>
-</div>
-</div>
-`;
-});
-
-document.getElementById('order-details-content').innerHTML = `
-<div class="row">
-<div class="col-md-6">
-<h6>Klant Gegevens</h6>
-<p><strong>Naam:</strong> ${user.username}<br>
-<strong>E-mail:</strong> ${user.email}<br>
-<strong>Telefoon:</strong> ${user.phone || 'Niet opgegeven'}</p>
-</div>
-<div class="col-md-6">
-<h6>Order Informatie</h6>
-<p><strong>Order Datum:</strong> ${new Date(order.date).toLocaleString('nl-NL')}<br>
-<strong>Status:</strong> <span class="status-badge status-${order.status}">${getStatusText(order.status)}</span><br>
-<strong>Bezorging:</strong> ${order.deliveryOption === 'pickup' ? 'Afhalen in winkel' : 'Bezorgen'}</p>
-</div>
-</div>
-
-<h6 class="mt-4">Producten</h6>
-${itemsHtml}
-
-<div class="row mt-4">
-<div class="col-md-6">
-<h6>Order Samenvatting</h6>
-<div class="d-flex justify-content-between">
-<span>Subtotaal:</span>
-<span>$${order.total.toFixed(2)}</span>
-</div>
-<div class="d-flex justify-content-between">
-<strong>Totaal:</strong>
-<strong>$${order.total.toFixed(2)}</strong>
-</div>
-</div>
-</div>
-`;
-}
-
-function deleteOrder(orderId) {
-if (confirm('Weet je zeker dat je deze bestelling wilt verwijderen?')) {
-orders = orders.filter(o => o.id !== orderId);
-saveOrders();
-loadAdminOrders();
-loadRecentOrders();
-updateDashboardStats();
-}
-}
-
-function printOrder() {
-window.print();
-}
-
-// Customer Management Functions
-function loadAdminCustomers() {
-const container = document.getElementById('admin-customers-list');
-container.innerHTML = '';
-
-const customers = users.filter(u => u.role !== 'admin');
-
-if (customers.length === 0) {
-container.innerHTML = '<tr><td colspan="9" class="text-center">Geen klanten gevonden</td></tr>';
-return;
-}
-
-customers.forEach(customer => {
-const customerOrders = orders.filter(o => o.userId === customer.id);
-const totalSpent = customerOrders.reduce((sum, order) => sum + order.total, 0);
-const lastOrder = customerOrders.length > 0 ?
-new Date(Math.max(...customerOrders.map(o => new Date(o.date)))).toLocaleDateString('nl-NL') :
-'Geen orders';
-
-container.innerHTML += `
-<tr>
-<td>${customer.id}</td>
-<td>${customer.username}</td>
-<td>${customer.email}</td>
-<td>${customer.phone || 'Niet opgegeven'}</td>
-<td>${customerOrders.length}</td>
-<td>$${totalSpent.toFixed(2)}</td>
-<td>${customer.loyaltyPoints || 0}</td>
-<td>${lastOrder}</td>
-<td>
-<button class="btn btn-sm btn-outline-primary" onclick="viewCustomerDetails(${customer.id})">
-<i class="fas fa-eye"></i>
-</button>
-</td>
-</tr>
-`;
-});
-}
-
-function viewCustomerDetails(customerId) {
-const customer = users.find(u => u.id === customerId);
-const customerOrders = orders.filter(o => o.userId === customerId);
-
-let ordersHtml = '';
-customerOrders.forEach(order => {
-ordersHtml += `
-<div class="border rounded p-3 mb-2">
-<div class="d-flex justify-content-between">
-<strong>#DT-${order.id.toString().padStart(4, '0')}</strong>
-<span class="status-badge status-${order.status}">${getStatusText(order.status)}</span>
-</div>
-<div class="d-flex justify-content-between text-muted">
-<span>${new Date(order.date).toLocaleDateString('nl-NL')}</span>
-<span>$${order.total.toFixed(2)}</span>
-</div>
-</div>
-`;
-});
-
-alert(`
-Klant Details:
-
-Naam: ${customer.username}
-E-mail: ${customer.email}
-Telefoon: ${customer.phone || 'Niet opgegeven'}
-Loyalty Punten: ${customer.loyaltyPoints || 0}
-Totaal Bestellingen: ${customerOrders.length}
-Totaal Besteed: $${customerOrders.reduce((sum, o) => sum + o.total, 0).toFixed(2)}
-
-Bestelgeschiedenis:
-${ordersHtml || 'Geen orders'}
-`);
-}
-
-// Report Functions
-function loadReports() {
-generateSalesChart();
-loadTopProducts();
-}
-
-function generateSalesChart() {
-const ctx = document.getElementById('salesChart').getContext('2d');
-
-// Generate sample data for last 30 days
-const salesData = [];
-const dates = [];
-
-for (let i = 29; i >= 0; i--) {
-const date = new Date();
-date.setDate(date.getDate() - i);
-dates.push(date.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' }));
-
-// Simulate sales data
-const dailySales = orders.filter(order => {
-const orderDate = new Date(order.date);
-return orderDate.toDateString() === date.toDateString();
-}).reduce((sum, order) => sum + order.total, 0);
-
-salesData.push(dailySales);
-}
-
-new Chart(ctx, {
-type: 'line',
-data: {
-labels: dates,
-datasets: [{
-label: 'Dagelijkse Verkoop ($)',
-data: salesData,
-borderColor: '#0056b3',
-backgroundColor: 'rgba(0, 86, 179, 0.1)',
-tension: 0.4,
-fill: true
-}]
-},
-options: {
-responsive: true,
-plugins: {
-legend: {
-position: 'top',
-}
-}
-}
-});
-}
-
-function loadTopProducts() {
-const container = document.getElementById('top-products-list');
-
-// Calculate product sales
-const productSales = {};
-orders.forEach(order => {
-order.items.forEach(item => {
-if (!productSales[item.name]) {
-productSales[item.name] = 0;
-}
-productSales[item.name] += item.quantity;
-});
-});
-
-const topProducts = Object.entries(productSales)
-.sort(([,a], [,b]) => b - a)
-.slice(0, 5);
-
-if (topProducts.length === 0) {
-container.innerHTML = '<p class="text-muted">Nog geen verkoopgegevens</p>';
-return;
-}
-
-container.innerHTML = topProducts.map(([name, sales], index) => `
-<div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
-<div>
-<strong>${index + 1}. ${name}</strong>
-<br>
-<small class="text-muted">${sales} verkocht</small>
+<div class="card-body">
+<h5 class="card-title">${product.name}</h5>
+<p class="card-text">${product.brand || product.category || ''}</p>
+<p class="price">€${product.price}</p>
+${product.oldPrice ? `<p class="old-price">€${product.oldPrice}</p>` : ''}
+<p class="${product.stock <= 5 ? 'stock-low' : 'stock-ok'}">Voorraad: ${product.stock}</p>
+<button class="btn btn-primary w-100" onclick="addToCart(${product.id})">Toevoegen aan Winkelwagen</button>
+<button class="btn btn-outline-primary w-100 mt-2" onclick="addToComparison(${product.id})">Vergelijken</button>
 </div>
 </div>
 `).join('');
 }
 
-function generateReport() {
-const startDate = document.getElementById('reportStartDate').value;
-const endDate = document.getElementById('reportEndDate').value;
-const reportType = document.getElementById('reportType').value;
-
-if (!startDate || !endDate) {
-alert('Selecteer start- en einddatum');
-return;
-}
-
-const start = new Date(startDate);
-const end = new Date(endDate);
-end.setHours(23, 59, 59, 999);
-
-const filteredOrders = orders.filter(order => {
-const orderDate = new Date(order.date);
-return orderDate >= start && orderDate <= end;
-});
-
-let reportHtml = '';
-
-switch(reportType) {
-case 'sales':
-const totalSales = filteredOrders.reduce((sum, order) => sum + order.total, 0);
-const orderCount = filteredOrders.length;
-const avgOrderValue = orderCount > 0 ? totalSales / orderCount : 0;
-
-reportHtml = `
-<h5>Verkoop Rapport: ${startDate} tot ${endDate}</h5>
-<div class="row mt-3">
-<div class="col-md-4">
-<div class="stat-card">
-<div class="stat-number text-primary">${orderCount}</div>
-<div class="stat-label">Totaal Orders</div>
-</div>
-</div>
-<div class="col-md-4">
-<div class="stat-card">
-<div class="stat-number text-success">$${totalSales.toFixed(2)}</div>
-<div class="stat-label">Totale Verkoop</div>
-</div>
-</div>
-<div class="col-md-4">
-<div class="stat-card">
-<div class="stat-number text-info">$${avgOrderValue.toFixed(2)}</div>
-<div class="stat-label">Gem. Order Waarde</div>
-</div>
-</div>
-</div>
-`;
-break;
-
-case 'products':
-const productStats = {};
-filteredOrders.forEach(order => {
-order.items.forEach(item => {
-if (!productStats[item.name]) {
-productStats[item.name] = { quantity: 0, revenue: 0 };
-}
-productStats[item.name].quantity += item.quantity;
-productStats[item.name].revenue += item.price * item.quantity;
-});
-});
-
-reportHtml = `
-<h5>Product Rapport: ${startDate} tot ${endDate}</h5>
-<div class="table-responsive mt-3">
-<table class="table table-striped">
-<thead>
-<tr>
-<th>Product</th>
-<th>Aantal Verkocht</th>
-<th>Omzet</th>
-</tr>
-</thead>
-<tbody>
-${Object.entries(productStats).map(([name, stats]) => `
-<tr>
-<td>${name}</td>
-<td>${stats.quantity}</td>
-<td>$${stats.revenue.toFixed(2)}</td>
-</tr>
-`).join('')}
-</tbody>
-</table>
-</div>
-`;
-break;
-
-case 'customers':
-const customerStats = {};
-filteredOrders.forEach(order => {
-const user = users.find(u => u.id === order.userId);
-if (user && user.role !== 'admin') {
-if (!customerStats[user.id]) {
-customerStats[user.id] = {
-name: user.username,
-orders: 0,
-total: 0
-};
-}
-customerStats[user.id].orders++;
-customerStats[user.id].total += order.total;
-}
-});
-
-reportHtml = `
-<h5>Klant Rapport: ${startDate} tot ${endDate}</h5>
-<div class="table-responsive mt-3">
-<table class="table table-striped">
-<thead>
-<tr>
-<th>Klant</th>
-<th>Aantal Orders</th>
-<th>Totaal Besteed</th>
-</tr>
-</thead>
-<tbody>
-${Object.entries(customerStats).map(([id, stats]) => `
-<tr>
-<td>${stats.name}</td>
-<td>${stats.orders}</td>
-<td>$${stats.total.toFixed(2)}</td>
-</tr>
-`).join('')}
-</tbody>
-</table>
-</div>
-`;
-break;
-}
-
-document.getElementById('report-results').innerHTML = reportHtml;
-}
-
-// Export Functions
-function exportData(type) {
-let data, filename, content;
-
-switch(type) {
-case 'orders':
-data = orders.map(order => ({
-'Order ID': `DT-${order.id.toString().padStart(4, '0')}`,
-'Klant': users.find(u => u.id === order.userId)?.username || 'Onbekend',
-'Datum': new Date(order.date).toLocaleDateString('nl-NL'),
-'Producten': order.items.map(item => `${item.name} (x${item.quantity})`).join(', '),
-'Totaal': `$${order.total.toFixed(2)}`,
-'Status': getStatusText(order.status),
-'Bezorging': order.deliveryOption === 'pickup' ? 'Afhalen' : 'Bezorgen'
-}));
-filename = 'orders_export.csv';
-break;
-
-case 'products':
-data = products.map(product => ({
-'ID': product.id,
-'Naam': product.name,
-'Type': product.type === 'phone' ? 'Telefoon' : 'Accessoire',
-'Merk/Categorie': product.type === 'phone' ? product.brand : product.category,
-'Model/Naam': product.type === 'phone' ? product.model : product.name,
-'Prijs': `$${product.price}`,
-'Voorraad': product.stock,
-'Status': product.featured ? 'Uitgelicht' : product.onSale ? 'Aanbieding' : 'Normaal'
-}));
-filename = 'products_export.csv';
-break;
-}
-
-// Convert to CSV
-const headers = Object.keys(data[0]);
-content = headers.join(',') + '\n';
-content += data.map(row =>
-headers.map(header => `"${row[header]}"`).join(',')
-).join('\n');
-
-// Download file
-const blob = new Blob([content], { type: 'text/csv' });
-const url = window.URL.createObjectURL(blob);
-const a = document.createElement('a');
-a.href = url;
-a.download = filename;
-a.click();
-window.URL.revokeObjectURL(url);
-}
-
-// Utility Functions
-function getStatusText(status) {
-const statusMap = {
-'pending': 'In behandeling',
-'confirmed': 'Bevestigd',
-'processing': 'In behandeling',
-'ready': 'Klaar',
-'completed': 'Voltooid',
-'cancelled': 'Geannuleerd'
-};
-return statusMap[status] || status;
-}
-</script>
-</body>
-
-</html>
+// Cart Management
+function addToCart(productId) {
+const product = products.find(p => p.id
